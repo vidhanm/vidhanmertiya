@@ -1,0 +1,779 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { useTheme } from "next-themes"
+import { Github, Mail, Menu, X, ExternalLink, Sun, Moon } from "lucide-react"
+
+export default function Portfolio() {
+  const [activeSection, setActiveSection] = useState("home")
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["home", "about", "projects", "contact"]
+      const scrollPosition = window.scrollY + 100
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const offsetTop = element.offsetTop
+          const offsetHeight = element.offsetHeight
+
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
+    }
+    setIsMenuOpen(false)
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const nav = document.querySelector("nav")
+      if (isMenuOpen && nav && !nav.contains(event.target as Node)) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isMenuOpen) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("keydown", handleEscapeKey)
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("keydown", handleEscapeKey)
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const navItems = [
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "projects", label: "Projects" },
+    { id: "contact", label: "Contact" },
+  ]
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="w-8"></div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex space-x-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`text-sm font-medium transition-all duration-200 hover:text-primary px-4 py-2 rounded-lg ${
+                    activeSection === item.id
+                      ? "text-primary-foreground bg-primary shadow-sm"
+                      : "text-muted-foreground hover:bg-accent/50"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Theme Toggle */}
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="p-2 hover:bg-accent rounded-lg transition-colors"
+                aria-label="Toggle theme"
+              >
+                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+              </Button>
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-3 -mr-3 hover:bg-accent rounded-lg transition-colors"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle navigation menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          {isMenuOpen && (
+            <div className="md:hidden py-4 border-t border-border animate-in slide-in-from-top-2 duration-200">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`block w-full text-left py-3 px-4 text-sm font-medium transition-colors hover:text-primary hover:bg-accent rounded-lg mx-2 ${
+                    activeSection === item.id ? "text-primary-foreground bg-primary" : "text-muted-foreground"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section
+        id="home"
+        className="pt-16 min-h-screen flex items-center justify-center px-4 sm:px-0 bg-gradient-to-br from-background via-background to-muted/20"
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="space-y-6 sm:space-y-8">
+            <h1 className="font-heading text-5xl xs:text-6xl sm:text-7xl lg:text-8xl font-bold text-foreground text-balance leading-tight">
+              Hi, I'm{" "}
+              <span className="text-primary bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Vidhan Mertiya
+              </span>
+            </h1>
+            <p className="font-heading text-xl xs:text-2xl sm:text-3xl text-muted-foreground max-w-3xl mx-auto text-balance font-medium">
+              Data Science Student & Full-Stack Developer
+            </p>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
+              IIT Madras student passionate about data science, web development, and creating innovative solutions
+            </p>
+            <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center items-center pt-4 sm:pt-6 max-w-md xs:max-w-none mx-auto">
+              <Button
+                size="lg"
+                onClick={() => scrollToSection("projects")}
+                className="w-full xs:w-auto min-h-[44px] bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200"
+              >
+                View My Work
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => scrollToSection("contact")}
+                className="w-full xs:w-auto min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
+              >
+                Get In Touch
+              </Button>
+            </div>
+            <div className="flex justify-center space-x-8 pt-6 sm:pt-8">
+              <a
+                href="https://github.com/vidhanm"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-all duration-200 p-3 hover:bg-primary/10 rounded-lg hover:scale-110"
+                aria-label="GitHub Profile"
+              >
+                <Github size={24} />
+              </a>
+              <a
+                href="mailto:vidhanmertiya.vm@gmail.com"
+                className="text-muted-foreground hover:text-primary transition-all duration-200 p-3 hover:bg-primary/10 rounded-lg hover:scale-110"
+                aria-label="Send Email"
+              >
+                <Mail size={24} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-16 sm:py-20 bg-gradient-to-r from-muted/20 via-muted/30 to-muted/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="font-heading text-3xl xs:text-4xl sm:text-5xl font-bold text-foreground mb-4">About Me</h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+              Learn more about my background, education, and professional experience
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start lg:items-center">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">
+                Education & Experience
+              </h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-card/50 rounded-lg border border-border">
+                  <h4 className="font-heading font-semibold text-foreground mb-2">Education</h4>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <p className="font-medium text-foreground">Indian Institute of Technology Madras</p>
+                      <p className="text-muted-foreground">
+                        Bachelor of Science, Data Science and Applications (2022 - 2026)
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">University of Rajasthan</p>
+                      <p className="text-muted-foreground">Bachelor of Computer Applications (2021 - 2024)</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-card/50 rounded-lg border border-border">
+                  <h4 className="font-heading font-semibold text-foreground mb-2">Professional Experience</h4>
+                  <div className="space-y-3 text-sm">
+                    <div>
+                      <p className="font-medium text-foreground">Ground Zero - Social Media Intern</p>
+                      <p className="text-muted-foreground">July 2024</p>
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">Quest Alliance - Data Intern</p>
+                      <p className="text-muted-foreground">Dec 2023 – Feb 2024 & Sept 2021 – Nov 2021</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">Technical Skills</h3>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-heading font-medium text-foreground mb-3 text-lg">Data Science</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
+                      NumPy
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
+                      Pandas
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
+                      HuggingFace
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
+                      BeautifulSoup
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
+                      Selenium
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
+                      SQL
+                    </Badge>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-heading font-medium text-foreground mb-3 text-lg">Development</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                    >
+                      Python
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                    >
+                      Java
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                    >
+                      JavaScript
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                    >
+                      TypeScript
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                    >
+                      Vue.js
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                    >
+                      Next.js
+                    </Badge>
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                    >
+                      Flask
+                    </Badge>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-heading font-medium text-foreground mb-3 text-lg">Tools & Technologies</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline" className="text-sm">
+                      Git/GitHub
+                    </Badge>
+                    <Badge variant="outline" className="text-sm">
+                      Docker
+                    </Badge>
+                    <Badge variant="outline" className="text-sm">
+                      PostgreSQL
+                    </Badge>
+                    <Badge variant="outline" className="text-sm">
+                      Tableau
+                    </Badge>
+                    <Badge variant="outline" className="text-sm">
+                      Go
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-16 sm:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="font-heading text-3xl xs:text-4xl sm:text-5xl font-bold text-foreground mb-4">
+              Featured Projects
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+              A showcase of my recent work spanning web development, data science, and full-stack applications
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm">
+              <CardContent className="p-4 sm:p-6">
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">JobSpy</h3>
+                        <Badge variant="secondary" className="text-xs shrink-0 bg-primary text-primary-foreground">
+                          Live
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                        <span className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          Go
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <a
+                        href="#"
+                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                        aria-label="View JobSpy Live"
+                      >
+                        <ExternalLink size={18} />
+                      </a>
+                    </div>
+                  </div>
+                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
+                    A comprehensive web application to list and search for jobs across all major employment websites.
+                    Features resume upload functionality for personalized job suggestions using AI.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      Go
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Python
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      PostgreSQL
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Next.js
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Docker
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm">
+              <CardContent className="p-4 sm:p-6">
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">
+                        Household Services App
+                      </h3>
+                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                        <span className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          Vue.js
+                        </span>
+                      </div>
+                    </div>
+                    <a
+                      href="https://github.com/vidhanm/household-services"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                      aria-label="View Household Services App on GitHub"
+                    >
+                      <Github size={20} />
+                    </a>
+                  </div>
+                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
+                    Full-stack web application for on-demand household services, enabling users to book professionals
+                    seamlessly. Features robust document verification for trust and security.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      TypeScript
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Vue.js
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Flask
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      SQLite
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm">
+              <CardContent className="p-4 sm:p-6">
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">
+                          Boo Discord Bot
+                        </h3>
+                        <Badge variant="secondary" className="text-xs shrink-0 bg-primary text-primary-foreground">
+                          Live
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                        <span className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                          Python
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <a
+                        href="#"
+                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                        aria-label="View Boo Discord Bot Live"
+                      >
+                        <ExternalLink size={18} />
+                      </a>
+                      <a
+                        href="https://github.com/VVIP-Kitchen/boo"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                        aria-label="View Boo Discord Bot on GitHub"
+                      >
+                        <Github size={18} />
+                      </a>
+                    </div>
+                  </div>
+                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
+                    Python Discord bot supporting natural language input and images for personalized interactions. Built
+                    with advanced AI capabilities for enhanced user engagement.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      Python
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Discord.py
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Go
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      PostgreSQL
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
+              <CardContent className="p-4 sm:p-6">
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">IITM Quizzes</h3>
+                        <Badge variant="secondary" className="text-xs shrink-0 bg-primary text-primary-foreground">
+                          Live
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                        <span className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                          React
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <a
+                        href="#"
+                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                        aria-label="View IITM Quizzes Live"
+                      >
+                        <ExternalLink size={18} />
+                      </a>
+                      <a
+                        href="https://github.com/vidhanm/iitm-quizzes"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                        aria-label="View IITM Quizzes on GitHub"
+                      >
+                        <Github size={18} />
+                      </a>
+                    </div>
+                  </div>
+                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
+                    Full-stack web application for quiz attempts with LLM-generated explanations. Features
+                    auto-deployment using GitHub Actions and modern UI components.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      React
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Flask
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Go
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      LLM
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      TypeScript
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
+              <CardContent className="p-4 sm:p-6">
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="space-y-1 min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">CoinCraft</h3>
+                        <Badge variant="secondary" className="text-xs shrink-0 bg-primary text-primary-foreground">
+                          Live
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
+                        <span className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          Vue.js
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <a
+                        href="#"
+                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                        aria-label="View CoinCraft Live"
+                      >
+                        <ExternalLink size={18} />
+                      </a>
+                      <a
+                        href="https://github.com/vidhanm/coincraft"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                        aria-label="View CoinCraft on GitHub"
+                      >
+                        <Github size={18} />
+                      </a>
+                    </div>
+                  </div>
+                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
+                    Full-stack web application teaching children financial literacy through AI-generated learning
+                    modules with gamification elements including coins and achievements.
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      Vue.js
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Flask
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      SQLite
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      LLM
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      TypeScript
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center mt-12 sm:mt-16">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">Explore More Projects</h3>
+              <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto text-pretty">
+                Check out my GitHub profile for more projects, contributions, and open-source work
+              </p>
+              <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center items-center pt-2 sm:pt-4 max-w-md xs:max-w-none mx-auto">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  asChild
+                  className="w-full xs:w-auto bg-transparent min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
+                >
+                  <a
+                    href="https://github.com/vidhanm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2"
+                  >
+                    <Github size={20} />
+                    View All Projects
+                  </a>
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => scrollToSection("contact")}
+                  className="w-full xs:w-auto min-h-[44px] hover:bg-primary/10 transition-all duration-200"
+                >
+                  Let's Collaborate →
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-16 sm:py-20 bg-gradient-to-r from-muted/20 via-muted/30 to-muted/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="font-heading text-3xl xs:text-4xl sm:text-5xl font-bold text-foreground mb-4">
+              Get In Touch
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+              Let's connect and discuss opportunities, collaborations, or just have a chat about technology
+            </p>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <Card className="shadow-xl border-2 border-primary/10 bg-card/80 backdrop-blur-sm">
+              <CardContent className="p-6 sm:p-8">
+                <div className="space-y-6">
+                  <div className="text-center space-y-4">
+                    <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">
+                      Let's Work Together
+                    </h3>
+                    <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
+                      I'm always interested in new opportunities and exciting projects. Whether you're looking for a
+                      developer, have a project in mind, or just want to connect, I'd love to hear from you.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center">
+                    <Button
+                      asChild
+                      className="w-full xs:w-auto min-h-[44px] bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200"
+                    >
+                      <a href="mailto:vidhanmertiya.vm@gmail.com" className="inline-flex items-center gap-2">
+                        <Mail size={20} />
+                        Send Email
+                      </a>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      asChild
+                      className="w-full xs:w-auto bg-transparent min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
+                    >
+                      <a
+                        href="https://github.com/vidhanm"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2"
+                      >
+                        <Github size={20} />
+                        GitHub Profile
+                      </a>
+                    </Button>
+                  </div>
+
+                  <div className="text-center pt-6 border-t border-border">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Based in India • Available for remote work and collaborations
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-6 sm:py-8 border-t border-border bg-muted/20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center text-xs sm:text-sm text-muted-foreground">
+            <p>&copy; 2025 Vidhan Mertiya. Built with Next.js and Tailwind CSS.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}
