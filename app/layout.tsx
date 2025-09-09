@@ -14,25 +14,34 @@ const manrope = Manrope({
 })
 
 export const metadata: Metadata = {
-  title: "Vidhan Mertiya - Full-Stack Developer & Software Engineer",
+  title: "Vidhan Mertiya - Data Science Student & Full-Stack Developer",
   description:
-    "Portfolio of Vidhan Mertiya - Full-Stack Developer specializing in modern web applications, Discord bots, and innovative software solutions.",
+    "Portfolio of Vidhan Mertiya - Data Science Student at IIT Madras and Full-Stack Developer specializing in web applications, data analysis, and AI-powered solutions.",
   generator: "v0.app",
   keywords: [
     "Vidhan Mertiya",
+    "Data Science",
     "Full-Stack Developer",
-    "Software Engineer",
+    "IIT Madras",
     "Python",
     "JavaScript",
     "React",
     "Next.js",
     "Vue.js",
+    "Machine Learning",
+    "Data Analysis",
   ],
   authors: [{ name: "Vidhan Mertiya" }],
   openGraph: {
-    title: "Vidhan Mertiya - Full-Stack Developer",
-    description: "Portfolio showcasing projects in web development, Discord bots, and software engineering.",
+    title: "Vidhan Mertiya - Data Science Student & Full-Stack Developer",
+    description: "Portfolio showcasing projects in web development, data science, and AI-powered applications.",
     type: "website",
+    url: "https://vidhanmertiya.vercel.app",
+    siteName: "Vidhan Mertiya Portfolio",
+  },
+  metadataBase: new URL("https://vidhanmertiya.vercel.app"),
+  alternates: {
+    canonical: "/",
   },
 }
 
