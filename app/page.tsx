@@ -149,7 +149,7 @@ export default function Portfolio() {
         id="home"
         className="pt-16 min-h-screen flex items-center justify-center px-4 sm:px-0 bg-gradient-to-br from-background via-background to-muted/20"
       >
-        <div className="max-w-6xl mx-auto px-4 py-10 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-6xl mx-auto px-4 py-20 sm:px-6 lg:px-8 text-center">
           <div className="space-y-6 sm:space-y-8">
             <h1 className="font-heading text-5xl xs:text-6xl sm:text-7xl lg:text-8xl font-bold text-foreground text-balance leading-tight">
               Hi, I'm{" "}
@@ -399,7 +399,7 @@ export default function Portfolio() {
                     </div>
                     <div className="flex gap-2">
                       <a
-                        href="jobspy.tech"
+                        href="https://jobspy.tech/"
                         className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
                         aria-label="View JobSpy Live"
                       >
@@ -560,7 +560,7 @@ export default function Portfolio() {
                     </div>
                     <div className="flex gap-2">
                       <a
-                        href="iitmquizzes.tech"
+                        href="https://iitmquizzes.tech/"
                         className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
                         aria-label="View IITM Quizzes Live"
                       >
