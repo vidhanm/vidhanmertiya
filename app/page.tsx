@@ -168,7 +168,7 @@ export default function Portfolio() {
                   className="flex items-center gap-2 bg-transparent"
                 >
                   <Download size={16} />
-                  Download
+                  Download Resume
                 </Button>
                 <Button variant="ghost" size="sm" onClick={() => setShowResume(false)} className="p-2">
                   <X size={20} />
@@ -294,10 +294,20 @@ export default function Portfolio() {
                   <div className="space-y-4">
                     <div>
                       <h3 className="font-medium text-foreground">
-                        JobSpy | Go, Python, Postgres, NextJS, Tailwind, Docker{" "}
-                        <Badge variant="secondary" className="ml-2 text-xs">
-                          Live
-                        </Badge>
+                        JobSpy | Go, Python, Postgres, NextJS, Tailwind, Docker
+                        <a
+                          href="https://jobspy.tech/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block"
+                        >
+                          <Badge
+                            variant="secondary"
+                            className="ml-2 text-xs hover:bg-primary/80 transition-colors cursor-pointer"
+                          >
+                            Live
+                          </Badge>
+                        </a>
                       </h3>
                       <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
                         <li>
@@ -309,6 +319,19 @@ export default function Portfolio() {
                     <div>
                       <h3 className="font-medium text-foreground">
                         Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite, Git
+                        <a
+                          href="https://github.com/vidhanm/household-services"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block"
+                        >
+                          <Badge
+                            variant="outline"
+                            className="ml-2 text-xs hover:bg-accent transition-colors cursor-pointer"
+                          >
+                            Repo
+                          </Badge>
+                        </a>
                       </h3>
                       <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
                         <li>
@@ -321,6 +344,19 @@ export default function Portfolio() {
                     <div>
                       <h3 className="font-medium text-foreground">
                         Boo | Python, Discord.py, Go, PostgreSQL, Cloudflare Workers, Linode
+                        <a
+                          href="https://github.com/VVIP-Kitchen/boo"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block"
+                        >
+                          <Badge
+                            variant="outline"
+                            className="ml-2 text-xs hover:bg-accent transition-colors cursor-pointer"
+                          >
+                            Repo
+                          </Badge>
+                        </a>
                       </h3>
                       <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
                         <li>
@@ -331,10 +367,33 @@ export default function Portfolio() {
                     </div>
                     <div>
                       <h3 className="font-medium text-foreground">
-                        IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI{" "}
-                        <Badge variant="secondary" className="ml-2 text-xs">
-                          Live
-                        </Badge>
+                        IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI
+                        <a
+                          href="https://iitmquizzes.tech/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block"
+                        >
+                          <Badge
+                            variant="secondary"
+                            className="ml-2 text-xs hover:bg-primary/80 transition-colors cursor-pointer"
+                          >
+                            Live
+                          </Badge>
+                        </a>
+                        <a
+                          href="https://github.com/vidhanm/iitm-quizzes"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block"
+                        >
+                          <Badge
+                            variant="outline"
+                            className="ml-2 text-xs hover:bg-accent transition-colors cursor-pointer"
+                          >
+                            Repo
+                          </Badge>
+                        </a>
                       </h3>
                       <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
                         <li>Full Stack Web Application that lets users attempt quizzes.</li>
@@ -344,10 +403,33 @@ export default function Portfolio() {
                     </div>
                     <div>
                       <h3 className="font-medium text-foreground">
-                        CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind{" "}
-                        <Badge variant="secondary" className="ml-2 text-xs">
-                          Live
-                        </Badge>
+                        CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind
+                        <a
+                          href="https://coincraft-two.vercel.app/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block"
+                        >
+                          <Badge
+                            variant="secondary"
+                            className="ml-2 text-xs hover:bg-primary/80 transition-colors cursor-pointer"
+                          >
+                            Live
+                          </Badge>
+                        </a>
+                        <a
+                          href="https://github.com/vidhanm/coincraft"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block"
+                        >
+                          <Badge
+                            variant="outline"
+                            className="ml-2 text-xs hover:bg-accent transition-colors cursor-pointer"
+                          >
+                            Repo
+                          </Badge>
+                        </a>
                       </h3>
                       <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
                         <li>Full Stack Web Application to teach children about Financial Literacy.</li>
@@ -371,10 +453,7 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto px-4 py-20 sm:px-6 lg:px-8 text-center">
           <div className="space-y-6 sm:space-y-8">
             <h1 className="font-heading text-5xl xs:text-6xl sm:text-7xl lg:text-8xl font-bold text-foreground text-balance leading-tight">
-              Hi, I'm{" "}
-              <span className="text-primary bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Vidhan Mertiya
-              </span>
+              Hi, I'm <span className="text-primary">Vidhan Mertiya</span>
             </h1>
             <p className="font-heading text-xl xs:text-2xl sm:text-3xl text-muted-foreground max-w-3xl mx-auto text-balance font-medium">
               Data Science Student & Full-Stack Developer
