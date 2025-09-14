@@ -80,65 +80,12 @@ export default function Portfolio() {
   ]
 
   const downloadResume = () => {
-    const resumeContent = `Vidhan Mertiya
-+91 86199-42938
-GitHub: https://github.com/vidhanm
-LinkedIn: https://linkedin.com/in/vidhanmertiya
-Email: vidhanmertiya.vm@gmail.com
-
-EDUCATION
-Indian Institute of Technology Madras                                    2022 - 2026
-Bachelor of Science, Data Science and Applications
-
-University of Rajasthan                                                  2021 - 2024
-Bachelor of Computer Applications
-
-EXPERIENCE
-Ground Zero | Social Media Intern                                        July 2024
-• Developed engaging social media content and contributed to the organization's daily operations.
-
-Quest Alliance | Data Intern                                             Dec. 2023 – Feb. 2024
-• Supported the Superset ITI dashboard, ensuring data accuracy and cleanliness through routine health checks.
-• Collaborated with team managers to conduct a comprehensive placement analysis for ITI and VTI graduates (2020–2023), identifying key trends.
-
-Quest Alliance | Intern                                                  Sept. 2021 – Nov. 2021
-• Designed knowledge products for Quest 2 Learn.
-• Conducted data analysis post-Quest 2 Learn 2021 event.
-
-SKILLS
-Data Science: NumPy, Pandas, HuggingFace, BeautifulSoup, Selenium, SQL
-Developer: Python, Java, HTML, CSS, JavaScript, TypeScript, VueJS, Flask, Jinja, NextJS
-Tools: Git/GitHub, VS Code, Google Colab, Jupyter Notebook, Tableau, MS Excel
-
-PROJECTS
-JobSpy | Go, Python, Postgres, NextJS, Tailwind, Docker                  Live
-• A Webapp to list and search for jobs across all the major employment websites. Now users can also upload their resumes and get job suggestions.
-
-Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite, Git
-• Developed a full-stack web application for on-demand household services, enabling users to book professionals seamlessly. Integrated robust document verification to ensure trust and security.
-
-Boo | Python, Discord.py, Go, PostgreSQL, Cloudflare Workers, Linode
-• Boo is a python discord bot that supports natural language input and images, used for personalized interactions.
-
-IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI    Live
-• Full Stack Web Application that lets users attempt quizzes.
-• Leveraged LLMs for generating explanations for each question.
-• Auto-Deployment using Github Actions.
-
-CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind                Live
-• Full Stack Web Application to teach children about Financial Literacy.
-• Integrated AI-generated learning modules with gamification (coins, achievements).
-• Manage and Co-ordinate between multiple members for project.`
-
-    const blob = new Blob([resumeContent], { type: "text/plain" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "Vidhan_Mertiya_Resume.txt"
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+    const link = document.createElement("a")
+    link.href = "/Vidhan_Mertiya_Resume.pdf"
+    link.download = "Vidhan_Mertiya_Resume.pdf"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
