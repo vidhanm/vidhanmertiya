@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "next-themes"
-import { Github, Mail, Menu, X, ExternalLink, Sun, Moon } from "lucide-react"
+import { Github, Mail, Menu, X, ExternalLink, Sun, Moon, Download, Eye } from "lucide-react"
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [showResume, setShowResume] = useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -78,6 +79,68 @@ export default function Portfolio() {
     { id: "contact", label: "Contact" },
   ]
 
+  const downloadResume = () => {
+    const resumeContent = `Vidhan Mertiya
++91 86199-42938
+GitHub: https://github.com/vidhanm
+LinkedIn: https://linkedin.com/in/vidhanmertiya
+Email: vidhanmertiya.vm@gmail.com
+
+EDUCATION
+Indian Institute of Technology Madras                                    2022 - 2026
+Bachelor of Science, Data Science and Applications
+
+University of Rajasthan                                                  2021 - 2024
+Bachelor of Computer Applications
+
+EXPERIENCE
+Ground Zero | Social Media Intern                                        July 2024
+• Developed engaging social media content and contributed to the organization's daily operations.
+
+Quest Alliance | Data Intern                                             Dec. 2023 – Feb. 2024
+• Supported the Superset ITI dashboard, ensuring data accuracy and cleanliness through routine health checks.
+• Collaborated with team managers to conduct a comprehensive placement analysis for ITI and VTI graduates (2020–2023), identifying key trends.
+
+Quest Alliance | Intern                                                  Sept. 2021 – Nov. 2021
+• Designed knowledge products for Quest 2 Learn.
+• Conducted data analysis post-Quest 2 Learn 2021 event.
+
+SKILLS
+Data Science: NumPy, Pandas, HuggingFace, BeautifulSoup, Selenium, SQL
+Developer: Python, Java, HTML, CSS, JavaScript, TypeScript, VueJS, Flask, Jinja, NextJS
+Tools: Git/GitHub, VS Code, Google Colab, Jupyter Notebook, Tableau, MS Excel
+
+PROJECTS
+JobSpy | Go, Python, Postgres, NextJS, Tailwind, Docker                  Live
+• A Webapp to list and search for jobs across all the major employment websites. Now users can also upload their resumes and get job suggestions.
+
+Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite, Git
+• Developed a full-stack web application for on-demand household services, enabling users to book professionals seamlessly. Integrated robust document verification to ensure trust and security.
+
+Boo | Python, Discord.py, Go, PostgreSQL, Cloudflare Workers, Linode
+• Boo is a python discord bot that supports natural language input and images, used for personalized interactions.
+
+IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI    Live
+• Full Stack Web Application that lets users attempt quizzes.
+• Leveraged LLMs for generating explanations for each question.
+• Auto-Deployment using Github Actions.
+
+CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind                Live
+• Full Stack Web Application to teach children about Financial Literacy.
+• Integrated AI-generated learning modules with gamification (coins, achievements).
+• Manage and Co-ordinate between multiple members for project.`
+
+    const blob = new Blob([resumeContent], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "Vidhan_Mertiya_Resume.txt"
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -144,6 +207,215 @@ export default function Portfolio() {
         </div>
       </nav>
 
+      {/* Resume Modal */}
+      {showResume && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-background border border-border rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-4 border-b border-border">
+              <h3 className="font-heading text-xl font-semibold text-foreground">Resume - Vidhan Mertiya</h3>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={downloadResume}
+                  className="flex items-center gap-2 bg-transparent"
+                >
+                  <Download size={16} />
+                  Download
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => setShowResume(false)} className="p-2">
+                  <X size={20} />
+                </Button>
+              </div>
+            </div>
+            <div className="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
+              <div className="space-y-6 font-mono text-sm">
+                <div className="text-center space-y-2">
+                  <h1 className="font-heading text-2xl font-bold text-foreground">Vidhan Mertiya</h1>
+                  <div className="text-muted-foreground space-y-1">
+                    <p>+91 86199-42938</p>
+                    <p>vidhanmertiya.vm@gmail.com</p>
+                    <div className="flex justify-center gap-4 text-sm">
+                      <a href="https://github.com/vidhanm" className="text-primary hover:underline">
+                        GitHub
+                      </a>
+                      <a href="https://linkedin.com/in/vidhanmertiya" className="text-primary hover:underline">
+                        LinkedIn
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
+                    Education
+                  </h2>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-foreground">Indian Institute of Technology Madras</h3>
+                        <span className="text-muted-foreground text-sm">2022 - 2026</span>
+                      </div>
+                      <p className="text-muted-foreground">Bachelor of Science, Data Science and Applications</p>
+                    </div>
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-foreground">University of Rajasthan</h3>
+                        <span className="text-muted-foreground text-sm">2021 - 2024</span>
+                      </div>
+                      <p className="text-muted-foreground">Bachelor of Computer Applications</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
+                    Experience
+                  </h2>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-foreground">Ground Zero | Social Media Intern</h3>
+                        <span className="text-muted-foreground text-sm">July 2024</span>
+                      </div>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>
+                          Developed engaging social media content and contributed to the organization's daily
+                          operations.
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-foreground">Quest Alliance | Data Intern</h3>
+                        <span className="text-muted-foreground text-sm">Dec. 2023 – Feb. 2024</span>
+                      </div>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>
+                          Supported the Superset ITI dashboard, ensuring data accuracy and cleanliness through routine
+                          health checks.
+                        </li>
+                        <li>
+                          Collaborated with team managers to conduct a comprehensive placement analysis for ITI and VTI
+                          graduates (2020–2023), identifying key trends.
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-foreground">Quest Alliance | Intern</h3>
+                        <span className="text-muted-foreground text-sm">Sept. 2021 – Nov. 2021</span>
+                      </div>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>Designed knowledge products for Quest 2 Learn.</li>
+                        <li>Conducted data analysis post-Quest 2 Learn 2021 event.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
+                    Skills
+                  </h2>
+                  <div className="space-y-2">
+                    <div>
+                      <span className="font-medium text-foreground">Data Science:</span>{" "}
+                      <span className="text-muted-foreground">
+                        NumPy, Pandas, HuggingFace, BeautifulSoup, Selenium, SQL
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-foreground">Developer:</span>{" "}
+                      <span className="text-muted-foreground">
+                        Python, Java, HTML, CSS, JavaScript, TypeScript, VueJS, Flask, Jinja, NextJS
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-foreground">Tools:</span>{" "}
+                      <span className="text-muted-foreground">
+                        Git/GitHub, VS Code, Google Colab, Jupyter Notebook, Tableau, MS Excel
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
+                    Projects
+                  </h2>
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-medium text-foreground">
+                        JobSpy | Go, Python, Postgres, NextJS, Tailwind, Docker{" "}
+                        <Badge variant="secondary" className="ml-2 text-xs">
+                          Live
+                        </Badge>
+                      </h3>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>
+                          A Webapp to list and search for jobs across all the major employment websites. Now users can
+                          also upload their resumes and get job suggestions.
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-foreground">
+                        Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite, Git
+                      </h3>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>
+                          Developed a full-stack web application for on-demand household services, enabling users to
+                          book professionals seamlessly. Integrated robust document verification to ensure trust and
+                          security.
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-foreground">
+                        Boo | Python, Discord.py, Go, PostgreSQL, Cloudflare Workers, Linode
+                      </h3>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>
+                          Boo is a python discord bot that supports natural language input and images, used for
+                          personalized interactions.
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-foreground">
+                        IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI{" "}
+                        <Badge variant="secondary" className="ml-2 text-xs">
+                          Live
+                        </Badge>
+                      </h3>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>Full Stack Web Application that lets users attempt quizzes.</li>
+                        <li>Leveraged LLMs for generating explanations for each question.</li>
+                        <li>Auto-Deployment using Github Actions.</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-foreground">
+                        CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind{" "}
+                        <Badge variant="secondary" className="ml-2 text-xs">
+                          Live
+                        </Badge>
+                      </h3>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>Full Stack Web Application to teach children about Financial Literacy.</li>
+                        <li>Integrated AI-generated learning modules with gamification (coins, achievements).</li>
+                        <li>Manage and Co-ordinate between multiple members for project.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hero Section */}
       <section
         id="home"
@@ -171,14 +443,26 @@ export default function Portfolio() {
               >
                 View My Work
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => scrollToSection("contact")}
-                className="w-full xs:w-auto min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
-              >
-                Get In Touch
-              </Button>
+              <div className="flex gap-2 w-full xs:w-auto">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => setShowResume(true)}
+                  className="flex-1 xs:flex-none min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
+                >
+                  <Eye size={18} className="mr-2" />
+                  View Resume
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={downloadResume}
+                  className="flex-1 xs:flex-none min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200 bg-transparent"
+                >
+                  <Download size={18} className="mr-2" />
+                  Download
+                </Button>
+              </div>
             </div>
             <div className="flex justify-center space-x-8 pt-6 sm:pt-8">
               <a
@@ -751,6 +1035,14 @@ export default function Portfolio() {
                         <Github size={20} />
                         GitHub Profile
                       </a>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowResume(true)}
+                      className="w-full xs:w-auto bg-transparent min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
+                    >
+                      <Eye size={20} className="mr-2" />
+                      View Resume
                     </Button>
                   </div>
 
