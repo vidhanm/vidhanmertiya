@@ -94,7 +94,13 @@ export default function Portfolio() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="w-8"></div>
+            <button
+              className="md:hidden p-3 -ml-3 hover:bg-accent rounded-lg transition-colors"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle navigation menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-1">
@@ -113,7 +119,6 @@ export default function Portfolio() {
               ))}
             </div>
 
-            {/* Theme Toggle */}
             {mounted && (
               <Button
                 variant="ghost"
@@ -125,15 +130,6 @@ export default function Portfolio() {
                 {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
               </Button>
             )}
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-3 -mr-3 hover:bg-accent rounded-lg transition-colors"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle navigation menu"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
 
           {isMenuOpen && (
