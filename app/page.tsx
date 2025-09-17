@@ -604,43 +604,43 @@ export default function Portfolio() {
                   <div className="flex flex-wrap gap-2">
                     <Badge
                       variant="secondary"
-                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
                     >
                       Python
                     </Badge>
                     <Badge
                       variant="secondary"
-                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
                     >
                       Java
                     </Badge>
                     <Badge
                       variant="secondary"
-                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
                     >
                       JavaScript
                     </Badge>
                     <Badge
                       variant="secondary"
-                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
                     >
                       TypeScript
                     </Badge>
                     <Badge
                       variant="secondary"
-                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
                     >
                       Vue.js
                     </Badge>
                     <Badge
                       variant="secondary"
-                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
                     >
                       Next.js
                     </Badge>
                     <Badge
                       variant="secondary"
-                      className="text-sm bg-secondary/10 text-secondary border-secondary/20 hover:bg-secondary/20 transition-colors"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
                     >
                       Flask
                     </Badge>
@@ -649,19 +649,34 @@ export default function Portfolio() {
                 <div>
                   <h4 className="font-heading font-medium text-foreground mb-3 text-lg">Tools & Technologies</h4>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="text-sm">
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
                       Git/GitHub
                     </Badge>
-                    <Badge variant="outline" className="text-sm">
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
                       Docker
                     </Badge>
-                    <Badge variant="outline" className="text-sm">
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
                       PostgreSQL
                     </Badge>
-                    <Badge variant="outline" className="text-sm">
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
                       Tableau
                     </Badge>
-                    <Badge variant="outline" className="text-sm">
+                    <Badge
+                      variant="secondary"
+                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
+                    >
                       Go
                     </Badge>
                   </div>
