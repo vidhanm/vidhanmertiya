@@ -81,8 +81,8 @@ export default function Portfolio() {
 
   const downloadResume = () => {
     const link = document.createElement("a")
-    link.href = "/Vidhan_Resume.pdf"
-    link.download = "Vidhan_Resume.pdf"
+    link.href = "/Vidhan-Resume.pdf"
+    link.download = "Vidhan-Resume.pdf"
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
