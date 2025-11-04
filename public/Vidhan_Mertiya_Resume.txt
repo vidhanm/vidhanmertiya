@@ -28,10 +28,18 @@ Skills
 
 Projects
 JobSpy | Go, Python, Postgres, NextJS, Tailwind, Docker                  Live
-• A Webapp to list and search for jobs across all the major employment websites. Now users can also upload their resumes and get job suggestions.
+• Built full-stack job aggregation platform with NLP-powered entity extraction using Fuse.js & dynamic
+programming, handling typo-tolerant search queries achieving 95% accuracy in 50ms.
+• Implemented Python Flask microservice for resume parsing & job matching using Together AI (Llama
+Vision) sentence transformers, delivering 1s semantic search via in-memory embedding cache.
+• Engineered automated job scrapers in Go collecting from 3200+ companies with PostgreSQL full-text
+search (tsvector/trigram indexes), OAuth (GitHub/Google), and WebSocket connections for real-time
+embedding generation.
 
 Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite, Git    §Repo
-• Developed a full-stack web application for on-demand household services, enabling users to book professionals seamlessly. Integrated robust document verification to ensure trust and security.
+• Developed a Flask-Vue.js platform with JWT and role-based access, cutting API response time by 25%
+via Redis caching.
+• Automated service monitoring with Celery and responsive dashboards for professional/admin.
 
 Boo | Python, Discord.py, Go, PostgreSQL, Cloudflare Workers, Linode     §Repo
 • Boo is a python discord bot that supports natural language input and images, used for personalized interactions.
@@ -39,7 +47,7 @@ Boo | Python, Discord.py, Go, PostgreSQL, Cloudflare Workers, Linode     §Repo
 IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI    Live §Repo
 • Full Stack Web Application that lets users attempt quizzes.
 • Leveraged LLMs for generating explanations for each question.
-• Auto-Deployment using Github Actions.
+• Dockerized and Auto-Deployment using Github Actions.
 
 CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind                Live §Repo
 • Full Stack Web Application to teach children about Financial Literacy.
