@@ -108,11 +108,10 @@ export default function Portfolio() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-all duration-200 hover:text-primary px-4 py-2 rounded-lg ${
-                    activeSection === item.id
-                      ? "text-primary-foreground bg-primary shadow-sm"
-                      : "text-muted-foreground hover:bg-accent/50"
-                  }`}
+                  className={`text-sm font-medium transition-all duration-200 hover:text-primary px-4 py-2 rounded-lg ${activeSection === item.id
+                    ? "text-primary-foreground bg-primary shadow-sm"
+                    : "text-muted-foreground hover:bg-accent/50"
+                    }`}
                 >
                   {item.label}
                 </button>
@@ -138,9 +137,8 @@ export default function Portfolio() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`block w-full text-left py-3 px-4 text-sm font-medium transition-colors hover:text-primary hover:bg-accent rounded-lg mx-2 ${
-                    activeSection === item.id ? "text-primary-foreground bg-primary" : "text-muted-foreground"
-                  }`}
+                  className={`block w-full text-left py-3 px-4 text-sm font-medium transition-colors hover:text-primary hover:bg-accent rounded-lg mx-2 ${activeSection === item.id ? "text-primary-foreground bg-primary" : "text-muted-foreground"
+                    }`}
                 >
                   {item.label}
                 </button>
@@ -216,6 +214,23 @@ export default function Portfolio() {
                     Experience
                   </h2>
                   <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-foreground">Riverline | Software Engineering Intern</h3>
+                        <span className="text-muted-foreground text-sm">Jan. 2026</span>
+                      </div>
+                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
+                        <li>
+                          Improved internal LLM prompts to increase reliability and consistency of outputs.
+                        </li>
+                        <li>
+                          Fine-tuned LLM and speech-to-speech (voice-to-voice) models for internal use cases.
+                        </li>
+                        <li>
+                          Set up the company's LLM evaluation framework to benchmark and monitor model performance.
+                        </li>
+                      </ul>
+                    </div>
                     <div>
                       <div className="flex justify-between items-start">
                         <h3 className="font-medium text-foreground">Ground Zero | Social Media Intern</h3>
@@ -339,25 +354,17 @@ export default function Portfolio() {
                     </div>
                     <div>
                       <h3 className="font-medium text-foreground">
-                        Boo | Python, Discord.py, Go, PostgreSQL, Cloudflare Workers, Linode
-                        <a
-                          href="https://github.com/VVIP-Kitchen/boo"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block"
-                        >
-                          <Badge
-                            variant="outline"
-                            className="ml-2 text-xs hover:bg-accent transition-colors cursor-pointer"
-                          >
-                            Repo
-                          </Badge>
-                        </a>
+                        RL-Based Voice Agent | FastAPI, Reinforcement Learning, PyTorch, NLU
                       </h3>
                       <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
                         <li>
-                          Boo is a python discord bot that supports natural language input and images, used for
-                          personalized interactions.
+                          Built a DDQ (Dyna-style) agent for optimal conversation strategies using self-play.
+                        </li>
+                        <li>
+                          Implemented 13 enhancements including semantic caching and multi-step planning.
+                        </li>
+                        <li>
+                          Multilingual support (Hindi/Hinglish) and real-time evaluation dashboard.
                         </li>
                       </ul>
                     </div>
@@ -542,6 +549,10 @@ export default function Portfolio() {
                 <div className="p-4 bg-card/50 rounded-lg border border-border">
                   <h4 className="font-heading font-semibold text-foreground mb-2">Professional Experience</h4>
                   <div className="space-y-3 text-sm">
+                    <div>
+                      <p className="font-medium text-foreground">Riverline - Software Engineering Intern</p>
+                      <p className="text-muted-foreground">Jan. 2026</p>
+                    </div>
                     <div>
                       <p className="font-medium text-foreground">Ground Zero - Social Media Intern</p>
                       <p className="text-muted-foreground">July 2024</p>
@@ -807,54 +818,42 @@ export default function Portfolio() {
                     <div className="space-y-1 min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">
-                          Boo Discord Bot
+                          RL-Based Voice Agent
                         </h3>
-                        <Badge variant="secondary" className="text-xs shrink-0 bg-primary text-primary-foreground">
-                          Live
-                        </Badge>
                       </div>
                       <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
                         <span className="flex items-center gap-1">
-                          <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                          Python
+                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                          Keras
                         </span>
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <a
-                        href="#"
-                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                        aria-label="View Boo Discord Bot Live"
-                      >
-                        <ExternalLink size={18} />
-                      </a>
-                      <a
-                        href="https://github.com/VVIP-Kitchen/boo"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                        aria-label="View Boo Discord Bot on GitHub"
-                      >
-                        <Github size={18} />
-                      </a>
-                    </div>
+                    <a
+                      href="https://github.com/vidhanm/RL-DDQ"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
+                      aria-label="View RL-Based Voice Agent on GitHub"
+                    >
+                      <Github size={20} />
+                    </a>
                   </div>
                   <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
-                    Python Discord bot supporting natural language input and images for personalized interactions. Built
-                    with advanced AI capabilities for enhanced user engagement.
+                    DDQ (Dyna-style) reinforcement learning agent for optimal conversation strategies using self-play.
+                    Features semantic caching, multi-step planning, and multilingual support (Hindi/Hinglish).
                   </p>
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     <Badge variant="outline" className="text-xs">
-                      Python
+                      FastAPI
                     </Badge>
                     <Badge variant="outline" className="text-xs">
-                      Discord.py
+                      Keras
                     </Badge>
                     <Badge variant="outline" className="text-xs">
-                      Go
+                      Reinforcement Learning
                     </Badge>
                     <Badge variant="outline" className="text-xs">
-                      PostgreSQL
+                      NLU
                     </Badge>
                   </div>
                 </div>
@@ -1099,7 +1098,7 @@ export default function Portfolio() {
       <footer className="py-6 sm:py-8 border-t border-border bg-muted/20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-xs sm:text-sm text-muted-foreground">
-            <p>&copy; 2025 Vidhan Mertiya. Built with Next.js and Tailwind CSS.</p>
+            <p>&copy; 2026 Vidhan Mertiya. Built with Next.js and Tailwind CSS.</p>
           </div>
         </div>
       </footer>
