@@ -10,6 +10,11 @@ University of Rajasthan                                                  2021 - 
 Bachelor of Computer Applications
 
 Experience
+Riverline | Software Engineering Intern                                  Jan. 2026
+• Improved internal LLM prompts to increase reliability and consistency of outputs.
+• Fine-tuned LLM and speech-to-speech (voice-to-voice) models for internal use cases.
+• Set up the company's LLM evaluation framework to benchmark and monitor model performance.
+
 Ground Zero | Social Media Intern                                        July. 2024
 • Developed engaging social media content and contributed to the organization's daily operations.
 
@@ -41,8 +46,10 @@ Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite,
 via Redis caching.
 • Automated service monitoring with Celery and responsive dashboards for professional/admin.
 
-Boo | Python, Discord.py, Go, PostgreSQL, Cloudflare Workers, Linode     §Repo
-• Boo is a python discord bot that supports natural language input and images, used for personalized interactions.
+RL-Based Voice Agent | FastAPI, Reinforcement Learning, PyTorch, NLU
+• Built a DDQ (Dyna-style) agent for optimal conversation strategies using self-play.
+• Implemented 13 enhancements including semantic caching and multi-step planning.
+• Multilingual support (Hindi/Hinglish) and real-time evaluation dashboard.
 
 IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI    Live §Repo
 • Full Stack Web Application that lets users attempt quizzes.
