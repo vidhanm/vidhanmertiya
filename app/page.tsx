@@ -189,28 +189,6 @@ export default function Portfolio() {
 
                 <div>
                   <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
-                    Education
-                  </h2>
-                  <div className="space-y-3">
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-foreground">Indian Institute of Technology Madras</h3>
-                        <span className="text-muted-foreground text-sm">2022 - 2026</span>
-                      </div>
-                      <p className="text-muted-foreground">Bachelor of Science, Data Science and Applications</p>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-foreground">University of Rajasthan</h3>
-                        <span className="text-muted-foreground text-sm">2021 - 2024</span>
-                      </div>
-                      <p className="text-muted-foreground">Bachelor of Computer Applications</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
                     Experience
                   </h2>
                   <div className="space-y-4">
@@ -268,32 +246,6 @@ export default function Portfolio() {
                         <li>Designed knowledge products for Quest 2 Learn.</li>
                         <li>Conducted data analysis post-Quest 2 Learn 2021 event.</li>
                       </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
-                    Skills
-                  </h2>
-                  <div className="space-y-2">
-                    <div>
-                      <span className="font-medium text-foreground">Data Science:</span>{" "}
-                      <span className="text-muted-foreground">
-                        NumPy, Pandas, HuggingFace, BeautifulSoup, Selenium, SQL
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-foreground">Developer:</span>{" "}
-                      <span className="text-muted-foreground">
-                        Python, Java, HTML, CSS, JavaScript, TypeScript, VueJS, Flask, Jinja, NextJS
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-foreground">Tools:</span>{" "}
-                      <span className="text-muted-foreground">
-                        Git/GitHub, VS Code, Google Colab, Jupyter Notebook, Tableau, MS Excel
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -442,6 +394,55 @@ export default function Portfolio() {
                     </div>
                   </div>
                 </div>
+
+                <div>
+                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
+                    Skills
+                  </h2>
+                  <div className="space-y-2">
+                    <div>
+                      <span className="font-medium text-foreground">Data Science:</span>{" "}
+                      <span className="text-muted-foreground">
+                        NumPy, Pandas, HuggingFace, BeautifulSoup, Selenium, SQL
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-foreground">Developer:</span>{" "}
+                      <span className="text-muted-foreground">
+                        Python, Java, HTML, CSS, JavaScript, TypeScript, VueJS, Flask, Jinja, NextJS
+                      </span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-foreground">Tools:</span>{" "}
+                      <span className="text-muted-foreground">
+                        Git/GitHub, VS Code, Google Colab, Jupyter Notebook, Tableau, MS Excel
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
+                    Education
+                  </h2>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-foreground">Indian Institute of Technology Madras</h3>
+                        <span className="text-muted-foreground text-sm">2022 - 2026</span>
+                      </div>
+                      <p className="text-muted-foreground">Bachelor of Science, Data Science and Applications</p>
+                    </div>
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-foreground">University of Rajasthan</h3>
+                        <span className="text-muted-foreground text-sm">2021 - 2024</span>
+                      </div>
+                      <p className="text-muted-foreground">Bachelor of Computer Applications</p>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -459,10 +460,10 @@ export default function Portfolio() {
               Hi, I'm <span className="text-primary">Vidhan Mertiya</span>
             </h1>
             <p className="font-heading text-xl xs:text-2xl sm:text-3xl text-muted-foreground max-w-3xl mx-auto text-balance font-medium">
-              Data Science Student & Full-Stack Developer
+              Building Scalable AI Evals & Full-Stack Systems
             </p>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
-              IIT Madras student passionate about data science, web development, and creating innovative solutions
+              Specializing in LLM Evaluation Frameworks, Scalable Web Applications, and Data-Driven Architectures.
             </p>
             <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center items-center pt-4 sm:pt-6 max-w-md xs:max-w-none mx-auto">
               <Button
@@ -532,21 +533,6 @@ export default function Portfolio() {
               </h3>
               <div className="space-y-4">
                 <div className="p-4 bg-card/50 rounded-lg border border-border">
-                  <h4 className="font-heading font-semibold text-foreground mb-2">Education</h4>
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <p className="font-medium text-foreground">Indian Institute of Technology Madras</p>
-                      <p className="text-muted-foreground">
-                        Bachelor of Science, Data Science and Applications (2022 - 2026)
-                      </p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-foreground">University of Rajasthan</p>
-                      <p className="text-muted-foreground">Bachelor of Computer Applications (2021 - 2024)</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-card/50 rounded-lg border border-border">
                   <h4 className="font-heading font-semibold text-foreground mb-2">Professional Experience</h4>
                   <div className="space-y-3 text-sm">
                     <div>
@@ -560,6 +546,21 @@ export default function Portfolio() {
                     <div>
                       <p className="font-medium text-foreground">Quest Alliance - Data Intern</p>
                       <p className="text-muted-foreground">Dec 2023 – Feb 2024 & Sept 2021 – Nov 2021</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-card/50 rounded-lg border border-border">
+                  <h4 className="font-heading font-semibold text-foreground mb-2">Education</h4>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <p className="font-medium text-foreground">Indian Institute of Technology Madras</p>
+                      <p className="text-muted-foreground">
+                        Bachelor of Science, Data Science and Applications (2022 - 2026)
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">University of Rajasthan</p>
+                      <p className="text-muted-foreground">Bachelor of Computer Applications (2021 - 2024)</p>
                     </div>
                   </div>
                 </div>
