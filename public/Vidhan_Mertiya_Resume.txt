@@ -1,13 +1,9 @@
 Vidhan Mertiya
 +91 86199-42938
-§Github ï LinkedIn # vidhanmertiya.vm@gmail.com
+ Github  LinkedIn  vidhanmertiya.vm@gmail.com
 
-Education
-Indian Institute of Technology Madras                                    2022 - 2026
-Bachelor of Science, Data Science and Applications
-
-University of Rajasthan                                                  2021 - 2024
-Bachelor of Computer Applications
+Professional Summary
+Full-Stack Engineer & AI Systems Specialist with expertise in building scalable web applications and LLM evaluation frameworks. Proven track record in designing high-performance systems, implementing reinforcement learning agents, and optimizing AI workflows. Skilled in Python, Go, and React ecosystems with a focus on delivering robust, data-driven solutions.
 
 Experience
 Riverline | Software Engineering Intern                                  Jan. 2026
@@ -26,11 +22,6 @@ Quest Alliance | Intern                                                  Sept. 2
 • Designed knowledge products for Quest 2 Learn.
 • Conducted data analysis post-Quest 2 Learn 2021 event.
 
-Skills
-- Data Science: Numpy, Pandas, HuggingFace, BeautifulSoup, Selenium, SQL
-- Developer: Python, Java, HTML, CSS, JavaScript, TypeScript, VueJS, Flask, Jinja, NextJS
-- Tools: Git/GitHub, VS Code, Google Colab, Jupyter Notebook, Tableau, MS Excel
-
 Projects
 JobSpy | Go, Python, Postgres, NextJS, Tailwind, Docker                  Live
 • Built full-stack job aggregation platform with NLP-powered entity extraction using Fuse.js & dynamic
@@ -41,7 +32,7 @@ Vision) sentence transformers, delivering 1s semantic search via in-memory embed
 search (tsvector/trigram indexes), OAuth (GitHub/Google), and WebSocket connections for real-time
 embedding generation.
 
-Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite, Git    §Repo
+Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite, Git    Repo
 • Developed a Flask-Vue.js platform with JWT and role-based access, cutting API response time by 25%
 via Redis caching.
 • Automated service monitoring with Celery and responsive dashboards for professional/admin.
@@ -51,12 +42,24 @@ RL-Based Voice Agent | FastAPI, Reinforcement Learning, PyTorch, NLU
 • Implemented 13 enhancements including semantic caching and multi-step planning.
 • Multilingual support (Hindi/Hinglish) and real-time evaluation dashboard.
 
-IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI    Live §Repo
+IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI    Live Repo
 • Full Stack Web Application that lets users attempt quizzes.
 • Leveraged LLMs for generating explanations for each question.
 • Dockerized and Auto-Deployment using Github Actions.
 
-CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind                Live §Repo
+CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind                Live Repo
 • Full Stack Web Application to teach children about Financial Literacy.
 • Integrated AI-generated learning modules with gamification (coins, achievements).
 • Manage and Co-ordinate between multiple members for project.
+
+Skills
+- Data Science: Numpy, Pandas, HuggingFace, BeautifulSoup, Selenium, SQL
+- Developer: Python, Java, HTML, CSS, JavaScript, TypeScript, VueJS, Flask, Jinja, NextJS
+- Tools: Git/GitHub, VS Code, Google Colab, Jupyter Notebook, Tableau, MS Excel
+
+Education
+Indian Institute of Technology Madras                                    2022 - 2026
+Bachelor of Science, Data Science and Applications
+
+University of Rajasthan                                                  2021 - 2024
+Bachelor of Computer Applications
