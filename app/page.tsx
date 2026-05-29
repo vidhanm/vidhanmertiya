@@ -1,1108 +1,440 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useRef, useState } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { useTheme } from "next-themes"
-import { Github, Mail, Menu, X, ExternalLink, Sun, Moon, Download, Eye } from "lucide-react"
+import { ArrowUpRight, Github, Linkedin, Mail, MapPin, Play } from "lucide-react"
 
-export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState("home")
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [showResume, setShowResume] = useState(false)
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+type ProjectLink = {
+  label: string
+  href: string
+}
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "about", "projects", "contact"]
-      const scrollPosition = window.scrollY + 100
+type Project = {
+  name: string
+  href: string
+  description: string
+  tag: string
+  accent: string
+  previewType: "iframe" | "placeholder" | "video"
+  videoSrc?: string
+  showPlayOverlay?: boolean
+  links: ProjectLink[]
+  tech: string[]
+}
 
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const offsetTop = element.offsetTop
-          const offsetHeight = element.offsetHeight
+const projects: Project[] = [
+  {
+    name: "TalkBook",
+    href: "https://talkbook.live/",
+    description: "A conversational product landing page with a polished real-world feel.",
+    tag: "Commercial",
+    accent: "from-stone-200 via-zinc-100 to-neutral-100",
+    previewType: "iframe",
+    links: [{ label: "Live", href: "https://talkbook.live/" }],
+    tech: ["Landing Page", "Product", "Messaging"],
+  },
+  {
+    name: "JobSpy",
+    href: "/jobspy-preview.mp4",
+    description:
+      "A comprehensive web application to list and search for jobs across all major employment websites. Features resume upload functionality for personalized job suggestions using AI.",
+    tag: "Video",
+    accent: "from-amber-200 via-orange-100 to-rose-100",
+    previewType: "video",
+    videoSrc: "/jobspy-preview.mp4",
+    showPlayOverlay: true,
+    links: [{ label: "Video", href: "/jobspy-preview.mp4" }],
+    tech: ["Go", "Python", "PostgreSQL", "Next.js", "Docker"],
+  },
+  {
+    name: "IITM Quizzes",
+    href: "https://github.com/vidhanm/IITM-quizzes",
+    description:
+      "Full-stack web application for quiz attempts with LLM-generated explanations. Features auto-deployment using GitHub Actions and modern UI components.",
+    tag: "Repo",
+    accent: "from-sky-200 via-cyan-100 to-indigo-100",
+    previewType: "placeholder",
+    links: [{ label: "Repo", href: "https://github.com/vidhanm/IITM-quizzes" }],
+    tech: ["React", "Flask", "Go", "LLM", "TypeScript"],
+  },
+  {
+    name: "CoinCraft",
+    href: "https://coincraft-two.vercel.app/",
+    description:
+      "Full-stack web application teaching children financial literacy through AI-generated learning modules with gamification elements including coins and achievements.",
+    tag: "Live",
+    accent: "from-violet-200 via-fuchsia-100 to-pink-100",
+    previewType: "iframe",
+    links: [
+      { label: "Live", href: "https://coincraft-two.vercel.app/" },
+      { label: "Repo", href: "https://github.com/vidhanm/coincraft" },
+    ],
+    tech: ["Vue.js", "Flask", "SQLite", "LLM", "TypeScript"],
+  },
+  {
+    name: "Household Services App",
+    href: "https://github.com/vidhanm/household-services",
+    description:
+      "Full-stack web application for on-demand household services, enabling users to book professionals seamlessly. Features robust document verification for trust and security.",
+    tag: "Repo",
+    accent: "from-emerald-200 via-lime-100 to-yellow-100",
+    previewType: "placeholder",
+    links: [{ label: "Repo", href: "https://github.com/vidhanm/household-services" }],
+    tech: ["TypeScript", "Vue.js", "Flask", "SQLite"],
+  },
+  {
+    name: "RL-Based Voice Agent",
+    href: "https://github.com/vidhanm/RL-DDQ",
+    description:
+      "DDQ (Dyna-style) reinforcement learning agent for optimal conversation strategies using self-play. Features semantic caching, multi-step planning, and multilingual support (Hindi/Hinglish).",
+    tag: "Repo",
+    accent: "from-stone-200 via-zinc-100 to-neutral-100",
+    previewType: "placeholder",
+    links: [{ label: "Repo", href: "https://github.com/vidhanm/RL-DDQ" }],
+    tech: ["FastAPI", "Keras", "Reinforcement Learning", "NLU"],
+  },
+  {
+    name: "ML Flashcards",
+    href: "https://ml-flashcards.vercel.app/",
+    description: "Interactive flashcards for machine learning concepts.",
+    tag: "Learning",
+    accent: "from-amber-200 via-orange-100 to-rose-100",
+    previewType: "iframe",
+    links: [{ label: "Live", href: "https://ml-flashcards.vercel.app/" }],
+    tech: ["Education", "Flashcards", "Web App"],
+  },
+  {
+    name: "100 Days of CUDA",
+    href: "https://100daysofcuda.vercel.app/",
+    description: "A learning log and showcase for CUDA practice and experiments.",
+    tag: "Technical",
+    accent: "from-sky-200 via-cyan-100 to-indigo-100",
+    previewType: "iframe",
+    links: [{ label: "Live", href: "https://100daysofcuda.vercel.app/" }],
+    tech: ["CUDA", "Learning Log", "Experiments"],
+  },
+  {
+    name: "Card Pick",
+    href: "https://card--pick.vercel.app/cards",
+    description: "Card-based browsing experience for picking and exploring cards.",
+    tag: "Product",
+    accent: "from-emerald-200 via-lime-100 to-yellow-100",
+    previewType: "iframe",
+    links: [{ label: "Live", href: "https://card--pick.vercel.app/cards" }],
+    tech: ["Cards", "Browse", "UI"],
+  },
+  {
+    name: "Browser Haptics",
+    href: "https://browser-haptics.pages.dev/",
+    description: "Experiments with tactile feedback cues and micro-interactions in the browser.",
+    tag: "Live",
+    accent: "from-rose-200 via-orange-100 to-amber-100",
+    previewType: "video",
+    videoSrc: "/browser-haptics-preview.mp4",
+    showPlayOverlay: false,
+    links: [
+      { label: "Live", href: "https://browser-haptics.pages.dev/" },
+      { label: "Repo", href: "https://github.com/vidhanm/browser-haptics" },
+    ],
+    tech: ["Web APIs", "Haptics", "Interaction"],
+  },
+]
 
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-    }
+function getTagColor(tag: string): { bg: string; border: string } {
+  const colors: Record<string, { bg: string; border: string }> = {
+    Commercial: { bg: "bg-[#f27a1a]", border: "border-[#f27a1a]" },
+    Video: { bg: "bg-[#ec1c5f]", border: "border-[#ec1c5f]" },
+    Repo: { bg: "bg-[#2e88eb]", border: "border-[#2e88eb]" },
+    Live: { bg: "bg-[#34b819]", border: "border-[#34b819]" },
+    Learning: { bg: "bg-[#9d4edd]", border: "border-[#9d4edd]" },
+    Technical: { bg: "bg-[#00bfff]", border: "border-[#00bfff]" },
+    Product: { bg: "bg-[#ff006e]", border: "border-[#ff006e]" },
+  }
+  return colors[tag] || { bg: "bg-black", border: "border-black" }
+}
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+function ProjectPreview({ project }: { project: Project }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [flipped, setFlipped] = useState(false)
+  const showPlayOverlay = project.previewType === "video" && project.showPlayOverlay !== false
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-    setIsMenuOpen(false)
+  const handlePlay = () => {
+    const video = videoRef.current
+    if (!video) return
+    video.currentTime = 0
+    video.muted = false
+    video.loop = false
+    void video.play()
+    setIsPlaying(true)
   }
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const nav = document.querySelector("nav")
-      if (isMenuOpen && nav && !nav.contains(event.target as Node)) {
-        setIsMenuOpen(false)
-      }
-    }
-
-    const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isMenuOpen) {
-        setIsMenuOpen(false)
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-    document.addEventListener("keydown", handleEscapeKey)
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-      document.removeEventListener("keydown", handleEscapeKey)
-    }
-  }, [isMenuOpen])
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const navItems = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "projects", label: "Projects" },
-    { id: "contact", label: "Contact" },
-  ]
-
-  const downloadResume = () => {
-    const link = document.createElement("a")
-    link.href = "/Vidhan-Resume.pdf"
-    link.download = "Vidhan-Resume.pdf"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
+  const tagColors = getTagColor(project.tag)
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <button
-              className="md:hidden p-3 -ml-3 hover:bg-accent rounded-lg transition-colors"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle navigation menu"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+    <article
+      className={`flip-card-scene ${flipped ? "is-flipped" : ""}`}
+      style={{ height: "360px" }}
+    >
+      <div className="flip-card-inner border-[3px] border-black shadow-[8px_8px_0px_rgba(0,0,0,0.2)] transition-shadow duration-200 hover:shadow-[12px_12px_0px_rgba(0,0,0,0.3)]">
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-1">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-all duration-200 hover:text-primary px-4 py-2 rounded-lg ${activeSection === item.id
-                    ? "text-primary-foreground bg-primary shadow-sm"
-                    : "text-muted-foreground hover:bg-accent/50"
-                    }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+        {/* ── FRONT FACE ── */}
+        <div className="flip-card-front flex flex-col bg-white">
+
+          {/* Header */}
+          <div className="flex items-center justify-between border-b-[3px] border-black bg-white px-4 py-3">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold tracking-tight text-black">{project.name}</p>
+              {project.tag === "Repo" && (() => {
+                const repo = project.links.find((l) => l.label.toLowerCase() === "repo")
+                return repo ? (
+                  <a href={repo.href} target="_blank" rel="noopener noreferrer" className="inline-flex">
+                    <Github size={16} className="text-gray-700" />
+                  </a>
+                ) : (
+                  <Github size={16} className="text-gray-700" />
+                )
+              })()}
             </div>
-
-            {mounted && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 hover:bg-accent rounded-lg transition-colors"
-                aria-label="Toggle theme"
+            <div className="flex items-center gap-2">
+              {/* ⓘ info button */}
+              <button
+                type="button"
+                onClick={() => setFlipped(true)}
+                className="flip-info-btn"
+                aria-label="Show project info"
+                title="Show info"
               >
-                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-              </Button>
+                i
+              </button>
+              <span
+                className={`border-[2px] ${tagColors.border} ${tagColors.bg} px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white`}
+              >
+                {project.tag}
+              </span>
+            </div>
+          </div>
+
+          {/* Preview — fills remaining height */}
+          <div className="relative flex-1 overflow-hidden border-b-[3px] border-black bg-black">
+            {project.previewType === "iframe" ? (
+              <iframe
+                src={project.href}
+                title={project.name}
+                className="absolute inset-0 h-full w-full border-0 bg-white"
+                loading="lazy"
+              />
+            ) : project.previewType === "video" ? (
+              <>
+                <video
+                  ref={videoRef}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  src={project.videoSrc}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  controls={showPlayOverlay && isPlaying}
+                />
+                {showPlayOverlay && !isPlaying && (
+                  <button
+                    type="button"
+                    onClick={handlePlay}
+                    className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center border-[3px] border-white bg-black text-white shadow-[4px_4px_0px_rgba(255,255,255,0.5)] transition-transform hover:scale-105"
+                    aria-label={`Play ${project.name} video`}
+                  >
+                    <Play size={22} className="ml-0.5" />
+                  </button>
+                )}
+              </>
+            ) : (
+              <div className="absolute inset-0 flex flex-col justify-between bg-white p-6 text-black">
+                <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.2em] text-black">
+                  <span className="border-[2px] border-black bg-black px-3 py-1 text-white">Repo only</span>
+                  <span className="border-[2px] border-black bg-black px-3 py-1 text-white">No live site</span>
+                </div>
+                <div className="border-[3px] border-black bg-white p-5 shadow-[4px_4px_0px_rgba(0,0,0,0.2)]">
+                  <p className="text-xs font-semibold uppercase tracking-[0.25em] text-black">Project snapshot</p>
+                  <h4 className="mt-2 text-2xl font-black tracking-tight text-black">{project.name}</h4>
+                  <p className="mt-2 max-w-md text-sm leading-6 text-black">{project.description}</p>
+                  <div className="mt-4 text-sm text-gray-600">{project.tech.slice(0, 3).join(" · ")}</div>
+                </div>
+              </div>
             )}
           </div>
 
-          {isMenuOpen && (
-            <div className="md:hidden py-4 border-t border-border animate-in slide-in-from-top-2 duration-200">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`block w-full text-left py-3 px-4 text-sm font-medium transition-colors hover:text-primary hover:bg-accent rounded-lg mx-2 ${activeSection === item.id ? "text-primary-foreground bg-primary" : "text-muted-foreground"
-                    }`}
+        </div>
+
+        {/* ── BACK FACE ── */}
+        <div className="flip-card-back flex flex-col bg-white">
+
+          {/* Header — mirrors front, × closes */}
+          <div className="flex items-center justify-between border-b-[3px] border-black bg-white px-4 py-3">
+            <p className="text-sm font-semibold tracking-tight text-black">{project.name}</p>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setFlipped(false)}
+                className="flip-info-btn active"
+                aria-label="Close project info"
+                title="Close"
+              >
+                ×
+              </button>
+              <span
+                className={`border-[2px] ${tagColors.border} ${tagColors.bg} px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white`}
+              >
+                {project.tag}
+              </span>
+            </div>
+          </div>
+
+          {/* Back content: description + tech + links */}
+          <div className="flex flex-1 flex-col justify-between overflow-auto p-5">
+            <div className="space-y-5">
+              <div>
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400">About</p>
+                <p className="text-[13px] leading-6 text-black">{project.description}</p>
+              </div>
+              <div>
+                <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-400">Tech Stack</p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="border-[2px] border-black bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-black"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-2 border-t-[2px] border-black pt-4">
+              {project.links.map((link) => (
+                <a
+                  key={`back-${project.name}-${link.label}`}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 border-[2px] border-black bg-black px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition-all hover:bg-white hover:text-black"
                 >
-                  {item.label}
-                </button>
+                  {link.label}
+                  <ArrowUpRight size={12} />
+                </a>
               ))}
             </div>
-          )}
+          </div>
+
         </div>
-      </nav>
 
-      {/* Resume Modal */}
-      {showResume && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-background border border-border rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
-            <div className="flex items-center justify-between p-4 border-b border-border">
-              <h3 className="font-heading text-xl font-semibold text-foreground">Resume - Vidhan Mertiya</h3>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={downloadResume}
-                  className="flex items-center gap-2 bg-transparent"
-                >
-                  <Download size={16} />
-                  Download Resume
-                </Button>
-                <Button variant="ghost" size="sm" onClick={() => setShowResume(false)} className="p-2">
-                  <X size={20} />
-                </Button>
-              </div>
-            </div>
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
-              <div className="space-y-6 font-mono text-sm">
-                <div className="text-center space-y-2">
-                  <h1 className="font-heading text-2xl font-bold text-foreground">Vidhan Mertiya</h1>
-                  <div className="text-muted-foreground space-y-1">
-                    <p>+91 86199-42938</p>
-                    <p>vidhanmertiya.vm@gmail.com</p>
-                    <div className="flex justify-center gap-4 text-sm">
-                      <a href="https://github.com/vidhanm" className="text-primary hover:underline">
-                        GitHub
-                      </a>
-                      <a href="https://linkedin.com/in/vidhanmertiya" className="text-primary hover:underline">
-                        LinkedIn
-                      </a>
+      </div>
+    </article>
+  )
+}
+
+export default function PortfolioPage() {
+  return (
+    <main className="relative min-h-screen overflow-hidden bg-white text-black">
+      <div className="pointer-events-none absolute inset-0"></div>
+
+      <div className="relative mx-auto grid min-h-screen max-w-[1600px] lg:grid-cols-[420px_minmax(0,1fr)]">
+        <aside className="border-b-[4px] border-black bg-white px-6 py-10 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r-[4px] lg:px-10">
+          <div className="flex h-full flex-col justify-between gap-4">
+            <div className="space-y-10">
+              <div className="space-y-6">
+                <div className="flex items-center gap-5">
+                  <div className="flex h-28 w-28 items-center justify-center border-[4px] border-[#ec1c5f] bg-[#ec1c5f] p-1 shadow-[6px_6px_0px_rgba(236,28,95,0.3)]">
+                    <div className="relative h-full w-full overflow-hidden bg-white">
+                      <Image
+                        src="/placeholder-user.jpg"
+                        alt="Dummy profile photo"
+                        fill
+                        sizes="112px"
+                        className="object-cover object-top"
+                        priority
+                      />
                     </div>
                   </div>
-                </div>
-
-                <div>
-                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
-                    Experience
-                  </h2>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-foreground">Riverline | Software Engineering Intern</h3>
-                        <span className="text-muted-foreground text-sm">Jan. 2026</span>
-                      </div>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>
-                          Improved internal LLM prompts to increase reliability and consistency of outputs.
-                        </li>
-                        <li>
-                          Fine-tuned LLM and speech-to-speech (voice-to-voice) models for internal use cases.
-                        </li>
-                        <li>
-                          Set up the company's LLM evaluation framework to benchmark and monitor model performance.
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-foreground">Ground Zero | Social Media Intern</h3>
-                        <span className="text-muted-foreground text-sm">July 2024</span>
-                      </div>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>
-                          Developed engaging social media content and contributed to the organization's daily
-                          operations.
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-foreground">Quest Alliance | Data Intern</h3>
-                        <span className="text-muted-foreground text-sm">Dec. 2023 – Feb. 2024</span>
-                      </div>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>
-                          Supported the Superset ITI dashboard, ensuring data accuracy and cleanliness through routine
-                          health checks.
-                        </li>
-                        <li>
-                          Collaborated with team managers to conduct a comprehensive placement analysis for ITI and VTI
-                          graduates (2020–2023), identifying key trends.
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-foreground">Quest Alliance | Intern</h3>
-                        <span className="text-muted-foreground text-sm">Sept. 2021 – Nov. 2021</span>
-                      </div>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>Designed knowledge products for Quest 2 Learn.</li>
-                        <li>Conducted data analysis post-Quest 2 Learn 2021 event.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
-                    Projects
-                  </h2>
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-medium text-foreground">
-                        JobSpy | Go, Python, Postgres, NextJS, Tailwind, Docker
-                        <a
-                          href="https://jobspy.tech/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block"
-                        >
-                          <Badge
-                            variant="secondary"
-                            className="ml-2 text-xs hover:bg-primary/80 transition-colors cursor-pointer"
-                          >
-                            Live
-                          </Badge>
-                        </a>
-                      </h3>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>
-                          A Webapp to list and search for jobs across all the major employment websites. Now users can
-                          also upload their resumes and get job suggestions.
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-foreground">
-                        Household Services Application | TypeScript, HTML/CSS, Flask API, VueJS, SQLite, Git
-                        <a
-                          href="https://github.com/vidhanm/household-services"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block"
-                        >
-                          <Badge
-                            variant="outline"
-                            className="ml-2 text-xs hover:bg-accent transition-colors cursor-pointer"
-                          >
-                            Repo
-                          </Badge>
-                        </a>
-                      </h3>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>
-                          Developed a full-stack web application for on-demand household services, enabling users to
-                          book professionals seamlessly. Integrated robust document verification to ensure trust and
-                          security.
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-foreground">
-                        RL-Based Voice Agent | FastAPI, Reinforcement Learning, PyTorch, NLU
-                      </h3>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>
-                          Built a DDQ (Dyna-style) agent for optimal conversation strategies using self-play.
-                        </li>
-                        <li>
-                          Implemented 13 enhancements including semantic caching and multi-step planning.
-                        </li>
-                        <li>
-                          Multilingual support (Hindi/Hinglish) and real-time evaluation dashboard.
-                        </li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-foreground">
-                        IITM Quizzes | React, Flask, Go, SQLite, TypeScript, LLM, TailWind, Radix UI
-                        <a
-                          href="https://iitmquizzes.tech/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block"
-                        >
-                          <Badge
-                            variant="secondary"
-                            className="ml-2 text-xs hover:bg-primary/80 transition-colors cursor-pointer"
-                          >
-                            Live
-                          </Badge>
-                        </a>
-                        <a
-                          href="https://github.com/vidhanm/iitm-quizzes"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block"
-                        >
-                          <Badge
-                            variant="outline"
-                            className="ml-2 text-xs hover:bg-accent transition-colors cursor-pointer"
-                          >
-                            Repo
-                          </Badge>
-                        </a>
-                      </h3>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>Full Stack Web Application that lets users attempt quizzes.</li>
-                        <li>Leveraged LLMs for generating explanations for each question.</li>
-                        <li>Auto-Deployment using Github Actions.</li>
-                      </ul>
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-foreground">
-                        CoinCraft | Vue, Flask, SQLite, TypeScript, LLM, TailWind
-                        <a
-                          href="https://coincraft-two.vercel.app/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block"
-                        >
-                          <Badge
-                            variant="secondary"
-                            className="ml-2 text-xs hover:bg-primary/80 transition-colors cursor-pointer"
-                          >
-                            Live
-                          </Badge>
-                        </a>
-                        <a
-                          href="https://github.com/vidhanm/coincraft"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block"
-                        >
-                          <Badge
-                            variant="outline"
-                            className="ml-2 text-xs hover:bg-accent transition-colors cursor-pointer"
-                          >
-                            Repo
-                          </Badge>
-                        </a>
-                      </h3>
-                      <ul className="text-muted-foreground text-sm mt-1 ml-4 list-disc">
-                        <li>Full Stack Web Application to teach children about Financial Literacy.</li>
-                        <li>Integrated AI-generated learning modules with gamification (coins, achievements).</li>
-                        <li>Manage and Co-ordinate between multiple members for project.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
-                    Skills
-                  </h2>
                   <div className="space-y-2">
-                    <div>
-                      <span className="font-medium text-foreground">Data Science:</span>{" "}
-                      <span className="text-muted-foreground">
-                        NumPy, Pandas, HuggingFace, BeautifulSoup, Selenium, SQL
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-foreground">Developer:</span>{" "}
-                      <span className="text-muted-foreground">
-                        Python, Java, HTML, CSS, JavaScript, TypeScript, VueJS, Flask, Jinja, NextJS
-                      </span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-foreground">Tools:</span>{" "}
-                      <span className="text-muted-foreground">
-                        Git/GitHub, VS Code, Google Colab, Jupyter Notebook, Tableau, MS Excel
-                      </span>
-                    </div>
+                    <h1 className="font-heading text-4xl font-black leading-[0.9] text-black sm:text-5xl">
+                      Vidhan
+                      <span className="block">Mertiya</span>
+                    </h1>
+                    <p className="text-sm font-semibold uppercase tracking-[0.3em] text-black">
+                      Data + Product Engineering
+                    </p>
                   </div>
                 </div>
-
-                <div>
-                  <h2 className="font-heading text-lg font-semibold text-foreground mb-3 border-b border-border pb-1">
-                    Education
-                  </h2>
-                  <div className="space-y-3">
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-foreground">Indian Institute of Technology Madras</h3>
-                        <span className="text-muted-foreground text-sm">2022 - 2026</span>
-                      </div>
-                      <p className="text-muted-foreground">Bachelor of Science, Data Science and Applications</p>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-foreground">University of Rajasthan</h3>
-                        <span className="text-muted-foreground text-sm">2021 - 2024</span>
-                      </div>
-                      <p className="text-muted-foreground">Bachelor of Computer Applications</p>
-                    </div>
-                  </div>
-                </div>
-
               </div>
-            </div>
-          </div>
-        </div>
-      )}
 
-      {/* Hero Section */}
-      <section
-        id="home"
-        className="pt-16 min-h-screen flex items-center justify-center px-4 sm:px-0 bg-gradient-to-br from-background via-background to-muted/20"
-      >
-        <div className="max-w-6xl mx-auto px-4 py-20 sm:px-6 lg:px-8 text-center">
-          <div className="space-y-6 sm:space-y-8">
-            <h1 className="font-heading text-5xl xs:text-6xl sm:text-7xl lg:text-8xl font-bold text-foreground text-balance leading-tight">
-              Hi, I'm <span className="text-primary">Vidhan Mertiya</span>
-            </h1>
-            <p className="font-heading text-xl xs:text-2xl sm:text-3xl text-muted-foreground max-w-3xl mx-auto text-balance font-medium">
-              Building Scalable AI Evals & Full-Stack Systems
-            </p>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty leading-relaxed">
-              Specializing in LLM Evaluation Frameworks, Scalable Web Applications, and Data-Driven Architectures.
-            </p>
-            <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center items-center pt-4 sm:pt-6 max-w-md xs:max-w-none mx-auto">
-              <Button
-                size="lg"
-                onClick={() => scrollToSection("projects")}
-                className="w-full xs:w-auto min-h-[44px] bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200"
-              >
-                View My Work
+              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+                <span className="inline-flex items-center gap-2 border-[2px] border-[#34b819] bg-[#34b819] px-3 py-1.5">
+                  <MapPin size={14} />
+                  Rajasthan, IN
+                </span>
+              </div>
+
+            </div>
+
+            <div className="space-y-4">
+              <Button className="w-full border-[3px] border-black bg-black py-6 text-base font-semibold text-white shadow-[6px_6px_0px_rgba(0,0,0,0.2)] transition-all hover:bg-white hover:text-black" asChild>
+                <a href="mailto:vidhanmertiya.vm@gmail.com">Email me</a>
               </Button>
-              <div className="flex gap-2 w-full xs:w-auto">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => setShowResume(true)}
-                  className="flex-1 xs:flex-none min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
+              <div className="flex items-center gap-3 text-black">
+                <a
+                  href="https://github.com/vidhanm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
+                  aria-label="GitHub"
                 >
-                  <Eye size={18} className="mr-2" />
-                  View Resume
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={downloadResume}
-                  className="flex-1 xs:flex-none min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200 bg-transparent"
+                  <Github size={18} />
+                </a>
+                <a
+                  href="https://linkedin.com/in/vidhanmertiya"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
+                  aria-label="LinkedIn"
                 >
-                  <Download size={18} className="mr-2" />
-                  Download
-                </Button>
-              </div>
-            </div>
-            <div className="flex justify-center space-x-8 pt-6 sm:pt-8">
-              <a
-                href="https://github.com/vidhanm"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-all duration-200 p-3 hover:bg-primary/10 rounded-lg hover:scale-110"
-                aria-label="GitHub Profile"
-              >
-                <Github size={24} />
-              </a>
-              <a
-                href="mailto:vidhanmertiya.vm@gmail.com"
-                className="text-muted-foreground hover:text-primary transition-all duration-200 p-3 hover:bg-primary/10 rounded-lg hover:scale-110"
-                aria-label="Send Email"
-              >
-                <Mail size={24} />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="py-16 sm:py-20 bg-gradient-to-r from-muted/20 via-muted/30 to-muted/20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="font-heading text-3xl xs:text-4xl sm:text-5xl font-bold text-foreground mb-4">About Me</h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-              Learn more about my background, education, and professional experience
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start lg:items-center">
-            <div className="space-y-4 sm:space-y-6">
-              <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">
-                Education & Experience
-              </h3>
-              <div className="space-y-4">
-                <div className="p-4 bg-card/50 rounded-lg border border-border">
-                  <h4 className="font-heading font-semibold text-foreground mb-2">Professional Experience</h4>
-                  <div className="space-y-3 text-sm">
-                    <div>
-                      <p className="font-medium text-foreground">Riverline - Software Engineering Intern</p>
-                      <p className="text-muted-foreground">Jan. 2026</p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-foreground">Ground Zero - Social Media Intern</p>
-                      <p className="text-muted-foreground">July 2024</p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-foreground">Quest Alliance - Data Intern</p>
-                      <p className="text-muted-foreground">Dec 2023 – Feb 2024 & Sept 2021 – Nov 2021</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-card/50 rounded-lg border border-border">
-                  <h4 className="font-heading font-semibold text-foreground mb-2">Education</h4>
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <p className="font-medium text-foreground">Indian Institute of Technology Madras</p>
-                      <p className="text-muted-foreground">
-                        Bachelor of Science, Data Science and Applications (2022 - 2026)
-                      </p>
-                    </div>
-                    <div>
-                      <p className="font-medium text-foreground">University of Rajasthan</p>
-                      <p className="text-muted-foreground">Bachelor of Computer Applications (2021 - 2024)</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4 sm:space-y-6">
-              <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">Technical Skills</h3>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-heading font-medium text-foreground mb-3 text-lg">Data Science</h4>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      NumPy
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Pandas
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      HuggingFace
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      BeautifulSoup
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Selenium
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      SQL
-                    </Badge>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-heading font-medium text-foreground mb-3 text-lg">Development</h4>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Python
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Java
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      JavaScript
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      TypeScript
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Vue.js
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Next.js
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Flask
-                    </Badge>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-heading font-medium text-foreground mb-3 text-lg">Tools & Technologies</h4>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Git/GitHub
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Docker
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      PostgreSQL
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Tableau
-                    </Badge>
-                    <Badge
-                      variant="secondary"
-                      className="text-sm bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
-                    >
-                      Go
-                    </Badge>
-                  </div>
-                </div>
+                  <Linkedin size={18} />
+                </a>
+                <a
+                  href="mailto:vidhanmertiya.vm@gmail.com"
+                  className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
+                  aria-label="Email"
+                >
+                  <Mail size={18} />
+                </a>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </aside>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-16 sm:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="font-heading text-3xl xs:text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Featured Projects
-            </h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-              A showcase of my recent work spanning web development, data science, and full-stack applications
-            </p>
+        <section className="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+          <div className="grid gap-5 md:grid-cols-2">
+            {projects.map((project) => (
+              <ProjectPreview key={project.name} project={project} />
+            ))}
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">JobSpy</h3>
-                        <Badge variant="secondary" className="text-xs shrink-0 bg-primary text-primary-foreground">
-                          Live
-                        </Badge>
-                      </div>
-                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
-                        <span className="flex items-center gap-1">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          Go
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <a
-                        href="https://jobspy.tech/"
-                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                        aria-label="View JobSpy Live"
-                      >
-                        <ExternalLink size={18} />
-                      </a>
-                    </div>
-                  </div>
-                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
-                    A comprehensive web application to list and search for jobs across all major employment websites.
-                    Features resume upload functionality for personalized job suggestions using AI.
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      Go
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Python
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      PostgreSQL
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Next.js
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Docker
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">
-                        Household Services App
-                      </h3>
-                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
-                        <span className="flex items-center gap-1">
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          Vue.js
-                        </span>
-                      </div>
-                    </div>
-                    <a
-                      href="https://github.com/vidhanm/household-services"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                      aria-label="View Household Services App on GitHub"
-                    >
-                      <Github size={20} />
-                    </a>
-                  </div>
-                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
-                    Full-stack web application for on-demand household services, enabling users to book professionals
-                    seamlessly. Features robust document verification for trust and security.
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      TypeScript
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Vue.js
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Flask
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      SQLite
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm">
-              <CardContent className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">
-                          RL-Based Voice Agent
-                        </h3>
-                      </div>
-                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
-                        <span className="flex items-center gap-1">
-                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                          Keras
-                        </span>
-                      </div>
-                    </div>
-                    <a
-                      href="https://github.com/vidhanm/RL-DDQ"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                      aria-label="View RL-Based Voice Agent on GitHub"
-                    >
-                      <Github size={20} />
-                    </a>
-                  </div>
-                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
-                    DDQ (Dyna-style) reinforcement learning agent for optimal conversation strategies using self-play.
-                    Features semantic caching, multi-step planning, and multilingual support (Hindi/Hinglish).
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      FastAPI
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Keras
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Reinforcement Learning
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      NLU
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
-              <CardContent className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">IITM Quizzes</h3>
-                        <Badge variant="secondary" className="text-xs shrink-0 bg-primary text-primary-foreground">
-                          Live
-                        </Badge>
-                      </div>
-                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
-                        <span className="flex items-center gap-1">
-                          <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
-                          React
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <a
-                        href="https://iitmquizzes.tech/"
-                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                        aria-label="View IITM Quizzes Live"
-                      >
-                        <ExternalLink size={18} />
-                      </a>
-                      <a
-                        href="https://github.com/vidhanm/iitm-quizzes"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                        aria-label="View IITM Quizzes on GitHub"
-                      >
-                        <Github size={18} />
-                      </a>
-                    </div>
-                  </div>
-                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
-                    Full-stack web application for quiz attempts with LLM-generated explanations. Features
-                    auto-deployment using GitHub Actions and modern UI components.
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      React
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Flask
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Go
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      LLM
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      TypeScript
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 border-2 hover:border-primary/30 bg-card/50 backdrop-blur-sm sm:col-span-2 lg:col-span-1">
-              <CardContent className="p-4 sm:p-6">
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-heading text-lg sm:text-xl font-semibold text-foreground">CoinCraft</h3>
-                        <Badge variant="secondary" className="text-xs shrink-0 bg-primary text-primary-foreground">
-                          Live
-                        </Badge>
-                      </div>
-                      <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground flex-wrap">
-                        <span className="flex items-center gap-1">
-                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          Vue.js
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <a
-                        href="https://coincraft-two.vercel.app/"
-                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                        aria-label="View CoinCraft Live"
-                      >
-                        <ExternalLink size={18} />
-                      </a>
-                      <a
-                        href="https://github.com/vidhanm/coincraft"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-primary transition-all duration-200 p-2 hover:bg-primary/10 rounded-lg shrink-0 hover:scale-110"
-                        aria-label="View CoinCraft on GitHub"
-                      >
-                        <Github size={18} />
-                      </a>
-                    </div>
-                  </div>
-                  <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
-                    Full-stack web application teaching children financial literacy through AI-generated learning
-                    modules with gamification elements including coins and achievements.
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      Vue.js
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      Flask
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      SQLite
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      LLM
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      TypeScript
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="text-center mt-12 sm:mt-16">
-            <div className="space-y-4 sm:space-y-6">
-              <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">Explore More Projects</h3>
-              <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto text-pretty">
-                Check out my GitHub profile for more projects, contributions, and open-source work
-              </p>
-              <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center items-center pt-2 sm:pt-4 max-w-md xs:max-w-none mx-auto">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  asChild
-                  className="w-full xs:w-auto bg-transparent min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
-                >
-                  <a
-                    href="https://github.com/vidhanm"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2"
-                  >
-                    <Github size={20} />
-                    View All Projects
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => scrollToSection("contact")}
-                  className="w-full xs:w-auto min-h-[44px] hover:bg-primary/10 transition-all duration-200"
-                >
-                  Let's Collaborate →
-                </Button>
+          <div className="mt-10 border-[3px] border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,0.2)]">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-black">Portfolio mix</p>
+                <h4 className="mt-2 text-lg font-semibold text-black">Live apps, repos, and fresh experiments</h4>
               </div>
+              <span className="border-[2px] border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+                {projects.length} projects
+              </span>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-16 sm:py-20 bg-gradient-to-r from-muted/20 via-muted/30 to-muted/20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="font-heading text-3xl xs:text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Get In Touch
-            </h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-              Let's connect and discuss opportunities, collaborations, or just have a chat about technology
-            </p>
-          </div>
-
-          <div className="max-w-2xl mx-auto">
-            <Card className="shadow-xl border-2 border-primary/10 bg-card/80 backdrop-blur-sm">
-              <CardContent className="p-6 sm:p-8">
-                <div className="space-y-6">
-                  <div className="text-center space-y-4">
-                    <h3 className="font-heading text-2xl sm:text-3xl font-semibold text-foreground">
-                      Let's Work Together
-                    </h3>
-                    <p className="text-sm sm:text-base text-muted-foreground text-pretty leading-relaxed">
-                      I'm always interested in new opportunities and exciting projects. Whether you're looking for a
-                      developer, have a project in mind, or just want to connect, I'd love to hear from you.
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center">
-                    <Button
-                      asChild
-                      className="w-full xs:w-auto min-h-[44px] bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200"
-                    >
-                      <a href="mailto:vidhanmertiya.vm@gmail.com" className="inline-flex items-center gap-2">
-                        <Mail size={20} />
-                        Send Email
-                      </a>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      asChild
-                      className="w-full xs:w-auto bg-transparent min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
-                    >
-                      <a
-                        href="https://github.com/vidhanm"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2"
-                      >
-                        <Github size={20} />
-                        GitHub Profile
-                      </a>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowResume(true)}
-                      className="w-full xs:w-auto bg-transparent min-h-[44px] border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all duration-200"
-                    >
-                      <Eye size={20} className="mr-2" />
-                      View Resume
-                    </Button>
-                  </div>
-
-                  <div className="text-center pt-6 border-t border-border">
-                    <p className="text-xs sm:text-sm text-muted-foreground">
-                      Based in India • Available for remote work and collaborations
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-6 sm:py-8 border-t border-border bg-muted/20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-xs sm:text-sm text-muted-foreground">
-            <p>&copy; 2026 Vidhan Mertiya. Built with Next.js and Tailwind CSS.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
+        </section>
+      </div>
+    </main>
   )
 }

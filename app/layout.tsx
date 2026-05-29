@@ -2,40 +2,40 @@ import type React from "react"
 import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
-import { Manrope } from "next/font/google"
+import { Fraunces, Space_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
-const manrope = Manrope({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-fraunces",
+  display: "swap",
+})
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
   display: "swap",
 })
 
 export const metadata: Metadata = {
-  title: "Vidhan Mertiya - Data Science Student & Full-Stack Developer",
+  title: "Vidhan Mertiya - Portfolio",
   description:
-    "Portfolio of Vidhan Mertiya - Data Science Student at IIT Madras and Full-Stack Developer specializing in web applications, data analysis, and AI-powered solutions.",
+    "A portfolio inspired by the Marc Lou style, featuring a fixed profile rail and live website previews for selected projects.",
   generator: "v0.app",
   keywords: [
     "Vidhan Mertiya",
-    "Data Science",
-    "Full-Stack Developer",
-    "IIT Madras",
-    "Python",
-    "JavaScript",
-    "React",
+    "Portfolio",
+    "Website previews",
     "Next.js",
-    "Vue.js",
-    "Machine Learning",
-    "Data Analysis",
+    "Product design",
   ],
   authors: [{ name: "Vidhan Mertiya" }],
   openGraph: {
-    title: "Vidhan Mertiya - Data Science Student & Full-Stack Developer",
-    description: "Portfolio showcasing projects in web development, data science, and AI-powered applications.",
+    title: "Vidhan Mertiya - Portfolio",
+    description: "A portfolio with a Marc Lou inspired layout and live previews of selected projects.",
     type: "website",
     url: "https://vidhanmertiya.vercel.app",
     siteName: "Vidhan Mertiya Portfolio",
@@ -53,7 +53,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${manrope.variable}`}>
+      <body
+        className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${fraunces.variable} ${spaceGrotesk.variable}`}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Suspense fallback={null}>{children}</Suspense>
         </ThemeProvider>
