@@ -23,7 +23,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Vidhan Mertiya - Portfolio",
   description:
-    "A portfolio inspired by the Marc Lou style, featuring a fixed profile rail and live website previews for selected projects.",
+    "A portfolio featuring a fixed profile rail and live website previews for selected projects.",
   generator: "v0.app",
   keywords: [
     "Vidhan Mertiya",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Vidhan Mertiya" }],
   openGraph: {
     title: "Vidhan Mertiya - Portfolio",
-    description: "A portfolio with a Marc Lou inspired layout and live previews of selected projects.",
+    description: "A portfolio with a fixed profile rail and live previews of selected projects.",
     type: "website",
     url: "https://vidhanmertiya.vercel.app",
     siteName: "Vidhan Mertiya Portfolio",
