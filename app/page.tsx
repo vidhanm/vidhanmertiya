@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
+
 import { ArrowUpRight, Github, Linkedin, Mail, MapPin, Play } from "lucide-react"
 
 type ProjectLink = {
@@ -343,47 +343,35 @@ export default function PortfolioPage() {
 
       <div className="relative mx-auto grid min-h-screen max-w-[1600px] lg:grid-cols-[420px_minmax(0,1fr)]">
         <aside className="border-b-[4px] border-black bg-white px-6 py-10 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r-[4px] lg:px-10">
-          <div className="flex h-full flex-col justify-between gap-4">
-            <div className="space-y-10">
-              <div className="space-y-6">
-                <div className="flex items-center gap-5">
-                  <div className="flex h-28 w-28 items-center justify-center border-[4px] border-[#ec1c5f] bg-[#ec1c5f] p-1 shadow-[6px_6px_0px_rgba(236,28,95,0.3)]">
-                    <div className="relative h-full w-full overflow-hidden bg-white">
-                      <Image
-                        src="/placeholder-user.jpg"
-                        alt="Dummy profile photo"
-                        fill
-                        sizes="112px"
-                        className="object-cover object-top"
-                        priority
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <h1 className="font-heading text-4xl font-black leading-[0.9] text-black sm:text-5xl">
-                      Vidhan
-                      <span className="block">Mertiya</span>
-                    </h1>
-                    <p className="text-sm font-semibold uppercase tracking-[0.3em] text-black">
-                      Data + Product Engineering
-                    </p>
-                  </div>
-                </div>
+          <div className="flex h-full flex-col gap-8 pt-2">
+            {/* Profile section */}
+            <div className="flex flex-col items-start gap-4">
+
+              {/* Tall rounded rectangle image */}
+              <div className="relative w-full overflow-hidden rounded-2xl border-[3px] border-black shadow-[6px_6px_0px_rgba(0,0,0,0.15)]" style={{ height: "400px" }}>
+                <Image
+                  src="/profile.jpg"
+                  alt="Vidhan Mertiya"
+                  fill
+                  sizes="400px"
+                  className="object-cover object-center"
+                  priority
+                />
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
-                <span className="inline-flex items-center gap-2 border-[2px] border-[#34b819] bg-[#34b819] px-3 py-1.5">
-                  <MapPin size={14} />
-                  Rajasthan, IN
-                </span>
+              {/* Name */}
+              <h1 className="font-heading text-4xl font-black leading-[0.9] text-black sm:text-5xl">
+                Vidhan
+                <span className="block">Mertiya</span>
+              </h1>
+
+              {/* Location */}
+              <div className="flex items-center gap-1.5 text-sm font-semibold text-gray-500">
+                <MapPin size={14} />
+                India
               </div>
 
-            </div>
-
-            <div className="space-y-4">
-              <Button className="w-full border-[3px] border-black bg-black py-6 text-base font-semibold text-white shadow-[6px_6px_0px_rgba(0,0,0,0.2)] transition-all hover:bg-white hover:text-black" asChild>
-                <a href="mailto:vidhanmertiya.vm@gmail.com">Email me</a>
-              </Button>
+              {/* Social icons */}
               <div className="flex items-center gap-3 text-black">
                 <a
                   href="https://github.com/vidhanm"
@@ -404,6 +392,17 @@ export default function PortfolioPage() {
                   <Linkedin size={18} />
                 </a>
                 <a
+                  href="https://x.com/vidhanmertiya"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
+                  aria-label="X (Twitter)"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+                <a
                   href="mailto:vidhanmertiya.vm@gmail.com"
                   className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
                   aria-label="Email"
@@ -413,6 +412,7 @@ export default function PortfolioPage() {
               </div>
             </div>
           </div>
+
         </aside>
 
         <section className="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
