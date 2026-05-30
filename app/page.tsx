@@ -410,6 +410,22 @@ export default function PortfolioPage() {
                   <Mail size={18} />
                 </a>
               </div>
+
+              {/* Navigation */}
+              <nav className="flex flex-col gap-2 border-t-[3px] border-black pt-6">
+                <a
+                  href="/"
+                  className="border-[2px] border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all hover:bg-white hover:text-black"
+                >
+                  Projects
+                </a>
+                <a
+                  href="/blog"
+                  className="border-[2px] border-black bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black transition-all hover:bg-black hover:text-white"
+                >
+                  Blog
+                </a>
+              </nav>
             </div>
           </div>
 
