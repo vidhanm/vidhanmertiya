@@ -194,14 +194,18 @@
     .blog-back {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 13px;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
       color: var(--ink-3);
       text-decoration: none;
       margin-bottom: 32px;
-      transition: color 0.2s;
+      transition: color 0.2s, transform 0.2s;
     }
-    .blog-back:hover { color: var(--accent); }
+    .blog-back:hover {
+      color: var(--accent);
+      transform: translateX(-4px);
+    }
 
     .blog-meta {
       display: flex;
@@ -388,7 +392,7 @@
     <h1 class="blog-title">Pasting Clipboard Images into Remote AI Coding Agents over SSH</h1>
 
     <p class="blog-lede">
-      How I wired up Ctrl+V in WezTerm to transparently deliver clipboard images to Claude Code and OpenCode running on a remote server - no display server, no second connection, no third-party tools.
+      How I wired up Ctrl+V in WezTerm to transparently deliver clipboard images to Claude Code and OpenCode running on a remote server: no display server, no second connection, no third-party tools.
     </p>
   </header>
 
@@ -397,7 +401,7 @@
 
     <h2>The Problem</h2>
 
-    <p>I run my AI coding agents - Claude Code, OpenCode - on a remote Linux VM over SSH. This is great for compute, for keeping state alive in tmux, for not burning my laptop's battery. But it breaks one workflow I rely on constantly: <strong>pasting a screenshot into the conversation</strong>.</p>
+    <p>I run my AI coding agents (Claude Code and OpenCode) on a remote Linux VM over SSH. This is great for compute, for keeping state alive in tmux, and for not burning my laptop's battery. But it breaks one workflow I rely on constantly: <strong>pasting a screenshot into the conversation</strong>.</p>
 
     <p>On a local machine, you hit <code>Ctrl+V</code> and the agent sees your clipboard image. Over SSH, nothing works. The remote machine has no display server, so every clipboard tool fails immediately:</p>
 
@@ -415,19 +419,19 @@ Error: Wayland display is not available</pre>
 
     <p>Before arriving at the final solution I went through every approach I could find. Here is why each one fell short.</p>
 
-    <h3>OSC 52 - The "Obvious" Terminal Trick</h3>
+    <h3>OSC 52: The "Obvious" Terminal Trick</h3>
 
-    <p>OSC 52 is an ANSI escape sequence. When a remote process writes <code>\033]52;c;?\007</code> to its stdout, a compliant terminal is supposed to respond with the clipboard contents as base64 through stdin. It sounds like exactly what we need - a pure in-band clipboard bridge with no extra connections.</p>
+    <p>OSC 52 is an ANSI escape sequence. When a remote process writes <code>\033]52;c;?\007</code> to its stdout, a compliant terminal is supposed to respond with the clipboard contents as base64 through stdin. It sounds like exactly what we need: a pure in-band clipboard bridge with no extra connections.</p>
 
     <p>Two fatal problems killed this approach:</p>
 
-    <p><strong>Problem 1 - WezTerm deliberately does not support OSC 52 reads.</strong> WezTerm responds to OSC 52 <em>writes</em> (remote process → local clipboard) but silently ignores <em>read queries</em> (remote process asking for clipboard contents). This is a deliberate security decision - allowing any remote process to read your clipboard is a privacy risk. There is no config option to enable it.</p>
+    <p><strong>Problem 1: WezTerm deliberately does not support OSC 52 reads.</strong> WezTerm responds to OSC 52 <em>writes</em> (remote process → local clipboard) but silently ignores <em>read queries</em> (remote process asking for clipboard contents). This is a deliberate security decision: allowing any remote process to read your clipboard is a privacy risk. There is no config option to enable it.</p>
 
-    <p><strong>Problem 2 - OSC 52 is text-only.</strong> The protocol has no MIME type field. It cannot express "this is a PNG" versus "this is plain text". Terminals that do support OSC 52 reads will only return text content. Images are simply not part of the specification.</p>
+    <p><strong>Problem 2: OSC 52 is text-only.</strong> The protocol has no MIME type field. It cannot express "this is a PNG" versus "this is plain text". Terminals that do support OSC 52 reads will only return text content. Images are simply not part of the specification.</p>
 
     <h2>The Solution We Built</h2>
 
-    <p>Since no existing tool covers Windows + WezTerm + SSH image paste cleanly, we built the equivalent directly - about 70 lines split across WezTerm's Lua config and two small shell scripts on the remote.</p>
+    <p>Since no existing tool covers Windows + WezTerm + SSH image paste cleanly, we built the equivalent directly: about 70 lines split across WezTerm's Lua config and two small shell scripts on the remote.</p>
 
     <h3>Architecture</h3>
 
@@ -455,10 +459,10 @@ Error: Wayland display is not available</pre>
     <p>The key design decisions:</p>
 
     <ul style="margin-left: 1.5rem; margin-bottom: 22px;">
-      <li><strong>PowerShell for clipboard access</strong> - <code>System.Windows.Forms.Clipboard</code> is the most reliable way to check for and extract image data on Windows</li>
-      <li><strong>SCP uses the SSH config alias</strong> - <code>scp local_path myvm:remote_path</code> picks up the HostName, User, and IdentityFile from ~/.ssh/config automatically</li>
-      <li><strong>Fallback on failure</strong> - if PowerShell finds no image, the code falls back to normal text paste so <code>Ctrl+V</code> is never a dead key</li>
-      <li><strong>Cleanup</strong> - the local temp PNG is deleted immediately after upload</li>
+      <li><strong>PowerShell for clipboard access</strong>: <code>System.Windows.Forms.Clipboard</code> is the most reliable way to check for and extract image data on Windows</li>
+      <li><strong>SCP uses the SSH config alias</strong>: <code>scp local_path myvm:remote_path</code> picks up the HostName, User, and IdentityFile from ~/.ssh/config automatically</li>
+      <li><strong>Fallback on failure</strong>: if PowerShell finds no image, the code falls back to normal text paste so <code>Ctrl+V</code> is never a dead key</li>
+      <li><strong>Cleanup</strong>: the local temp PNG is deleted immediately after upload</li>
     </ul>
 
     <h3>Remote Shims (Linux VM)</h3>
@@ -479,7 +483,7 @@ Error: Wayland display is not available</pre>
       <li>Key-based auth means no password prompt, no user interaction</li>
       <li>The connection opens, transfers a PNG, and closes in under a second</li>
       <li>It uses the same ~/.ssh/config entry so the host, user, and key are resolved automatically</li>
-      <li>You see nothing in the terminal - WezTerm handles it as a background process</li>
+      <li>You see nothing in the terminal: WezTerm handles it as a background process</li>
     </ul>
 
     <h3>Works With Any Terminal AI Agent</h3>

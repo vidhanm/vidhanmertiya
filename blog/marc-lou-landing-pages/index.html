@@ -211,14 +211,18 @@ body {
 .blog-back {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
   color: var(--ink-3);
   text-decoration: none;
   margin-bottom: 32px;
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.2s;
 }
-.blog-back:hover { color: var(--accent); }
+.blog-back:hover {
+  color: var(--accent);
+  transform: translateX(-4px);
+}
 
 .blog-meta {
   display: flex;
@@ -547,24 +551,24 @@ body {
 
     <p>So I've been building a product. And like every builder who's deep in the weeds of actual development, I hit the point where I had to think about the landing page.</p>
 
-    <p>I did what most people do — started googling "high converting landing page examples," opened a dozen tabs, felt overwhelmed, closed them all.</p>
+    <p>I did what most people do: started googling "high converting landing page examples," opened a dozen tabs, felt overwhelmed, closed them all.</p>
 
     <p>Then I remembered Marc Lou.</p>
 
-    <p>If you don't know him — he's a French indie hacker who's quietly built somewhere around 25 products, made over a million dollars from them, and was named Maker of the Year on Product Hunt in 2023. He runs multiple live products: ShipFast (a Next.js boilerplate), DataFast (revenue analytics), CodeFast (a coding course). All different categories. All built by one person.</p>
+    <p>If you don't know him, he's a French indie hacker who's quietly built somewhere around 25 products, made over a million dollars from them, and was named Maker of the Year on Product Hunt in 2023. He runs multiple live products: ShipFast (a Next.js boilerplate), DataFast (revenue analytics), CodeFast (a coding course). All different categories. All built by one person.</p>
 
-    <p>I also pulled in PostBridge — a social media scheduling tool built by Jack Friks, a different indie hacker entirely. Same world, different person.</p>
+    <p>I also pulled in PostBridge, a social media scheduling tool built by Jack Friks, a different indie hacker entirely. Same world, different person.</p>
 
     <p>What I wanted to know was: is there a pattern? Does Marc build landing pages the same way each time? And if he does, does anyone else?</p>
 
-    <p>I went through all four pages section by section. What I didn't expect was that Marc and Jack — who I'm pretty sure didn't coordinate on this — had built pages that follow almost the same skeleton. Two people, independently, converging on the same approach.</p>
+    <p>I went through all four pages section by section. What I didn't expect was that Marc and Jack, who I'm pretty sure didn't coordinate on this, had built pages that follow almost the same skeleton. Two people, independently, converging on the same approach.</p>
 
     <p>That's when I stopped thinking about this as "Marc's style" and started thinking about it as a playbook.</p>
 
     <!-- ── DIAGRAM 1: PAGE SKELETON ── -->
     <div class="diagram-block">
       <div class="diagram-inner">
-        <div class="d-label">The page skeleton — found across all 4 products</div>
+        <div class="d-label">The page skeleton found across all 4 products</div>
         <div class="skel-wrap">
           <div class="skel-rows">
             <div class="skel-row"><div class="skel-num">01</div><div class="skel-bar" style="background:#d4622a"></div><div class="skel-name"><div class="skel-title">Hero</div><div class="skel-q">"What is this?"</div></div></div>
@@ -580,7 +584,7 @@ body {
           </div>
           <div class="skel-detail">
             <div class="skel-detail-title">Every section answers one silent question.</div>
-            <div class="skel-detail-sub">The visitor isn't reading top to bottom — they're resolving doubt. Remove any section and you leave a question unanswered. Unanswered questions become reasons to leave.</div>
+            <div class="skel-detail-sub">The visitor isn't reading top to bottom; they're resolving doubt. Remove any section and you leave a question unanswered. Unanswered questions become reasons to leave.</div>
             <div class="skel-tags">
               <span class="skel-tag">ShipFast</span>
               <span class="skel-tag">DataFast</span>
@@ -601,18 +605,18 @@ body {
 
     <p>ShipFast: <em>"Ship your startup in days, not weeks."</em><br>
     CodeFast: <em>"Learn to code in weeks, not months."</em><br>
-    DataFast: <em>"Revenue-first analytics."</em> — shorter, but the subheadline delivers the same promise.</p>
+    DataFast: <em>"Revenue-first analytics."</em> Shorter, but the subheadline delivers the same promise.</p>
 
-    <p>The second half — "not weeks," "not months" — is doing something clever. It activates the pain without needing a separate problem section. The person who's been putting off their startup reads "not weeks" and immediately maps that to their own situation. You've made them feel understood before they've read anything else.</p>
+    <p>The second half, "not weeks," "not months," is doing something clever. It activates the pain without needing a separate problem section. The person who's been putting off their startup reads "not weeks" and immediately maps that to their own situation. You've made them feel understood before they've read anything else.</p>
 
-    <p>Now here's where PostBridge gets interesting. Jack's headline is different: <em>"Post to all your social accounts from one dashboard."</em> No time compression. It's a clarity headline — here's what it does, stated plainly. But scroll slightly and you hit a stat he puts front and center: <em>"2 min average time to post everywhere."</em> Same psychology, different placement. The time compression is still there, just distributed differently across the hero.</p>
+    <p>Now here's where PostBridge gets interesting. Jack's headline is different: <em>"Post to all your social accounts from one dashboard."</em> No time compression. It's a clarity headline: here's what it does, stated plainly. But scroll slightly and you hit a stat he puts front and center: <em>"2 min average time to post everywhere."</em> Same psychology, different placement. The time compression is still there, just distributed differently across the hero.</p>
 
     <p>Two builders, two slightly different executions, same underlying logic: your visitor is busy and time is the real cost. The headline's job is to show you're going to give some of it back.</p>
 
     <!-- ── DIAGRAM 2: HEADLINE FORMULA ── -->
     <div class="diagram-block">
       <div class="diagram-inner">
-        <div class="d-label">The headline formula — deconstructed</div>
+        <div class="d-label">The headline formula deconstructed</div>
         <div class="formula-struct">
           <div class="ft ft-a">[core action]</div>
           <span class="ft ft-n">in</span>
@@ -656,7 +660,7 @@ body {
 
     <p>CodeFast doesn't say "better than Udemy." It says courses are designed for software engineers, not entrepreneurs. The enemy is a wrong assumption baked into the entire category.</p>
 
-    <p>DataFast doesn't attack Plausible in the hero. It says most analytics tools show you vanity metrics — pageviews, visitors — that tell you nothing about where your money comes from. The enemy is useless data.</p>
+    <p>DataFast doesn't attack Plausible in the hero. It says most analytics tools show you vanity metrics (pageviews, visitors) that tell you nothing about where your money comes from. The enemy is useless data.</p>
 
     <p>PostBridge? Jack's version is in the founder story section, where he writes: <em>"the existing tools I needed were way too expensive ($75–$200/month) for my needs and way too damn complex."</em> No names. Just the category's failure.</p>
 
@@ -664,19 +668,19 @@ body {
       If I say "Competitor X is bad," you might disagree because you've used X and liked it. If I say "the entire approach of doing this is broken," it's harder to argue with. <strong>You're not defending a product anymore, you're defending a worldview.</strong>
     </div>
 
-    <p>The competitor comparison does show up eventually — DataFast has a section called "How is it better than Plausible?" — but always much later. By then, you've already bought into the problem framing.</p>
+    <p>The competitor comparison does show up eventually; DataFast has a section called "How is it better than Plausible?" but always much later. By then, you've already bought into the problem framing.</p>
 
     <h2>The founder story position</h2>
 
-    <p>Every page has a personal section. Marc's says "hey it's Marc." Jack's says "heyo! it's jack." The informality is intentional on both — no titles, no credentials upfront, just a name and a face.</p>
+    <p>Every page has a personal section. Marc's says "hey it's Marc." Jack's says "heyo! it's jack." The informality is intentional on both, with no titles or credentials upfront, just a name and a face.</p>
 
     <p>This isn't surprising on its own. Lots of founders write about why they built their product. What caught my attention was <em>where</em> they put it.</p>
 
     <p>It's never in the hero. It always comes <em>after</em> the features section, right before pricing. That placement is intentional and, once you think about it, obviously right.</p>
 
-    <p>If you put the founder story at the top, it feels like self-promotion. You're asking people to care about you before they understand what you've built. But by the time you've shown someone the problem, the solution, and the features — they're curious. Now the story feels like context, not bragging.</p>
+    <p>If you put the founder story at the top, it feels like self-promotion. You're asking people to care about you before they understand what you've built. But by the time you've shown someone the problem, the solution, and the features, they're curious. Now the story feels like context, not bragging.</p>
 
-    <p>And credibility — follower counts, maker of the year titles, revenue numbers — always comes at the <em>end</em> of the story, never at the beginning. Starting with credentials feels like a pitch. Starting with a frustrating Tuesday afternoon and ending with proof feels like honesty.</p>
+    <p>And credibility (follower counts, maker of the year titles, revenue numbers) always comes at the <em>end</em> of the story, never at the beginning. Starting with credentials feels like a pitch. Starting with a frustrating Tuesday afternoon and ending with proof feels like honesty.</p>
 
     <!-- ── DIAGRAM 4: FOUNDER STORY ARC ── -->
     <div class="diagram-block">
@@ -707,7 +711,7 @@ body {
             <div class="arc-line"><div class="arc-dot"></div><div class="arc-seg"></div></div>
             <div class="arc-body">
               <div class="arc-title">The realization that reframes the problem</div>
-              <div class="arc-desc">A belief about why the old way is broken. Not a feature — a worldview.</div>
+              <div class="arc-desc">A belief about why the old way is broken. Not a feature, but a worldview.</div>
               <div class="arc-eg">"Data is a goldmine. But most tools just show vanity metrics."</div>
             </div>
           </div>
@@ -724,7 +728,7 @@ body {
             <div class="arc-lbl"><div class="arc-tag">Credibility</div></div>
             <div class="arc-line"><div class="arc-dot"></div></div>
             <div class="arc-body">
-              <div class="arc-title">Numbers and proof — only at the end</div>
+              <div class="arc-title">Numbers and proof (only at the end)</div>
               <div class="arc-desc">Follower count, revenue, awards. After the human story. Starting here is a pitch. Ending here is proof.</div>
               <div class="arc-eg">"155,000 people trust me on Twitter. Maker of the Year 2023."</div>
             </div>
@@ -736,18 +740,18 @@ body {
 
     <h2>Social proof layers, not just testimonials</h2>
 
-    <p>The testimonial wall is standard SaaS practice. What both Marc and Jack do differently is layer three types of proof in sequence — and the order is deliberate.</p>
+    <p>The testimonial wall is standard SaaS practice. What both Marc and Jack do differently is layer three types of proof in sequence, and the order is deliberate.</p>
 
     <p>Numbers first, near the hero. "8,310 makers." "1,683 users." This just establishes the product exists and people use it. It doesn't tell you if they're happy, only that it's not a ghost town.</p>
 
-    <p>Twitter screenshots in the middle. Not designed testimonial cards — actual screenshots of tweets with usernames, timestamps, the general mess of a real post. Designed cards are easy to fabricate. A tweet screenshot looks like it came from a real public post you could go find. The authenticity signal is much stronger.</p>
+    <p>Twitter screenshots in the middle. Not designed testimonial cards, but actual screenshots of tweets with usernames, timestamps, the general mess of a real post. Designed cards are easy to fabricate. A tweet screenshot looks like it came from a real public post you could go find. The authenticity signal is much stronger.</p>
 
-    <p>Video testimonials near pricing. By the time you're at pricing, the heaviest objections kick in. Video is harder to fake than text, and seeing a real person talk about specific results — revenue numbers, time saved — converts differently than reading a quote.</p>
+    <p>Video testimonials near pricing. By the time you're at pricing, the heaviest objections kick in. Video is harder to fake than text, and seeing a real person talk about specific results like revenue numbers and time saved converts differently than reading a quote.</p>
 
     <!-- ── DIAGRAM 3: SOCIAL PROOF ── -->
     <div class="diagram-block">
       <div class="diagram-inner">
-        <div class="d-label">Social proof — 3 layers, used in order</div>
+        <div class="d-label">Social proof: 3 layers, used in order</div>
         <div class="proof-layers">
           <div class="proof-layer">
             <div>
@@ -755,7 +759,7 @@ body {
               <div class="pl-name">Numbers</div>
               <div class="pl-when">Hero, below the CTA</div>
             </div>
-            <div class="pl-body">User count shown immediately. <strong>"8,310 makers."</strong> Doesn't prove quality — just proves the product isn't empty. Reduces first-impression risk before the visitor has read anything.</div>
+            <div class="pl-body">User count shown immediately. <strong>"8,310 makers."</strong> Doesn't prove quality, it just proves the product isn't empty. Reduces first-impression risk before the visitor has read anything.</div>
             <div class="pl-meter">
               <div class="plm-lbl">Hard to fake</div>
               <div class="plm-dots"><div class="plm-dot on"></div><div class="plm-dot off"></div><div class="plm-dot off"></div></div>
@@ -768,7 +772,7 @@ body {
               <div class="pl-name">Tweets</div>
               <div class="pl-when">Scattered mid-page</div>
             </div>
-            <div class="pl-body"><strong>Actual tweet screenshots</strong> with usernames and timestamps — not polished cards. The visual noise of a real tweet is a trust signal. Each tweet reinforces a specific outcome, not generic praise.</div>
+            <div class="pl-body"><strong>Actual tweet screenshots</strong> with usernames and timestamps, not polished cards. The visual noise of a real tweet is a trust signal. Each tweet reinforces a specific outcome, not generic praise.</div>
             <div class="pl-meter">
               <div class="plm-lbl">Hard to fake</div>
               <div class="plm-dots"><div class="plm-dot on"></div><div class="plm-dot on"></div><div class="plm-dot off"></div></div>
@@ -781,7 +785,7 @@ body {
               <div class="pl-name">Video</div>
               <div class="pl-when">Right before pricing</div>
             </div>
-            <div class="pl-body">YouTube embeds with real people and <strong>real revenue dashboards</strong>. Placed at the heaviest objection point — when the commitment feels real. A person on camera converts differently than a quote.</div>
+            <div class="pl-body">YouTube embeds with real people and <strong>real revenue dashboards</strong>. Placed at the heaviest objection point, when the commitment feels real. A person on camera converts differently than a quote.</div>
             <div class="pl-meter">
               <div class="plm-lbl">Hard to fake</div>
               <div class="plm-dots"><div class="plm-dot on"></div><div class="plm-dot on"></div><div class="plm-dot on"></div></div>
@@ -798,14 +802,14 @@ body {
 
     <p>In every hero, without scrolling, you see: one headline, one CTA button, a user count, and a product screenshot or demo. Nothing competes for attention.</p>
 
-    <p>The product visual is always present — a dashboard screenshot, a code snippet, a demo video thumbnail. This removes the need for imagination. If I read "analytics tool" but see nothing, I have to guess what it looks like. Guessing is cognitive work. Work creates friction. The screenshot eliminates that entirely.</p>
+    <p>The product visual is always present: a dashboard screenshot, a code snippet, a demo video thumbnail. This removes the need for imagination. If I read "analytics tool" but see nothing, I have to guess what it looks like. Guessing is cognitive work. Work creates friction. The screenshot eliminates that entirely.</p>
 
     <p>What's also notable is what's <em>absent</em> from these heroes. No paragraph explaining everything. No "the most powerful all-in-one solution for..." No buzzwords. Just: here's what it does, here's how fast, here's proof others are doing it.</p>
 
     <!-- ── DIAGRAM 5: HERO ANATOMY ── -->
     <div class="diagram-block">
       <div class="diagram-inner">
-        <div class="d-label">Hero anatomy — what's in, what's out</div>
+        <div class="d-label">Hero anatomy: what's in, what's out</div>
         <div class="hero-anat">
           <div class="hero-col">
             <div class="hc-title hc-in">✓ &nbsp;Always present</div>
@@ -816,10 +820,10 @@ body {
           </div>
           <div class="hero-col">
             <div class="hc-title hc-out">✗ &nbsp;Never in the hero</div>
-            <div class="hero-item"><div class="hi-icon out">—</div><div><div class="hi-title">Feature lists</div><div class="hi-desc">Features have their own section. Here they just dilute the headline.</div></div></div>
-            <div class="hero-item"><div class="hi-icon out">—</div><div><div class="hi-title">Multiple CTAs</div><div class="hi-desc">Two buttons create a decision. A decision creates hesitation.</div></div></div>
-            <div class="hero-item"><div class="hi-icon out">—</div><div><div class="hi-title">Pricing hints</div><div class="hi-desc">Price before value is the wrong order, every time.</div></div></div>
-            <div class="hero-item"><div class="hi-icon out">—</div><div><div class="hi-title">Long explanatory text</div><div class="hi-desc">If the headline needs explaining, it needs rewriting.</div></div></div>
+            <div class="hero-item"><div class="hi-icon out">─</div><div><div class="hi-title">Feature lists</div><div class="hi-desc">Features have their own section. Here they just dilute the headline.</div></div></div>
+            <div class="hero-item"><div class="hi-icon out">─</div><div><div class="hi-title">Multiple CTAs</div><div class="hi-desc">Two buttons create a decision. A decision creates hesitation.</div></div></div>
+            <div class="hero-item"><div class="hi-icon out">─</div><div><div class="hi-title">Pricing hints</div><div class="hi-desc">Price before value is the wrong order, every time.</div></div></div>
+            <div class="hero-item"><div class="hi-icon out">─</div><div><div class="hi-title">Long explanatory text</div><div class="hi-desc">If the headline needs explaining, it needs rewriting.</div></div></div>
           </div>
         </div>
       </div>
@@ -828,7 +832,7 @@ body {
 
     <h2>The thing underneath all of it</h2>
 
-    <p>After going through all four pages, I think the pattern isn't really about landing page design. It's about a specific belief — that Marc and Jack seem to share — about how selling actually works.</p>
+    <p>After going through all four pages, I think the pattern isn't really about landing page design. It's about a specific belief that Marc and Jack seem to share about how selling actually works.</p>
 
     <p>They treat the landing page like a conversation with a skeptic, not an announcement to a crowd.</p>
 
@@ -836,13 +840,13 @@ body {
 
     <p>Remove any section and you leave a question unanswered. Unanswered questions become reasons to leave.</p>
 
-    <p>The fact that two different builders — working in completely different categories, with no apparent coordination — independently arrived at nearly identical page structures suggests this isn't personal style. It's just what works.</p>
+    <p>The fact that two different builders, working in completely different categories, with no apparent coordination, independently arrived at nearly identical page structures suggests this isn't personal style. It's just what works.</p>
 
     <hr>
 
-    <p>I've been thinking about this because I'm building something called <a href="https://talkbook.live" style="color:var(--accent);text-decoration:none;font-weight:500;">talkbook.live</a> — a platform where you can have voice conversations with books instead of passively reading them. You pick a book, ask it anything, and it responds like a tutor who's read the whole thing.</p>
+    <p>I've been thinking about this because I'm building something called <a href="https://talkbook.live" style="color:var(--accent);text-decoration:none;font-weight:500;">talkbook.live</a>, a platform where you can have voice conversations with books instead of passively reading them. You pick a book, ask it anything, and it responds like a tutor who's read the whole thing.</p>
 
-    <p>Going through these pages forced me to think clearly about what I'm actually selling and what my visitor's silent objections are. The headline I landed on — <em>"Talk to any book. Learn it in hours, not months"</em> — is a direct result of understanding the time-compression formula.</p>
+    <p>Going through these pages forced me to think clearly about what I'm actually selling and what my visitor's silent objections are. The headline I landed on, <em>"Talk to any book. Learn it in hours, not months"</em>, is a direct result of understanding the time-compression formula.</p>
 
     <p>The founder story on my page starts with: <em>"I had 47 books on my shelf. I'd finished maybe 6."</em> Because that's the honest truth, and it turns out the honest truth is usually the right opening.</p>
 
@@ -853,7 +857,7 @@ body {
   </article>
 
   <footer class="blog-footer">
-    <p class="blog-footer-note">If you're curious about talkbook — <a href="https://talkbook.live">talkbook.live</a>. It's live and you can try it for free.</p>
+    <p class="blog-footer-note">If you're curious about talkbook: <a href="https://talkbook.live">talkbook.live</a>. It's live and you can try it for free.</p>
   </footer>
 
 </div>
