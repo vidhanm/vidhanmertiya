@@ -10,7 +10,7 @@
   {
     "slug": "clipboard-images-over-ssh",
     "title": "Pasting Clipboard Images into Remote AI Coding Agents over SSH",
-    "excerpt": "How I wired up Ctrl+V in WezTerm to transparently deliver clipboard images to Claude Code and OpenCode running on a remote server - no display server, no second connection, no third-party tools.",
+    "excerpt": "How I wired up Ctrl+V in WezTerm to transparently deliver clipboard images to Claude Code and OpenCode running on a remote server: no display server, no second connection, no third-party tools.",
     "date": "May 31, 2026",
     "readTime": "12 min read",
     "tags": ["SSH", "WezTerm", "Terminal", "DevOps", "AI Agents"]
