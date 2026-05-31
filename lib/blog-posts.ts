@@ -165,7 +165,7 @@ Works every time you SSH in because the setup is permanent on both ends.`,
   {
     id: "2",
     slug: "marc-lou-landing-pages",
-    title: "I spent a weekend studying Marc Lou's landing pages. Here's what I found.",
+    title: "I spent a weekend studying Marc Lou & Jack Friks' landing pages. Here's what I found.",
     excerpt: "Two indie hackers. Four products. Nearly identical page structures. This is what I learned about how successful products actually sell themselves.",
     date: "May 28, 2026",
     readTime: "7 min read",

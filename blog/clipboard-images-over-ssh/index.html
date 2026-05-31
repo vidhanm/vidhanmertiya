@@ -51,7 +51,7 @@
             <div class="flex flex-col gap-2">
               
               <a href="/blog/marc-lou-landing-pages" class="text-xs font-semibold text-black hover:underline">
-                I spent a weekend studying Marc Lou's landing pages. Here's what I found.
+                I spent a weekend studying Marc Lou & Jack Friks' landing pages. Here's what I found.
               </a>
               
             </div>
@@ -61,25 +61,32 @@
       </aside>
 
       <article class="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
-        <div class="max-w-2xl space-y-4">
-          <h1>Pasting Clipboard Images into Remote AI Coding Agents over SSH</h1>
+        <div class="max-w-2xl prose prose-lg">
+          <style>
+            code { font-family: 'Monaco', 'Courier New', monospace; }
+            pre code { display: block; overflow-x: auto; padding: 1rem; background: #f5f5f5; border: 2px solid #000; }
+            h2 { border-bottom: 3px solid #000; padding-bottom: 0.5rem; margin-top: 2rem; }
+            blockquote { border-left: 4px solid #000; padding-left: 1rem; }
+            li { list-style-position: inside; margin-bottom: 0.5rem; }
+          </style>
+          <h1 class="text-3xl font-bold mt-8 mb-4">Pasting Clipboard Images into Remote AI Coding Agents over SSH</h1>
 
-<blockquote>How I wired up `Ctrl+V` in WezTerm to transparently deliver clipboard images</blockquote>
-<blockquote>to Claude Code and OpenCode running on a remote server - no display server,</blockquote>
-<blockquote>no second connection, no third-party tools.</blockquote>
+<blockquote class="border-l-4 border-black pl-4 italic text-gray-700 my-4">How I wired up `Ctrl+V` in WezTerm to transparently deliver clipboard images</blockquote>
+<blockquote class="border-l-4 border-black pl-4 italic text-gray-700 my-4">to Claude Code and OpenCode running on a remote server - no display server,</blockquote>
+<blockquote class="border-l-4 border-black pl-4 italic text-gray-700 my-4">no second connection, no third-party tools.</blockquote>
 
-<hr />
+<hr class="border-t-[3px] border-black my-8" />
 
-<h2>The Problem</h2>
+<h2 class="text-2xl font-bold mt-8 mb-4 border-b-[3px] border-black pb-2">The Problem</h2>
 
-<p>I run my AI coding agents - Claude Code, OpenCode - on a remote Linux VM over</p>
-<p>SSH. This is great for compute, for keeping state alive in tmux, for not</p>
-<p>burning my laptop's battery. But it breaks one workflow I rely on constantly:</p>
-<p>**pasting a screenshot into the conversation**.</p>
+<p class="leading-relaxed mb-4">I run my AI coding agents - Claude Code, OpenCode - on a remote Linux VM over</p>
+<p class="leading-relaxed mb-4">SSH. This is great for compute, for keeping state alive in tmux, for not</p>
+<p class="leading-relaxed mb-4">burning my laptop's battery. But it breaks one workflow I rely on constantly:</p>
+<p class="leading-relaxed mb-4"><strong>pasting a screenshot into the conversation</strong>.</p>
 
-<p>On a local machine, you hit <code>Ctrl+V</code> and the agent sees your clipboard image.</p>
-<p>Over SSH, nothing works. The remote machine has no display server, so every</p>
-<p>clipboard tool fails immediately:</p>
+<p class="leading-relaxed mb-4">On a local machine, you hit <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">Ctrl+V</code> and the agent sees your clipboard image.</p>
+<p class="leading-relaxed mb-4">Over SSH, nothing works. The remote machine has no display server, so every</p>
+<p class="leading-relaxed mb-4">clipboard tool fails immediately:</p>
 
 <pre><code>$ xclip -selection clipboard -t image/png -o
 Error: Can't open display: (null)
@@ -88,43 +95,43 @@ $ wl-paste --type image/png
 Error: Wayland display is not available
 </code></pre>
 
-<p>The clipboard lives on your local machine. The agent lives on the remote. There</p>
-<p>is no built-in bridge.</p>
+<p class="leading-relaxed mb-4">The clipboard lives on your local machine. The agent lives on the remote. There</p>
+<p class="leading-relaxed mb-4">is no built-in bridge.</p>
 
-<hr />
+<hr class="border-t-[3px] border-black my-8" />
 
-<h2>What I Tried First (And Why It Didn't Work)</h2>
+<h2 class="text-2xl font-bold mt-8 mb-4 border-b-[3px] border-black pb-2">What I Tried First (And Why It Didn't Work)</h2>
 
-<p>Before arriving at the final solution I went through every approach I could</p>
-<p>find. Here is why each one fell short.</p>
+<p class="leading-relaxed mb-4">Before arriving at the final solution I went through every approach I could</p>
+<p class="leading-relaxed mb-4">find. Here is why each one fell short.</p>
 
-<h3>OSC 52 - The "Obvious" Terminal Trick</h3>
+<h3 class="text-xl font-bold mt-6 mb-3">OSC 52 - The "Obvious" Terminal Trick</h3>
 
-<p>OSC 52 is an ANSI escape sequence. When a remote process writes</p>
-<p><code>\033]52;c;?\007</code> to its stdout, a compliant terminal is supposed to respond</p>
-<p>with the clipboard contents as base64 through stdin. It sounds like exactly</p>
-<p>what we need - a pure in-band clipboard bridge with no extra connections.</p>
+<p class="leading-relaxed mb-4">OSC 52 is an ANSI escape sequence. When a remote process writes</p>
+<p class="leading-relaxed mb-4"><code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">\033]52;c;?\007</code> to its stdout, a compliant terminal is supposed to respond</p>
+<p class="leading-relaxed mb-4">with the clipboard contents as base64 through stdin. It sounds like exactly</p>
+<p class="leading-relaxed mb-4">what we need - a pure in-band clipboard bridge with no extra connections.</p>
 
-<p>Two fatal problems killed this approach:</p>
+<p class="leading-relaxed mb-4">Two fatal problems killed this approach:</p>
 
-<p>**Problem 1 - WezTerm deliberately does not support OSC 52 reads.**</p>
-<p>WezTerm responds to OSC 52 *writes* (remote process - local clipboard) but</p>
-<p>silently ignores *read queries* (remote process asking for clipboard contents).</p>
-<p>This is a deliberate security decision - allowing any remote process to read</p>
-<p>your clipboard is a privacy risk. There is no config option to enable it.</p>
+<p class="leading-relaxed mb-4"><strong>Problem 1 - WezTerm deliberately does not support OSC 52 reads.</strong></p>
+<p class="leading-relaxed mb-4">WezTerm responds to OSC 52 <em>writes</em> (remote process - local clipboard) but</p>
+<p class="leading-relaxed mb-4">silently ignores <em>read queries</em> (remote process asking for clipboard contents).</p>
+<p class="leading-relaxed mb-4">This is a deliberate security decision - allowing any remote process to read</p>
+<p class="leading-relaxed mb-4">your clipboard is a privacy risk. There is no config option to enable it.</p>
 
-<p>**Problem 2 - OSC 52 is text-only.**</p>
-<p>The protocol has no MIME type field. It cannot express "this is a PNG" versus</p>
-<p>"this is plain text". Terminals that do support OSC 52 reads will only return</p>
-<p>text content. Images are simply not part of the specification.</p>
+<p class="leading-relaxed mb-4"><strong>Problem 2 - OSC 52 is text-only.</strong></p>
+<p class="leading-relaxed mb-4">The protocol has no MIME type field. It cannot express "this is a PNG" versus</p>
+<p class="leading-relaxed mb-4">"this is plain text". Terminals that do support OSC 52 reads will only return</p>
+<p class="leading-relaxed mb-4">text content. Images are simply not part of the specification.</p>
 
-<h3>The Solution We Built</h3>
+<h3 class="text-xl font-bold mt-6 mb-3">The Solution We Built</h3>
 
-<p>Since no existing tool covers Windows + WezTerm + SSH image paste cleanly, we</p>
-<p>built the equivalent directly - about 70 lines split across WezTerm's Lua</p>
-<p>config and two small shell scripts on the remote.</p>
+<p class="leading-relaxed mb-4">Since no existing tool covers Windows + WezTerm + SSH image paste cleanly, we</p>
+<p class="leading-relaxed mb-4">built the equivalent directly - about 70 lines split across WezTerm's Lua</p>
+<p class="leading-relaxed mb-4">config and two small shell scripts on the remote.</p>
 
-<h4>Architecture</h4>
+<h4 class="text-lg font-bold mt-4 mb-2">Architecture</h4>
 
 <pre><code> Local Machine (Windows)             Remote Server (Linux VM)
  ───────────────────────            ──────────────────────────────
@@ -144,64 +151,64 @@ Error: Wayland display is not available
                                      when Claude Code calls xclip
 </code></pre>
 
-<h4>WezTerm Lua (Local)</h4>
+<h4 class="text-lg font-bold mt-4 mb-2">WezTerm Lua (Local)</h4>
 
-<p>WezTerm exposes a full Lua scripting API including <code>wezterm.run_child_process</code></p>
-<p>and <code>wezterm.action_callback</code>. We intercept <code>Ctrl+V</code> and fork the behaviour:</p>
+<p class="leading-relaxed mb-4">WezTerm exposes a full Lua scripting API including <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">wezterm.run_child_process</code></p>
+<p class="leading-relaxed mb-4">and <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">wezterm.action_callback</code>. We intercept <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">Ctrl+V</code> and fork the behaviour:</p>
 
-<p>The key design decisions:</p>
+<p class="leading-relaxed mb-4">The key design decisions:</p>
 
-<li>**PowerShell for clipboard access** - `System.Windows.Forms.Clipboard` is the</li>
-<p>  most reliable way to check for and extract image data on Windows</p>
-<li>**SCP uses the SSH config alias** - `scp local_path myvm:remote_path` picks</li>
-<p>  up the HostName, User, and IdentityFile from ~/.ssh/config automatically</p>
-<li>**Fallback on failure** - if PowerShell finds no image, the</li>
-<p>  code falls back to normal text paste so <code>Ctrl+V</code> is never a dead key</p>
-<li>**Cleanup** - the local temp PNG is deleted immediately after upload</li>
+<li class="ml-6">**PowerShell for clipboard access** - `System.Windows.Forms.Clipboard` is the</li>
+<p class="leading-relaxed mb-4">  most reliable way to check for and extract image data on Windows</p>
+<li class="ml-6">**SCP uses the SSH config alias** - `scp local_path myvm:remote_path` picks</li>
+<p class="leading-relaxed mb-4">  up the HostName, User, and IdentityFile from ~/.ssh/config automatically</p>
+<li class="ml-6">**Fallback on failure** - if PowerShell finds no image, the</li>
+<p class="leading-relaxed mb-4">  code falls back to normal text paste so <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">Ctrl+V</code> is never a dead key</p>
+<li class="ml-6">**Cleanup** - the local temp PNG is deleted immediately after upload</li>
 
-<h4>Remote Shims (Linux VM)</h4>
+<h4 class="text-lg font-bold mt-4 mb-2">Remote Shims (Linux VM)</h4>
 
-<p>Claude Code internally calls <code>xclip -selection clipboard -t image/png -o</code> to</p>
-<p>try to read an image from the clipboard. On a headless server this always fails.</p>
+<p class="leading-relaxed mb-4">Claude Code internally calls <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">xclip -selection clipboard -t image/png -o</code> to</p>
+<p class="leading-relaxed mb-4">try to read an image from the clipboard. On a headless server this always fails.</p>
 
-<p>We install two shim scripts at <code>~/bin/xclip</code> and <code>~/bin/wl-paste</code> (with</p>
-<p><code>~/bin</code> prepended to PATH in <code>.bashrc</code>) that intercept these calls and return</p>
-<p>the latest image from the upload directory instead.</p>
+<p class="leading-relaxed mb-4">We install two shim scripts at <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">~/bin/xclip</code> and <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">~/bin/wl-paste</code> (with</p>
+<p class="leading-relaxed mb-4"><code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">~/bin</code> prepended to PATH in <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">.bashrc</code>) that intercept these calls and return</p>
+<p class="leading-relaxed mb-4">the latest image from the upload directory instead.</p>
 
-<hr />
+<hr class="border-t-[3px] border-black my-8" />
 
-<h2>Why This Approach Works</h2>
+<h2 class="text-2xl font-bold mt-8 mb-4 border-b-[3px] border-black pb-2">Why This Approach Works</h2>
 
-<h3>The SCP "Second Connection" Is Invisible</h3>
+<h3 class="text-xl font-bold mt-6 mb-3">The SCP "Second Connection" Is Invisible</h3>
 
-<p>The one trade-off is that SCP opens a new TCP connection to the server. In</p>
-<p>practice this is a non-issue:</p>
+<p class="leading-relaxed mb-4">The one trade-off is that SCP opens a new TCP connection to the server. In</p>
+<p class="leading-relaxed mb-4">practice this is a non-issue:</p>
 
-<li>Key-based auth means no password prompt, no user interaction</li>
-<li>The connection opens, transfers a PNG, and closes in under a second</li>
-<li>It uses the same ~/.ssh/config entry so the host, user, and key are</li>
-<p>  resolved automatically</p>
-<li>You see nothing in the terminal - WezTerm handles it as a background process</li>
+<li class="ml-6">Key-based auth means no password prompt, no user interaction</li>
+<li class="ml-6">The connection opens, transfers a PNG, and closes in under a second</li>
+<li class="ml-6">It uses the same ~/.ssh/config entry so the host, user, and key are</li>
+<p class="leading-relaxed mb-4">  resolved automatically</p>
+<li class="ml-6">You see nothing in the terminal - WezTerm handles it as a background process</li>
 
-<h3>Works With Any Terminal AI Agent</h3>
+<h3 class="text-xl font-bold mt-6 mb-3">Works With Any Terminal AI Agent</h3>
 
-<p>The <code>Ctrl+V</code> - SCP - path-typed-into-terminal flow works with anything that</p>
-<p>accepts file paths.</p>
+<p class="leading-relaxed mb-4">The <code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">Ctrl+V</code> - SCP - path-typed-into-terminal flow works with anything that</p>
+<p class="leading-relaxed mb-4">accepts file paths.</p>
 
-<h3>No Extra Dependencies</h3>
+<h3 class="text-xl font-bold mt-6 mb-3">No Extra Dependencies</h3>
 
-<p>Everything used already exists on a standard Windows + WezTerm setup.</p>
+<p class="leading-relaxed mb-4">Everything used already exists on a standard Windows + WezTerm setup.</p>
 
-<hr />
+<hr class="border-t-[3px] border-black my-8" />
 
-<h2>Result</h2>
+<h2 class="text-2xl font-bold mt-8 mb-4 border-b-[3px] border-black pb-2">Result</h2>
 
 <pre><code>Before:  Ctrl+V in Claude Code over SSH - "Error: Can't open display"
 After:   Ctrl+V in WezTerm over SSH - image appears at /tmp/clipboard-images/clip_20260530-221500.png
 </code></pre>
 
-<p>One keypress. No extra windows, no extra tools, no configuration per-session.</p>
-<p>Works every time you SSH in because the setup is permanent on both ends.</p>
+<p class="leading-relaxed mb-4">One keypress. No extra windows, no extra tools, no configuration per-session.</p>
+<p class="leading-relaxed mb-4">Works every time you SSH in because the setup is permanent on both ends.</p>
 
         </div>
 

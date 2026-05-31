@@ -9,12 +9,14 @@ function renderContent(content) {
   let html = '';
   const lines = content.split('\n');
   let inCodeBlock = false;
+  let codeBlockLanguage = '';
 
   for (const line of lines) {
     if (line.startsWith('```')) {
       inCodeBlock = !inCodeBlock;
       if (inCodeBlock) {
-        html += '<pre><code>';
+        codeBlockLanguage = line.slice(3).trim();
+        html += `<pre><code${codeBlockLanguage ? ` class="language-${codeBlockLanguage}"` : ''}>`;
       } else {
         html += '</code></pre>\n';
       }
@@ -27,25 +29,28 @@ function renderContent(content) {
     }
 
     if (line.startsWith('# ')) {
-      html += `<h1>${line.slice(2)}</h1>\n`;
+      html += `<h1 class="text-3xl font-bold mt-8 mb-4">${line.slice(2)}</h1>\n`;
     } else if (line.startsWith('## ')) {
-      html += `<h2>${line.slice(3)}</h2>\n`;
+      html += `<h2 class="text-2xl font-bold mt-8 mb-4 border-b-[3px] border-black pb-2">${line.slice(3)}</h2>\n`;
     } else if (line.startsWith('### ')) {
-      html += `<h3>${line.slice(4)}</h3>\n`;
+      html += `<h3 class="text-xl font-bold mt-6 mb-3">${line.slice(4)}</h3>\n`;
     } else if (line.startsWith('#### ')) {
-      html += `<h4>${line.slice(5)}</h4>\n`;
+      html += `<h4 class="text-lg font-bold mt-4 mb-2">${line.slice(5)}</h4>\n`;
     } else if (line.startsWith('> ')) {
-      html += `<blockquote>${line.slice(2)}</blockquote>\n`;
+      html += `<blockquote class="border-l-4 border-black pl-4 italic text-gray-700 my-4">${line.slice(2)}</blockquote>\n`;
     } else if (line.startsWith('- ')) {
-      html += `<li>${line.slice(2)}</li>\n`;
+      html += `<li class="ml-6">${line.slice(2)}</li>\n`;
     } else if (line === '---') {
-      html += '<hr />\n';
+      html += '<hr class="border-t-[3px] border-black my-8" />\n';
     } else if (line.trim() === '') {
       html += '\n';
     } else {
-      // Replace inline code
-      let processed = line.replace(/`([^`]+)`/g, '<code>$1</code>');
-      html += `<p>${processed}</p>\n`;
+      // Replace inline code and other markdown
+      let processed = line
+        .replace(/`([^`]+)`/g, '<code class="bg-gray-100 border-[1px] border-gray-300 px-2 py-1 rounded text-sm font-mono">$1</code>')
+        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      html += `<p class="leading-relaxed mb-4">${processed}</p>\n`;
     }
   }
 
@@ -135,7 +140,14 @@ for (const post of blogPostsJson) {
       </aside>
 
       <article class="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
-        <div class="max-w-2xl space-y-4">
+        <div class="max-w-2xl prose prose-lg">
+          <style>
+            code { font-family: 'Monaco', 'Courier New', monospace; }
+            pre code { display: block; overflow-x: auto; padding: 1rem; background: #f5f5f5; border: 2px solid #000; }
+            h2 { border-bottom: 3px solid #000; padding-bottom: 0.5rem; margin-top: 2rem; }
+            blockquote { border-left: 4px solid #000; padding-left: 1rem; }
+            li { list-style-position: inside; margin-bottom: 0.5rem; }
+          </style>
           ${contentHtml}
         </div>
 
