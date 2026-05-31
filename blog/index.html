@@ -341,7 +341,7 @@
           container.innerHTML += `
             <article class="blog-card">
               <div class="blog-post-title">
-                <a href="/blog/${post.slug}">${post.title}</a>
+                <a href="/blog/${post.slug}/">${post.title}</a>
               </div>
               <p class="blog-excerpt">${post.excerpt}</p>
               
@@ -354,7 +354,7 @@
                   <span>${post.date}</span>
                   <span>${post.readTime}</span>
                 </div>
-                <a href="/blog/${post.slug}" class="text-xs font-semibold uppercase tracking-[0.1em] text-black border-b-2 border-black pb-0.5 hover:border-none">Read More →</a>
+                <a href="/blog/${post.slug}/" class="text-xs font-semibold uppercase tracking-[0.1em] text-black border-b-2 border-black pb-0.5 hover:border-none">Read More →</a>
               </div>
             </article>
           `;
