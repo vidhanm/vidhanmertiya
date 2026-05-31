@@ -162,8 +162,6 @@ After:   Ctrl+V in WezTerm over SSH → image appears at /tmp/clipboard-images/c
 One keypress. No extra windows, no extra tools, no configuration per-session.
 Works every time you SSH in because the setup is permanent on both ends.`,
   },
-
-  },
   {
     id: "2",
     slug: "marc-lou-landing-pages",
