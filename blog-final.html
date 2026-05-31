@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I spent a weekend studying Marc Lou's landing pages. Here's what I found.</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── BLOG TOKENS ── */
+:root {
+  --paper:    #faf8f4;
+  --paper-2:  #f2ede3;
+  --paper-3:  #e4ddd0;
+  --ink:      #1a1816;
+  --ink-2:    #3d3830;
+  --ink-3:    #7a6f62;
+  --ink-4:    #a89f90;
+  --accent:   #c84b2f;
+  --serif:    'Lora', Georgia, serif;
+  --sans:     'DM Sans', system-ui, sans-serif;
+  --mono:     'DM Mono', monospace;
+}
+
+/* ── DIAGRAM TOKENS (dark) ── */
+:root {
+  --dbg:      #0f0e0d;
+  --dsurf:    #1a1917;
+  --dsurf2:   #222018;
+  --dborder:  #2d2b26;
+  --dborder2: #3a3830;
+  --dtext:    #e8e2d8;
+  --dtext2:   #a89f90;
+  --dtext3:   #6b6358;
+  --dacc:     #d4622a;
+  --dacc-dim: #3d1e10;
+  --dgreen:   #4a8c5c;
+  --dgreen-d: #1a2e20;
+  --dyellow:  #c49a2a;
+}
+
+/* ── PAGE ── */
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.75;
+  padding: 0;
+}
+
+/* ── LAYOUT ── */
+.blog-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
+
+/* ── HEADER ── */
+.blog-header { margin-bottom: 56px; }
+
+.blog-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-3);
+  text-decoration: none;
+  margin-bottom: 32px;
+  transition: color 0.2s;
+}
+.blog-back:hover { color: var(--accent); }
+
+.blog-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-4);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.blog-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--paper-3); }
+
+.blog-title {
+  font-family: var(--serif);
+  font-size: clamp(28px, 5vw, 42px);
+  line-height: 1.15;
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.blog-lede {
+  font-size: 18px;
+  color: var(--ink-2);
+  line-height: 1.7;
+  font-weight: 300;
+  border-left: 3px solid var(--paper-3);
+  padding-left: 20px;
+}
+
+/* ── PROSE ── */
+.prose p {
+  margin-bottom: 22px;
+  color: var(--ink-2);
+  font-weight: 300;
+}
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--ink); font-weight: 500; }
+.prose em { font-style: italic; }
+
+.prose h2 {
+  font-family: var(--serif);
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+  margin: 56px 0 20px;
+  padding-top: 4px;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--paper-3);
+  margin: 48px 0;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 2px 0 2px 20px;
+  margin: 28px 0;
+  color: var(--ink-2);
+  font-style: italic;
+  font-family: var(--serif);
+}
+
+/* inline code / small formula blocks */
+.prose code {
+  font-family: var(--mono);
+  font-size: 14px;
+  background: var(--paper-2);
+  border: 1px solid var(--paper-3);
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+/* highlight box */
+.callout {
+  background: var(--paper-2);
+  border: 1px solid var(--paper-3);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 28px 0;
+  font-size: 15px;
+  color: var(--ink-2);
+  line-height: 1.7;
+}
+.callout strong { color: var(--ink); }
+
+/* ── FOOTER ── */
+.blog-footer {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--paper-3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.blog-footer-note {
+  font-size: 14px;
+  color: var(--ink-3);
+  font-style: italic;
+  font-family: var(--serif);
+}
+.blog-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.blog-footer a:hover { text-decoration: underline; }
+
+/* ══════════════════════════════════════════ */
+/*  DIAGRAM SYSTEM                           */
+/* ══════════════════════════════════════════ */
+.diagram-block {
+  margin: 48px -12px;
+  background: var(--dbg);
+  border: 1px solid var(--dborder);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.diagram-inner { padding: 28px; }
+
+.d-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dtext3);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.d-label::after { content:''; flex:1; height:1px; background:var(--dborder); }
+
+.d-caption {
+  padding: 14px 28px 16px;
+  border-top: 1px solid var(--dborder);
+  font-size: 12px;
+  color: var(--dtext3);
+  font-family: var(--serif);
+  font-style: italic;
+  text-align: center;
+}
+
+/* ── D1: SKELETON ── */
+.skel-wrap { display:grid; grid-template-columns:190px 1fr; }
+.skel-rows { border-right:1px solid var(--dborder); }
+.skel-row { display:flex; align-items:stretch; border-bottom:1px solid var(--dborder); }
+.skel-row:last-child { border-bottom:none; }
+.skel-num {
+  font-family:var(--mono); font-size:10px; color:var(--dtext3);
+  padding:0 10px; display:flex; align-items:center;
+  border-right:1px solid var(--dborder); min-width:28px; flex-shrink:0;
+}
+.skel-bar { width:3px; flex-shrink:0; border-right:1px solid var(--dborder); }
+.skel-name { padding:11px 14px; flex:1; }
+.skel-title { font-size:12px; font-weight:500; color:var(--dtext); margin-bottom:2px; }
+.skel-q { font-size:10px; color:var(--dtext3); font-style:italic; font-family:var(--serif); }
+.skel-detail { padding:24px; display:flex; flex-direction:column; justify-content:center; gap:14px; }
+.skel-detail-title { font-family:var(--serif); font-size:15px; font-style:italic; color:var(--dtext); line-height:1.4; }
+.skel-detail-sub { font-size:12px; color:var(--dtext2); line-height:1.65; }
+.skel-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.skel-tag { font-size:11px; background:var(--dsurf2); border:1px solid var(--dborder); padding:3px 8px; border-radius:4px; color:var(--dtext2); }
+
+/* ── D2: HEADLINE FORMULA ── */
+.formula-struct {
+  display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:24px;
+}
+.ft { padding:8px 14px; border-radius:6px; font-family:var(--mono); font-size:12px; font-weight:500; }
+.ft-a { background:var(--dacc-dim); color:var(--dacc); border:1px solid rgba(212,98,42,.2); }
+.ft-t { background:var(--dgreen-d); color:var(--dgreen); border:1px solid rgba(74,140,92,.2); }
+.ft-n { color:var(--dtext3); font-size:11px; padding:8px 4px; }
+.ft-o { background:#1e1e1e; color:var(--dtext3); border:1px solid var(--dborder); text-decoration:line-through; }
+.formula-examples { border:1px solid var(--dborder); border-radius:8px; overflow:hidden; }
+.fe-row { display:grid; grid-template-columns:90px 1fr; border-bottom:1px solid var(--dborder); }
+.fe-row:last-child { border-bottom:none; }
+.fe-row.alt { background:var(--dsurf2); }
+.fe-prod { padding:12px 14px; border-right:1px solid var(--dborder); display:flex; flex-direction:column; justify-content:center; }
+.fe-prod-name { font-family:var(--mono); font-size:11px; color:var(--dtext3); font-weight:500; }
+.fe-prod-name small { font-size:9px; color:#4a4540; display:block; margin-top:2px; font-weight:400; }
+.fe-hl { padding:12px 18px; font-size:13px; color:var(--dtext); display:flex; align-items:center; flex-wrap:wrap; gap:3px; line-height:1.5; }
+.hl-a { color:var(--dacc); font-weight:500; }
+.hl-t { color:var(--dgreen); }
+.hl-n { color:var(--dtext3); }
+.hl-o { color:var(--dtext3); text-decoration:line-through; }
+.formula-note {
+  margin-top:16px; padding:12px 16px;
+  background:var(--dsurf2); border-radius:6px;
+  font-size:12px; color:var(--dtext2); line-height:1.6;
+  border-left:2px solid var(--dacc);
+}
+
+/* ── D3: SOCIAL PROOF ── */
+.proof-layers { display:flex; flex-direction:column; gap:2px; }
+.proof-layer {
+  background:var(--dsurf); border:1px solid var(--dborder); border-radius:10px;
+  padding:18px 20px; display:grid; grid-template-columns:110px 1fr auto;
+  gap:16px; align-items:start;
+}
+.pl-num { font-family:var(--mono); font-size:10px; color:var(--dtext3); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+.pl-name { font-size:15px; font-weight:500; color:var(--dtext); margin-bottom:4px; }
+.pl-when { font-size:11px; color:var(--dtext3); font-style:italic; font-family:var(--serif); line-height:1.4; }
+.pl-body { font-size:12px; color:var(--dtext2); line-height:1.65; }
+.pl-body strong { color:var(--dtext); font-weight:500; }
+.pl-meter { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+.plm-lbl { font-family:var(--mono); font-size:9px; color:var(--dtext3); text-transform:uppercase; letter-spacing:.08em; white-space:nowrap; }
+.plm-dots { display:flex; gap:3px; }
+.plm-dot { width:8px; height:8px; border-radius:50%; }
+.plm-dot.on { background:var(--dacc); }
+.plm-dot.off { background:var(--dborder2); }
+.proof-div { display:flex; justify-content:center; padding:3px 0; }
+
+/* ── D4: STORY ARC ── */
+.arc { display:flex; flex-direction:column; }
+.arc-step { display:grid; grid-template-columns:90px 16px 1fr; }
+.arc-lbl { padding:18px 14px 18px 0; text-align:right; display:flex; flex-direction:column; align-items:flex-end; justify-content:flex-start; padding-top:20px; }
+.arc-tag { font-family:var(--mono); font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:.1em; }
+.arc-line { display:flex; flex-direction:column; align-items:center; }
+.arc-dot { width:11px; height:11px; border-radius:50%; flex-shrink:0; margin-top:20px; border:2px solid var(--dbg); position:relative; z-index:1; }
+.arc-seg { width:1px; flex:1; margin-top:2px; }
+.arc-step:last-child .arc-seg { display:none; }
+.arc-body { padding:14px 0 22px 18px; }
+.arc-title { font-family:var(--serif); font-size:14px; font-weight:600; color:var(--dtext); margin-bottom:4px; line-height:1.3; }
+.arc-desc { font-size:12px; color:var(--dtext2); line-height:1.6; }
+.arc-eg { display:inline-block; margin-top:6px; font-size:11px; color:var(--dtext3); font-style:italic; font-family:var(--serif); background:var(--dsurf); border:1px solid var(--dborder); padding:3px 9px; border-radius:4px; }
+
+/* arc step colors */
+.s-hook .arc-tag{color:#7a8fa8} .s-hook .arc-dot{background:#7a8fa8} .s-hook .arc-seg{background:linear-gradient(#7a8fa8,#c47a3a)}
+.s-fail .arc-tag{color:#c47a3a} .s-fail .arc-dot{background:#c47a3a} .s-fail .arc-seg{background:linear-gradient(#c47a3a,#a8885a)}
+.s-ins  .arc-tag{color:#a8885a} .s-ins  .arc-dot{background:#a8885a} .s-ins  .arc-seg{background:linear-gradient(#a8885a,#5a8a6a)}
+.s-bld  .arc-tag{color:#5a8a6a} .s-bld  .arc-dot{background:#5a8a6a} .s-bld  .arc-seg{background:linear-gradient(#5a8a6a,#4a8c5c)}
+.s-cred .arc-tag{color:#4a8c5c} .s-cred .arc-dot{background:#4a8c5c}
+
+/* ── D5: HERO ANATOMY ── */
+.hero-anat { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+.hero-col { padding:20px; background:var(--dsurf); }
+.hero-col:first-child { border-right:1px solid var(--dborder); }
+.hc-title { font-family:var(--mono); font-size:10px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--dborder); }
+.hc-in { color:var(--dgreen); } .hc-out { color:var(--dacc); }
+.hero-item { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid var(--dborder); }
+.hero-item:last-child { border-bottom:none; }
+.hi-icon { width:18px; height:18px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px; }
+.hi-icon.in { background:var(--dgreen-d); color:var(--dgreen); }
+.hi-icon.out { background:var(--dacc-dim); color:var(--dacc); }
+.hi-title { font-size:12px; font-weight:500; color:var(--dtext); margin-bottom:2px; }
+.hi-desc { font-size:11px; color:var(--dtext3); line-height:1.5; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .skel-wrap { grid-template-columns:1fr; }
+  .skel-detail { border-top:1px solid var(--dborder); }
+  .proof-layer { grid-template-columns:1fr; gap:10px; }
+  .pl-meter { flex-direction:row; align-items:center; }
+  .hero-anat { grid-template-columns:1fr; }
+  .hero-col:first-child { border-right:none; border-bottom:1px solid var(--dborder); }
+  .arc-step { grid-template-columns:72px 16px 1fr; }
+  .formula-struct { gap:4px; }
+  .fe-row { grid-template-columns:80px 1fr; }
+}
+
+</style>
+</head>
+<body>
+<div class="blog-wrap">
+
+  <!-- HEADER -->
+  <header class="blog-header">
+    <a href="/blog" class="blog-back">← Blog</a>
+
+    <div class="blog-meta">
+      <span>Vidhan</span>
+      <div class="blog-meta-dot"></div>
+      <span>May 2025</span>
+      <div class="blog-meta-dot"></div>
+      <span>7 min read</span>
+    </div>
+
+    <h1 class="blog-title">I spent a weekend studying Marc Lou's landing pages. Here's what I found.</h1>
+
+    <p class="blog-lede">
+      Two indie hackers. Four products. Nearly identical page structures. This is what I learned about how successful products actually sell themselves.
+    </p>
+  </header>
+
+  <!-- BODY -->
+  <article class="prose">
+
+    <p>So I've been building a product. And like every builder who's deep in the weeds of actual development, I hit the point where I had to think about the landing page.</p>
+
+    <p>I did what most people do — started googling "high converting landing page examples," opened a dozen tabs, felt overwhelmed, closed them all.</p>
+
+    <p>Then I remembered Marc Lou.</p>
+
+    <p>If you don't know him — he's a French indie hacker who's quietly built somewhere around 25 products, made over a million dollars from them, and was named Maker of the Year on Product Hunt in 2023. He runs multiple live products: ShipFast (a Next.js boilerplate), DataFast (revenue analytics), CodeFast (a coding course). All different categories. All built by one person.</p>
+
+    <p>I also pulled in PostBridge — a social media scheduling tool built by Jack Friks, a different indie hacker entirely. Same world, different person.</p>
+
+    <p>What I wanted to know was: is there a pattern? Does Marc build landing pages the same way each time? And if he does, does anyone else?</p>
+
+    <p>I went through all four pages section by section. What I didn't expect was that Marc and Jack — who I'm pretty sure didn't coordinate on this — had built pages that follow almost the same skeleton. Two people, independently, converging on the same approach.</p>
+
+    <p>That's when I stopped thinking about this as "Marc's style" and started thinking about it as a playbook.</p>
+
+    <!-- ── DIAGRAM 1: PAGE SKELETON ── -->
+    <div class="diagram-block">
+      <div class="diagram-inner">
+        <div class="d-label">The page skeleton — found across all 4 products</div>
+        <div class="skel-wrap">
+          <div class="skel-rows">
+            <div class="skel-row"><div class="skel-num">01</div><div class="skel-bar" style="background:#d4622a"></div><div class="skel-name"><div class="skel-title">Hero</div><div class="skel-q">"What is this?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">02</div><div class="skel-bar" style="background:#8B3A2A"></div><div class="skel-name"><div class="skel-title">Press Bar</div><div class="skel-q">"Is it real?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">03</div><div class="skel-bar" style="background:#6b2e1a"></div><div class="skel-name"><div class="skel-title">Pain Section</div><div class="skel-q">"Do I actually need this?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">04</div><div class="skel-bar" style="background:#8a7a3a"></div><div class="skel-name"><div class="skel-title">How It Works</div><div class="skel-q">"Is it complicated?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">05</div><div class="skel-bar" style="background:#4a7a5a"></div><div class="skel-name"><div class="skel-title">Features</div><div class="skel-q">"What do I get?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">06</div><div class="skel-bar" style="background:#3a6a8a"></div><div class="skel-name"><div class="skel-title">Founder Story</div><div class="skel-q">"Who built this?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">07</div><div class="skel-bar" style="background:#5a4a8a"></div><div class="skel-name"><div class="skel-title">Testimonials</div><div class="skel-q">"Did it work for others?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">08</div><div class="skel-bar" style="background:#7a3a7a"></div><div class="skel-name"><div class="skel-title">Pricing</div><div class="skel-q">"What's the cost?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">09</div><div class="skel-bar" style="background:#6a5a3a"></div><div class="skel-name"><div class="skel-title">FAQ</div><div class="skel-q">"What's the catch?"</div></div></div>
+            <div class="skel-row"><div class="skel-num">10</div><div class="skel-bar" style="background:#d4622a"></div><div class="skel-name"><div class="skel-title">Final CTA</div><div class="skel-q">"Okay, I'm in."</div></div></div>
+          </div>
+          <div class="skel-detail">
+            <div class="skel-detail-title">Every section answers one silent question.</div>
+            <div class="skel-detail-sub">The visitor isn't reading top to bottom — they're resolving doubt. Remove any section and you leave a question unanswered. Unanswered questions become reasons to leave.</div>
+            <div class="skel-tags">
+              <span class="skel-tag">ShipFast</span>
+              <span class="skel-tag">DataFast</span>
+              <span class="skel-tag">CodeFast</span>
+              <span class="skel-tag">PostBridge</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-caption">Same skeleton. Different categories. Different people. Same playbook.</div>
+    </div>
+
+    <h2>The headline formula (and why PostBridge breaks it interestingly)</h2>
+
+    <p>I noticed this in the first five minutes and couldn't unsee it after.</p>
+
+    <p>Marc's product headlines follow one structure almost exactly: <strong>[Do something] in [shorter time unit], not [longer time unit].</strong></p>
+
+    <p>ShipFast: <em>"Ship your startup in days, not weeks."</em><br>
+    CodeFast: <em>"Learn to code in weeks, not months."</em><br>
+    DataFast: <em>"Revenue-first analytics."</em> — shorter, but the subheadline delivers the same promise.</p>
+
+    <p>The second half — "not weeks," "not months" — is doing something clever. It activates the pain without needing a separate problem section. The person who's been putting off their startup reads "not weeks" and immediately maps that to their own situation. You've made them feel understood before they've read anything else.</p>
+
+    <p>Now here's where PostBridge gets interesting. Jack's headline is different: <em>"Post to all your social accounts from one dashboard."</em> No time compression. It's a clarity headline — here's what it does, stated plainly. But scroll slightly and you hit a stat he puts front and center: <em>"2 min average time to post everywhere."</em> Same psychology, different placement. The time compression is still there, just distributed differently across the hero.</p>
+
+    <p>Two builders, two slightly different executions, same underlying logic: your visitor is busy and time is the real cost. The headline's job is to show you're going to give some of it back.</p>
+
+    <!-- ── DIAGRAM 2: HEADLINE FORMULA ── -->
+    <div class="diagram-block">
+      <div class="diagram-inner">
+        <div class="d-label">The headline formula — deconstructed</div>
+        <div class="formula-struct">
+          <div class="ft ft-a">[core action]</div>
+          <span class="ft ft-n">in</span>
+          <div class="ft ft-t">[short time]</div>
+          <div class="ft ft-n">, not</div>
+          <div class="ft ft-o">[long time]</div>
+        </div>
+        <div class="formula-examples">
+          <div class="fe-row">
+            <div class="fe-prod"><div class="fe-prod-name">ShipFast</div></div>
+            <div class="fe-hl"><span class="hl-a">Ship your startup</span>&nbsp;<span class="hl-n">in</span>&nbsp;<span class="hl-t">days</span><span class="hl-n">, not</span>&nbsp;<span class="hl-o">weeks</span></div>
+          </div>
+          <div class="fe-row">
+            <div class="fe-prod"><div class="fe-prod-name">CodeFast</div></div>
+            <div class="fe-hl"><span class="hl-a">Learn to code</span>&nbsp;<span class="hl-n">in</span>&nbsp;<span class="hl-t">weeks</span><span class="hl-n">, not</span>&nbsp;<span class="hl-o">months</span></div>
+          </div>
+          <div class="fe-row">
+            <div class="fe-prod"><div class="fe-prod-name">DataFast</div></div>
+            <div class="fe-hl"><span class="hl-a">Revenue-first analytics</span>&nbsp;<span style="font-size:11px;color:var(--dtext3);font-style:italic;">(time promise lives in the subheadline)</span></div>
+          </div>
+          <div class="fe-row alt">
+            <div class="fe-prod"><div class="fe-prod-name">PostBridge<small>Jack Friks</small></div></div>
+            <div class="fe-hl" style="flex-direction:column;align-items:flex-start;gap:4px;">
+              <span style="color:var(--dtext2);">Post to all your social accounts from one dashboard</span>
+              <span style="font-size:11px;color:var(--dtext3);font-style:italic;">Time compression moves to a hero stat: "2 min average to post everywhere"</span>
+            </div>
+          </div>
+        </div>
+        <div class="formula-note">The "not [long time]" half activates the reader's existing pain without a separate problem section. It makes them feel understood in the headline itself.</div>
+      </div>
+      <div class="d-caption">Marc uses it in the headline. Jack distributes it differently. Same psychology either way.</div>
+    </div>
+
+    <h2>The enemy is never a competitor</h2>
+
+    <p>This one surprised me more than anything else.</p>
+
+    <p>Every page has a section that could be called "why existing solutions suck." But neither Marc nor Jack ever names a specific product as the villain in their hero. The enemy is always the old way of doing things.</p>
+
+    <p>ShipFast doesn't say "better than Vercel templates." It shows a list of setup tasks: <em>4 hrs to set up emails. 6 hrs designing a landing page. 4 hrs to handle Stripe webhooks...</em> totaling 22+ hours. The enemy is the process, not a product.</p>
+
+    <p>CodeFast doesn't say "better than Udemy." It says courses are designed for software engineers, not entrepreneurs. The enemy is a wrong assumption baked into the entire category.</p>
+
+    <p>DataFast doesn't attack Plausible in the hero. It says most analytics tools show you vanity metrics — pageviews, visitors — that tell you nothing about where your money comes from. The enemy is useless data.</p>
+
+    <p>PostBridge? Jack's version is in the founder story section, where he writes: <em>"the existing tools I needed were way too expensive ($75–$200/month) for my needs and way too damn complex."</em> No names. Just the category's failure.</p>
+
+    <div class="callout">
+      If I say "Competitor X is bad," you might disagree because you've used X and liked it. If I say "the entire approach of doing this is broken," it's harder to argue with. <strong>You're not defending a product anymore, you're defending a worldview.</strong>
+    </div>
+
+    <p>The competitor comparison does show up eventually — DataFast has a section called "How is it better than Plausible?" — but always much later. By then, you've already bought into the problem framing.</p>
+
+    <h2>The founder story position</h2>
+
+    <p>Every page has a personal section. Marc's says "hey it's Marc." Jack's says "heyo! it's jack." The informality is intentional on both — no titles, no credentials upfront, just a name and a face.</p>
+
+    <p>This isn't surprising on its own. Lots of founders write about why they built their product. What caught my attention was <em>where</em> they put it.</p>
+
+    <p>It's never in the hero. It always comes <em>after</em> the features section, right before pricing. That placement is intentional and, once you think about it, obviously right.</p>
+
+    <p>If you put the founder story at the top, it feels like self-promotion. You're asking people to care about you before they understand what you've built. But by the time you've shown someone the problem, the solution, and the features — they're curious. Now the story feels like context, not bragging.</p>
+
+    <p>And credibility — follower counts, maker of the year titles, revenue numbers — always comes at the <em>end</em> of the story, never at the beginning. Starting with credentials feels like a pitch. Starting with a frustrating Tuesday afternoon and ending with proof feels like honesty.</p>
+
+    <!-- ── DIAGRAM 4: FOUNDER STORY ARC ── -->
+    <div class="diagram-block">
+      <div class="diagram-inner">
+        <div class="d-label">The founder story arc</div>
+        <p style="font-size:12px;color:var(--dtext3);margin-bottom:20px;line-height:1.6;">Both Marc and Jack use this exact narrative structure. Credibility always comes <em>last</em>, never first.</p>
+        <div class="arc">
+          <div class="arc-step s-hook">
+            <div class="arc-lbl"><div class="arc-tag">Hook</div></div>
+            <div class="arc-line"><div class="arc-dot"></div><div class="arc-seg"></div></div>
+            <div class="arc-body">
+              <div class="arc-title">Casual, first-person, no title</div>
+              <div class="arc-desc">Opens with a name, not credentials. Signals: this is a person, not a company.</div>
+              <div class="arc-eg">"Hey it's Marc 👋" &nbsp;/&nbsp; "heyo! it's jack"</div>
+            </div>
+          </div>
+          <div class="arc-step s-fail">
+            <div class="arc-lbl"><div class="arc-tag">Failure</div></div>
+            <div class="arc-line"><div class="arc-dot"></div><div class="arc-seg"></div></div>
+            <div class="arc-body">
+              <div class="arc-title">Admits the exact pain the visitor has</div>
+              <div class="arc-desc">The specific frustration that led to building this. Vulnerability before credibility creates identification, not admiration.</div>
+              <div class="arc-eg">"I was spending 1hr/day posting the same content. It sucked."</div>
+            </div>
+          </div>
+          <div class="arc-step s-ins">
+            <div class="arc-lbl"><div class="arc-tag">Insight</div></div>
+            <div class="arc-line"><div class="arc-dot"></div><div class="arc-seg"></div></div>
+            <div class="arc-body">
+              <div class="arc-title">The realization that reframes the problem</div>
+              <div class="arc-desc">A belief about why the old way is broken. Not a feature — a worldview.</div>
+              <div class="arc-eg">"Data is a goldmine. But most tools just show vanity metrics."</div>
+            </div>
+          </div>
+          <div class="arc-step s-bld">
+            <div class="arc-lbl"><div class="arc-tag">Build</div></div>
+            <div class="arc-line"><div class="arc-dot"></div><div class="arc-seg"></div></div>
+            <div class="arc-body">
+              <div class="arc-title">"So I built it for myself"</div>
+              <div class="arc-desc">Personal solution, not a market opportunity. Implies it was stress-tested on a real problem before anyone else saw it.</div>
+              <div class="arc-eg">"Couldn't find what I needed, so I built it. Others wanted it too."</div>
+            </div>
+          </div>
+          <div class="arc-step s-cred">
+            <div class="arc-lbl"><div class="arc-tag">Credibility</div></div>
+            <div class="arc-line"><div class="arc-dot"></div></div>
+            <div class="arc-body">
+              <div class="arc-title">Numbers and proof — only at the end</div>
+              <div class="arc-desc">Follower count, revenue, awards. After the human story. Starting here is a pitch. Ending here is proof.</div>
+              <div class="arc-eg">"155,000 people trust me on Twitter. Maker of the Year 2023."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-caption">The arc is the same whether it's Marc talking about ShipFast or Jack talking about PostBridge.</div>
+    </div>
+
+    <h2>Social proof layers, not just testimonials</h2>
+
+    <p>The testimonial wall is standard SaaS practice. What both Marc and Jack do differently is layer three types of proof in sequence — and the order is deliberate.</p>
+
+    <p>Numbers first, near the hero. "8,310 makers." "1,683 users." This just establishes the product exists and people use it. It doesn't tell you if they're happy, only that it's not a ghost town.</p>
+
+    <p>Twitter screenshots in the middle. Not designed testimonial cards — actual screenshots of tweets with usernames, timestamps, the general mess of a real post. Designed cards are easy to fabricate. A tweet screenshot looks like it came from a real public post you could go find. The authenticity signal is much stronger.</p>
+
+    <p>Video testimonials near pricing. By the time you're at pricing, the heaviest objections kick in. Video is harder to fake than text, and seeing a real person talk about specific results — revenue numbers, time saved — converts differently than reading a quote.</p>
+
+    <!-- ── DIAGRAM 3: SOCIAL PROOF ── -->
+    <div class="diagram-block">
+      <div class="diagram-inner">
+        <div class="d-label">Social proof — 3 layers, used in order</div>
+        <div class="proof-layers">
+          <div class="proof-layer">
+            <div>
+              <div class="pl-num">Layer 1</div>
+              <div class="pl-name">Numbers</div>
+              <div class="pl-when">Hero, below the CTA</div>
+            </div>
+            <div class="pl-body">User count shown immediately. <strong>"8,310 makers."</strong> Doesn't prove quality — just proves the product isn't empty. Reduces first-impression risk before the visitor has read anything.</div>
+            <div class="pl-meter">
+              <div class="plm-lbl">Hard to fake</div>
+              <div class="plm-dots"><div class="plm-dot on"></div><div class="plm-dot off"></div><div class="plm-dot off"></div></div>
+            </div>
+          </div>
+          <div class="proof-div"><svg width="1" height="16" style="overflow:visible"><line x1="0" y1="0" x2="0" y2="16" stroke="#2d2b26" stroke-width="1" stroke-dasharray="3,3"/></svg></div>
+          <div class="proof-layer">
+            <div>
+              <div class="pl-num">Layer 2</div>
+              <div class="pl-name">Tweets</div>
+              <div class="pl-when">Scattered mid-page</div>
+            </div>
+            <div class="pl-body"><strong>Actual tweet screenshots</strong> with usernames and timestamps — not polished cards. The visual noise of a real tweet is a trust signal. Each tweet reinforces a specific outcome, not generic praise.</div>
+            <div class="pl-meter">
+              <div class="plm-lbl">Hard to fake</div>
+              <div class="plm-dots"><div class="plm-dot on"></div><div class="plm-dot on"></div><div class="plm-dot off"></div></div>
+            </div>
+          </div>
+          <div class="proof-div"><svg width="1" height="16" style="overflow:visible"><line x1="0" y1="0" x2="0" y2="16" stroke="#2d2b26" stroke-width="1" stroke-dasharray="3,3"/></svg></div>
+          <div class="proof-layer">
+            <div>
+              <div class="pl-num">Layer 3</div>
+              <div class="pl-name">Video</div>
+              <div class="pl-when">Right before pricing</div>
+            </div>
+            <div class="pl-body">YouTube embeds with real people and <strong>real revenue dashboards</strong>. Placed at the heaviest objection point — when the commitment feels real. A person on camera converts differently than a quote.</div>
+            <div class="pl-meter">
+              <div class="plm-lbl">Hard to fake</div>
+              <div class="plm-dots"><div class="plm-dot on"></div><div class="plm-dot on"></div><div class="plm-dot on"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-caption">Each layer is harder to fabricate than the last. By pricing, the proof has been building for the entire page.</div>
+    </div>
+
+    <h2>The 8-second test, actually applied</h2>
+
+    <p>There's a lot of writing about "the fold" and the 8-second rule in landing page advice. What struck me going through these pages was how seriously both Marc and Jack take it.</p>
+
+    <p>In every hero, without scrolling, you see: one headline, one CTA button, a user count, and a product screenshot or demo. Nothing competes for attention.</p>
+
+    <p>The product visual is always present — a dashboard screenshot, a code snippet, a demo video thumbnail. This removes the need for imagination. If I read "analytics tool" but see nothing, I have to guess what it looks like. Guessing is cognitive work. Work creates friction. The screenshot eliminates that entirely.</p>
+
+    <p>What's also notable is what's <em>absent</em> from these heroes. No paragraph explaining everything. No "the most powerful all-in-one solution for..." No buzzwords. Just: here's what it does, here's how fast, here's proof others are doing it.</p>
+
+    <!-- ── DIAGRAM 5: HERO ANATOMY ── -->
+    <div class="diagram-block">
+      <div class="diagram-inner">
+        <div class="d-label">Hero anatomy — what's in, what's out</div>
+        <div class="hero-anat">
+          <div class="hero-col">
+            <div class="hc-title hc-in">✓ &nbsp;Always present</div>
+            <div class="hero-item"><div class="hi-icon in">①</div><div><div class="hi-title">One transformation headline</div><div class="hi-desc">What you get + time promise. No competing copy.</div></div></div>
+            <div class="hero-item"><div class="hi-icon in">②</div><div><div class="hi-title">One CTA button</div><div class="hi-desc">Single, specific verb. "Get ShipFast." Never "Learn more."</div></div></div>
+            <div class="hero-item"><div class="hi-icon in">③</div><div><div class="hi-title">User count below the CTA</div><div class="hi-desc">Below, not above. Confirmation, not compensation.</div></div></div>
+            <div class="hero-item"><div class="hi-icon in">④</div><div><div class="hi-title">Product visual in viewport</div><div class="hi-desc">Dashboard, demo, or interface. Removes the need to imagine.</div></div></div>
+          </div>
+          <div class="hero-col">
+            <div class="hc-title hc-out">✗ &nbsp;Never in the hero</div>
+            <div class="hero-item"><div class="hi-icon out">—</div><div><div class="hi-title">Feature lists</div><div class="hi-desc">Features have their own section. Here they just dilute the headline.</div></div></div>
+            <div class="hero-item"><div class="hi-icon out">—</div><div><div class="hi-title">Multiple CTAs</div><div class="hi-desc">Two buttons create a decision. A decision creates hesitation.</div></div></div>
+            <div class="hero-item"><div class="hi-icon out">—</div><div><div class="hi-title">Pricing hints</div><div class="hi-desc">Price before value is the wrong order, every time.</div></div></div>
+            <div class="hero-item"><div class="hi-icon out">—</div><div><div class="hi-title">Long explanatory text</div><div class="hi-desc">If the headline needs explaining, it needs rewriting.</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="d-caption">The hero has 8 seconds. Every element earns its place or gets cut.</div>
+    </div>
+
+    <h2>The thing underneath all of it</h2>
+
+    <p>After going through all four pages, I think the pattern isn't really about landing page design. It's about a specific belief — that Marc and Jack seem to share — about how selling actually works.</p>
+
+    <p>They treat the landing page like a conversation with a skeptic, not an announcement to a crowd.</p>
+
+    <p>Every section answers a question that's running in the visitor's head. The hero answers "what is this?" The pain section answers "do I actually need this?" The how-it-works answers "is it complicated?" The founder story answers "who built this and why?" The testimonials answer "did it work for anyone like me?" The FAQ catches everything that slipped through.</p>
+
+    <p>Remove any section and you leave a question unanswered. Unanswered questions become reasons to leave.</p>
+
+    <p>The fact that two different builders — working in completely different categories, with no apparent coordination — independently arrived at nearly identical page structures suggests this isn't personal style. It's just what works.</p>
+
+    <hr>
+
+    <p>I've been thinking about this because I'm building something called <a href="https://talkbook.live" style="color:var(--accent);text-decoration:none;font-weight:500;">talkbook.live</a> — a platform where you can have voice conversations with books instead of passively reading them. You pick a book, ask it anything, and it responds like a tutor who's read the whole thing.</p>
+
+    <p>Going through these pages forced me to think clearly about what I'm actually selling and what my visitor's silent objections are. The headline I landed on — <em>"Talk to any book. Learn it in hours, not months"</em> — is a direct result of understanding the time-compression formula.</p>
+
+    <p>The founder story on my page starts with: <em>"I had 47 books on my shelf. I'd finished maybe 6."</em> Because that's the honest truth, and it turns out the honest truth is usually the right opening.</p>
+
+    <p>If you're building something and thinking about how to present it to the world, I'd genuinely recommend doing this exercise. Pick 3–4 products in a space you admire, go through each page slowly, and ask: why is this section here? What question is it answering? What would happen if it wasn't there?</p>
+
+    <p>The patterns reveal themselves pretty fast. And once you see them, you can't unsee them.</p>
+
+  </article>
+
+  <footer class="blog-footer">
+    <p class="blog-footer-note">If you're curious about talkbook — <a href="https://talkbook.live">talkbook.live</a>. It's live and you can try it for free.</p>
+  </footer>
+
+</div>
+</body>
+</html>
