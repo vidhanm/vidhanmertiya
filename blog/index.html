@@ -59,7 +59,6 @@
 
     .navbar-nav {
       display: flex;
-      gap: 0.5rem;
       border: 2px solid black;
       background: white;
     }
@@ -285,7 +284,9 @@
     <nav class="navbar">
       <!-- Left: Avatar + Brand -->
       <div class="navbar-left">
-        <div class="navbar-avatar">VM</div>
+        <div class="navbar-avatar overflow-hidden">
+          <img src="/profile.jpg" alt="Vidhan Mertiya" class="w-full h-full object-cover">
+        </div>
         <div class="navbar-brand">Vidhan<br>Mertiya</div>
       </div>
 

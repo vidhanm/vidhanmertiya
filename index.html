@@ -59,7 +59,6 @@
 
     .navbar-nav {
       display: flex;
-      gap: 0.5rem;
       border: 2px solid black;
       background: white;
     }
@@ -253,7 +252,9 @@
     <nav class="navbar">
       <!-- Left: Avatar + Brand -->
       <div class="navbar-left">
-        <div class="navbar-avatar">VM</div>
+        <div class="navbar-avatar overflow-hidden">
+          <img src="/profile.jpg" alt="Vidhan Mertiya" class="w-full h-full object-cover">
+        </div>
         <div class="navbar-brand">Vidhan<br>Mertiya</div>
       </div>
 
@@ -443,6 +444,7 @@
                   <p class="text-sm font-semibold tracking-tight text-black">${project.name}</p>
                 </div>
                 <div class="flex items-center gap-2">
+                  <button type="button" class="flip-info-btn" aria-label="Show project info" title="Show info">i</button>
                   <span class="${colors.border} ${colors.bg} border-[2px] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">${project.tag}</span>
                 </div>
               </div>
@@ -453,7 +455,10 @@
             <div class="flip-card-back flex flex-col bg-white">
               <div class="flex items-center justify-between border-b-[3px] border-black bg-white px-4 py-3">
                 <p class="text-sm font-semibold tracking-tight text-black">${project.name}</p>
-                <span class="${colors.border} ${colors.bg} border-[2px] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">${project.tag}</span>
+                <div class="flex items-center gap-2">
+                  <button type="button" class="flip-info-btn active" aria-label="Close project info" title="Close">×</button>
+                  <span class="${colors.border} ${colors.bg} border-[2px] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">${project.tag}</span>
+                </div>
               </div>
               <div class="flex flex-1 flex-col justify-between overflow-auto p-5">
                 <div class="space-y-5">
@@ -479,11 +484,13 @@
     });
 
     // Flip card event listeners
-    document.querySelectorAll('.flip-card-scene').forEach((scene, index) => {
-      let isFlipped = false;
-      scene.addEventListener('click', () => {
-        isFlipped = !isFlipped;
-        scene.classList.toggle('is-flipped');
+    document.querySelectorAll('.flip-card-scene').forEach((scene) => {
+      const infoButtons = scene.querySelectorAll('.flip-info-btn');
+      infoButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          scene.classList.toggle('is-flipped');
+        });
       });
     });
   </script>
