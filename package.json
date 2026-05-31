@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "node build.js && next build",
+    "build": "next build",
     "build:vanilla": "node build.js",
     "dev": "next dev",
     "lint": "next lint",

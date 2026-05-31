@@ -1,11 +1,11 @@
 "use client"
 
-import Link from "next/link"
 import Image from "next/image"
 import { Github, Linkedin, Mail, Twitter } from "lucide-react"
-import { blogPosts } from "@/lib/blog-posts"
+import blogIndex from "@/blog-index.json"
 
 export default function BlogPage() {
+  const blogPosts = blogIndex
   return (
     <main className="relative min-h-screen overflow-hidden bg-white text-black">
       {/* STICKY TOP NAVBAR (Pattern 1) */}
@@ -93,7 +93,7 @@ export default function BlogPage() {
                 className="border-[3px] border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,0.15)] transition-all hover:shadow-[12px_12px_0px_rgba(0,0,0,0.2)]"
               >
                 <h2 className="text-xl font-bold text-black mb-2 hover:underline">
-                  <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                  <a href={`/blog/${post.slug}`}>{post.title}</a>
                 </h2>
                 <p className="text-sm text-gray-700 mb-4 leading-relaxed">{post.excerpt}</p>
 
@@ -115,9 +115,9 @@ export default function BlogPage() {
                     <span>{post.date}</span>
                     <span>{post.readTime}</span>
                   </div>
-                  <Link href={`/blog/${post.slug}`} className="text-xs font-semibold uppercase tracking-[0.1em] text-black border-b-2 border-black pb-0.5 hover:border-none">
+                  <a href={`/blog/${post.slug}`} className="text-xs font-semibold uppercase tracking-[0.1em] text-black border-b-2 border-black pb-0.5 hover:border-none">
                     Read More →
-                  </Link>
+                  </a>
                 </div>
               </article>
             ))}

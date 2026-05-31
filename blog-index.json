@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "marc-lou-landing-pages",
+    "title": "I spent a weekend studying Marc Lou & Jack Friks' landing pages. Here's what I found.",
+    "excerpt": "Two indie hackers. Four products. Nearly identical page structures. This is what I learned about how successful products actually sell themselves.",
+    "date": "May 28, 2026",
+    "readTime": "7 min read",
+    "tags": ["Landing Pages", "Copywriting", "Product Design", "Sales"]
+  },
+  {
+    "slug": "clipboard-images-over-ssh",
+    "title": "Pasting Clipboard Images into Remote AI Coding Agents over SSH",
+    "excerpt": "How I wired up Ctrl+V in WezTerm to transparently deliver clipboard images to Claude Code and OpenCode running on a remote server - no display server, no second connection, no third-party tools.",
+    "date": "May 31, 2026",
+    "readTime": "12 min read",
+    "tags": ["SSH", "WezTerm", "Terminal", "DevOps", "AI Agents"]
+  }
+]

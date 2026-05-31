@@ -1,0 +1,21 @@
+/* Shared neobrutal blog theme (keeps diagrams intact) */
+:root{
+  --black:#000;
+  --white:#fff;
+  --muted:#666;
+}
+body{background:var(--white);color:var(--black);font-family:Inter, system-ui, sans-serif}
+.site-nav{position:sticky;top:0;z-index:50;background:var(--white);border-bottom:4px solid var(--black);display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
+.site-nav .left{display:flex;align-items:center;gap:12px}
+.site-nav .avatar{width:50px;height:50px;border:2px solid var(--black);overflow:hidden;border-radius:8px;box-shadow:4px 4px 0 rgba(0,0,0,0.15)}
+.site-nav .brand{font-weight:900;font-size:14px}
+.site-nav .center{display:flex}
+.site-nav .tabs{display:flex;border:2px solid var(--black);}
+.site-nav .tabs a{padding:8px 14px;text-decoration:none;color:var(--black);font-weight:700;font-size:12px}
+.site-nav .tabs a.active{background:var(--black);color:var(--white)}
+.site-nav .right{display:flex;gap:8px}
+.site-nav .icon{width:40px;height:40px;border:2px solid var(--black);display:inline-flex;align-items:center;justify-content:center}
+/* blog content adjustments to match site spacing */
+.blog-wrap{max-width:900px;padding:36px 32px}
+.prose{color:var(--black)}
+/* keep existing diagram styles by using their selectors; don't override them */
