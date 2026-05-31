@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern 1: Top Navbar - Vidhan Mertiya</title>
+  <link rel="stylesheet" href="/styles/globals.css">
+  <style>
+    body {
+      background: white;
+      color: black;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* Top navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 4px solid black;
+      background: white;
+      padding: 0.75rem 2rem;
+    }
+
+    .navbar-content {
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 3px solid black;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .navbar-brand {
+      font-size: 1.125rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .navbar-center {
+      display: flex;
+      gap: 1rem;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .nav-link {
+      border: 2px solid black;
+      padding: 0.5rem 1rem;
+      text-xs;
+      font-weight: 600;
+      uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-link.active {
+      background: black;
+      color: white;
+    }
+
+    .nav-link:hover {
+      background: black;
+      color: white;
+    }
+
+    .navbar-right {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border: 3px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .social-icon:hover {
+      background: black;
+      color: white;
+    }
+
+    /* Main content */
+    .main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    /* Projects grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .project-card {
+      border: 3px solid black;
+      background: white;
+      padding: 1.5rem;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.1);
+      transition: all 0.2s;
+    }
+
+    .project-card:hover {
+      box-shadow: 10px 10px 0 rgba(0,0,0,0.15);
+    }
+
+    .project-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-desc {
+      font-size: 0.875rem;
+      color: #555;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .project-tag {
+      display: inline-block;
+      border: 2px solid black;
+      background: black;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      uppercase;
+    }
+
+    /* Blog section */
+    .blog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .blog-card {
+      border: 3px solid black;
+      background: white;
+      padding: 1.5rem;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.1);
+    }
+
+    .blog-title {
+      font-size: 1.125rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-excerpt {
+      font-size: 0.875rem;
+      color: #555;
+      margin-bottom: 0.75rem;
+    }
+
+    .blog-meta {
+      font-size: 0.75rem;
+      color: #999;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+      .navbar-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .navbar-center {
+        justify-content: flex-start;
+        width: 100%;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-left">
+        <div class="profile-avatar">VM</div>
+        <div class="navbar-brand">Vidhan Mertiya</div>
+      </div>
+
+      <div class="navbar-center">
+        <button class="nav-link active" onclick="switchTab('projects', this)">Projects</button>
+        <button class="nav-link" onclick="switchTab('blog', this)">Blog</button>
+      </div>
+
+      <div class="navbar-right">
+        <div class="social-icon" title="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </div>
+        <div class="social-icon" title="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.469v6.766z"/></svg>
+        </div>
+        <div class="social-icon" title="Email">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <!-- PROJECTS SECTION -->
+    <div id="projects" class="content-section active">
+      <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 2rem;">Featured Projects</h2>
+      
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-title">TalkBook</div>
+          <div class="project-desc">A conversational product landing page with a polished real-world feel.</div>
+          <span class="project-tag">Commercial</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">JobSpy</div>
+          <div class="project-desc">Comprehensive web application to list and search for jobs across all major employment websites.</div>
+          <span class="project-tag">Video</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">IITM Quizzes</div>
+          <div class="project-desc">Full-stack web application for quiz attempts with LLM-generated explanations.</div>
+          <span class="project-tag">Repo</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">CoinCraft</div>
+          <div class="project-desc">Teaching children financial literacy through AI-generated learning modules.</div>
+          <span class="project-tag">Live</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">Household Services App</div>
+          <div class="project-desc">Full-stack web application for on-demand household services with document verification.</div>
+          <span class="project-tag">Repo</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-title">RL-Based Voice Agent</div>
+          <div class="project-desc">DDQ reinforcement learning agent for optimal conversation strategies using self-play.</div>
+          <span class="project-tag">Repo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOG SECTION -->
+    <div id="blog" class="content-section">
+      <h2 style="font-size: 2rem; font-weight: 900; margin-bottom: 2rem;">Blog Posts</h2>
+      
+      <div class="blog-list">
+        <div class="blog-card">
+          <div class="blog-title">Pasting Clipboard Images into Remote AI Coding Agents over SSH</div>
+          <div class="blog-excerpt">How I wired up Ctrl+V in WezTerm to transparently deliver clipboard images to Claude Code and OpenCode running on a remote server - no display server, no second connection, no third-party tools.</div>
+          <div class="blog-meta">May 31, 2026 • 12 min read</div>
+        </div>
+
+        <div class="blog-card">
+          <div class="blog-title">I spent a weekend studying Marc Lou's landing pages. Here's what I found.</div>
+          <div class="blog-excerpt">Two indie hackers. Four products. Nearly identical page structures. This is what I learned about how successful products actually sell themselves.</div>
+          <div class="blog-meta">May 28, 2026 • 7 min read</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function switchTab(tabName, button) {
+      // Hide all sections
+      document.querySelectorAll('.content-section').forEach(el => {
+        el.classList.remove('active');
+      });
+
+      // Remove active from all nav links
+      document.querySelectorAll('.nav-link').forEach(el => {
+        el.classList.remove('active');
+      });
+
+      // Show selected section
+      document.getElementById(tabName).classList.add('active');
+      button.classList.add('active');
+    }
+  </script>
+</body>
+</html>

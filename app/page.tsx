@@ -3,7 +3,7 @@
 import { useRef, useState } from "react"
 import Image from "next/image"
 
-import { ArrowUpRight, Github, Linkedin, Mail, MapPin, Play } from "lucide-react"
+import { ArrowUpRight, Github, Linkedin, Mail, MapPin, Play, Twitter } from "lucide-react"
 
 type ProjectLink = {
   label: string
@@ -339,118 +339,105 @@ function ProjectPreview({ project }: { project: Project }) {
 export default function PortfolioPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-white text-black">
-      <div className="pointer-events-none absolute inset-0"></div>
+      {/* STICKY TOP NAVBAR (Pattern 1) */}
+      <nav className="sticky top-0 z-40 bg-white border-b-[4px] border-black px-8 py-4 flex items-center justify-between gap-8">
+        {/* Left: Avatar + Photo + Brand */}
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="relative w-[50px] h-[50px] rounded-lg border-[2px] border-black overflow-hidden shadow-[4px_4px_0_rgba(0,0,0,0.15)]">
+            <Image
+              src="/profile.jpg"
+              alt="Vidhan Mertiya"
+              fill
+              className="object-cover object-center"
+            />
+          </div>
+          <div className="font-black text-sm leading-tight">
+            Vidhan<br />Mertiya
+          </div>
+        </div>
 
-      <div className="relative mx-auto grid min-h-screen max-w-[1600px] lg:grid-cols-[420px_minmax(0,1fr)]">
-        <aside className="border-b-[4px] border-black bg-white px-6 py-10 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r-[4px] lg:px-10">
-          <div className="flex h-full flex-col gap-8 pt-2">
-            {/* Profile section */}
-            <div className="flex flex-col items-start gap-4">
+        {/* Center: Navigation Tabs */}
+        <div className="flex justify-center flex-1">
+          <div className="flex border-[2px] border-black bg-white">
+            <a href="/" className="px-4 py-2 border-r-[2px] border-black bg-black text-white text-xs font-semibold uppercase tracking-[0.05em] hover:bg-white hover:text-black transition-all">
+              Projects
+            </a>
+            <a href="/blog" className="px-4 py-2 bg-white text-black text-xs font-semibold uppercase tracking-[0.05em] hover:bg-gray-100 transition-all">
+              Blog
+            </a>
+          </div>
+        </div>
 
-              {/* Tall rounded rectangle image */}
-              <div className="relative w-full overflow-hidden rounded-2xl border-[3px] border-black shadow-[6px_6px_0px_rgba(0,0,0,0.15)]" style={{ height: "400px" }}>
-                <Image
-                  src="/profile.jpg"
-                  alt="Vidhan Mertiya"
-                  fill
-                  sizes="400px"
-                  className="object-cover object-center"
-                  priority
-                />
-              </div>
+        {/* Right: Social Icons */}
+        <div className="flex gap-2 flex-shrink-0">
+          <a
+            href="https://github.com/vidhanm"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 h-10 border-[2px] border-black bg-white flex items-center justify-center text-black hover:bg-black hover:text-white transition-all"
+            aria-label="GitHub"
+          >
+            <Github size={16} />
+          </a>
+          <a
+            href="https://linkedin.com/in/vidhanmertiya"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 h-10 border-[2px] border-black bg-white flex items-center justify-center text-black hover:bg-black hover:text-white transition-all"
+            aria-label="LinkedIn"
+          >
+            <Linkedin size={16} />
+          </a>
+          <a
+            href="https://x.com/vidhanmertiya"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 h-10 border-[2px] border-black bg-white flex items-center justify-center text-black hover:bg-black hover:text-white transition-all"
+            aria-label="X"
+          >
+            <Twitter size={16} />
+          </a>
+        </div>
+      </nav>
 
-              {/* Name */}
-              <h1 className="font-heading text-4xl font-black leading-[0.9] text-black sm:text-5xl">
-                Vidhan
-                <span className="block">Mertiya</span>
-              </h1>
-
-              {/* Location */}
-              <div className="flex items-center gap-1.5 text-sm font-semibold text-gray-500">
-                <MapPin size={14} />
-                India
-              </div>
-
-              {/* Social icons */}
-              <div className="flex items-center gap-3 text-black">
-                <a
-                  href="https://github.com/vidhanm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
-                  aria-label="GitHub"
-                >
-                  <Github size={18} />
-                </a>
-                <a
-                  href="https://linkedin.com/in/vidhanmertiya"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={18} />
-                </a>
-                <a
-                  href="https://x.com/vidhanmertiya"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
-                  aria-label="X (Twitter)"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg>
-                </a>
-                <a
-                  href="mailto:vidhanmertiya.vm@gmail.com"
-                  className="inline-flex h-11 w-11 items-center justify-center border-[3px] border-black bg-white transition-all hover:bg-black hover:text-white"
-                  aria-label="Email"
-                >
-                  <Mail size={18} />
-                </a>
-              </div>
-
-              {/* Navigation */}
-              <nav className="flex flex-col gap-2 border-t-[3px] border-black pt-6">
-                <a
-                  href="/"
-                  className="border-[2px] border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all hover:bg-white hover:text-black"
-                >
-                  Projects
-                </a>
-                <a
-                  href="/blog"
-                  className="border-[2px] border-black bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-black transition-all hover:bg-black hover:text-white"
-                >
-                  Blog
-                </a>
-              </nav>
+      {/* BIO SECTION */}
+      <section className="bg-white border-b-[4px] border-black px-8 py-10">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-black mb-4 tracking-tight">About Me</h2>
+          <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mb-6">
+            I'm a builder obsessed with creating products that matter. I love watching movies for storytelling insights, building things from scratch, and learning how great products tick. Currently figuring out my first big online sale - the kind that validates an idea.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <div className="border-[2px] border-black px-5 py-3 bg-white font-semibold text-sm uppercase tracking-wide">
+              🚀 Building new things
+            </div>
+            <div className="border-[2px] border-black px-5 py-3 bg-white font-semibold text-sm uppercase tracking-wide">
+              💰 Learning product-market fit
             </div>
           </div>
+        </div>
+      </section>
 
-        </aside>
+      {/* PROJECTS SECTION */}
+      <section className="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8 border-[3px] border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,0.2)] flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-black">Portfolio mix</p>
+              <h4 className="mt-2 text-lg font-semibold text-black">Live apps, repos, and fresh experiments</h4>
+            </div>
+            <span className="border-[2px] border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+              {projects.length} projects
+            </span>
+          </div>
 
-        <section className="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
           <div className="grid gap-5 md:grid-cols-2">
             {projects.map((project) => (
               <ProjectPreview key={project.name} project={project} />
             ))}
           </div>
-
-          <div className="mt-10 border-[3px] border-black bg-white p-6 shadow-[8px_8px_0px_rgba(0,0,0,0.2)]">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-black">Portfolio mix</p>
-                <h4 className="mt-2 text-lg font-semibold text-black">Live apps, repos, and fresh experiments</h4>
-              </div>
-              <span className="border-[2px] border-black bg-black px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white">
-                {projects.length} projects
-              </span>
-            </div>
-          </div>
+        </div>
         </section>
-      </div>
     </main>
   )
 }
