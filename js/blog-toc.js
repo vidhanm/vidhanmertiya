@@ -4,7 +4,7 @@
     .blog-toc-sidebar {
       position: fixed !important;
       top: 120px !important;
-      left: calc(50% + 380px) !important;
+      left: calc(50% + 410px) !important;
       width: 240px !important;
       max-height: calc(100vh - 180px) !important;
       display: flex !important;
@@ -26,7 +26,7 @@
     .minimap-container {
       position: relative !important;
       width: 32px !important;
-      height: 260px !important;
+      height: 360px !important;
       background: transparent !important;
       display: flex !important;
       flex-direction: column !important;
@@ -182,7 +182,7 @@
       border-color: var(--ink) !important;
     }
 
-    @media (max-width: 1280px) {
+    @media (max-width: 1340px) {
       .blog-toc-sidebar {
         display: none !important;
       }
@@ -247,7 +247,7 @@
     // 3. Render minimap lines
     const minimapLines = [];
     const totalBlocks = trackableBlocks.length;
-    const minimapHeight = 260;
+    const minimapHeight = 360;
     const gap = 2;
 
     const availableHeightForLines = minimapHeight - (totalBlocks - 1) * gap;
