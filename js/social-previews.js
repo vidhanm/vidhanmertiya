@@ -12,23 +12,23 @@
       transform: translateX(-50%) translateY(-12px) scale(0.95) !important;
       opacity: 0 !important;
       visibility: hidden !important;
-      width: 270px !important;
-      background: rgba(255, 255, 255, 0.98) !important;
+      width: 320px !important; /* Made wider for better readability */
+      background: rgba(255, 255, 255, 0.99) !important;
       border: 3px solid black !important;
       border-radius: 8px !important;
       box-shadow: 6px 6px 0px rgba(0,0,0,1) !important;
-      padding: 14px !important;
+      padding: 16px !important; /* More spacious padding */
       z-index: 99999 !important;
       transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
       pointer-events: none !important;
       text-align: left !important;
       color: black !important;
       font-family: 'DM Sans', system-ui, sans-serif !important;
-      line-height: 1.4 !important;
+      line-height: 1.45 !important;
       cursor: default !important;
     }
 
-    /* Arrow indicators pointing UP to social buttons */
+    /* Arrow indicators pointing UP to social buttons (default center) */
     .social-preview-card::after {
       content: '' !important;
       position: absolute !important;
@@ -52,28 +52,54 @@
       z-index: 1 !important;
     }
 
-    /* Active state when parent is hovered */
-    .navbar-social:hover .social-preview-card {
+    /* Active state when parent is hovered (default center) */
+    .navbar-social:hover .social-preview-card:not(.social-preview-right) {
       opacity: 1 !important;
       visibility: visible !important;
       transform: translateX(-50%) translateY(12px) scale(1) !important;
       pointer-events: auto !important;
     }
 
+    /* ── RIGHT ALIGNMENT (Prevents viewport clipping on X & Email) ── */
+    .social-preview-card.social-preview-right {
+      left: auto !important;
+      right: -10px !important;
+      transform: translateY(-12px) scale(0.95) !important;
+    }
+
+    .navbar-social:hover .social-preview-card.social-preview-right {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateY(12px) scale(1) !important;
+      pointer-events: auto !important;
+    }
+
+    /* Shift arrow to the right edge of the card */
+    .social-preview-card.social-preview-right::after {
+      left: auto !important;
+      right: 14px !important;
+      transform: none !important;
+    }
+    .social-preview-card.social-preview-right::before {
+      left: auto !important;
+      right: 14px !important;
+      transform: none !important;
+    }
+
     /* GitHub Specific styling */
     .github-preview {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
     .github-header {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
     .github-avatar {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
       border: 2px solid black;
       border-radius: 50%;
       object-fit: cover;
@@ -84,11 +110,11 @@
     }
     .github-username {
       font-weight: 700;
-      font-size: 13px;
+      font-size: 15px;
       line-height: 1.2;
     }
     .github-handle {
-      font-size: 10px;
+      font-size: 11px;
       color: #666;
     }
     .github-chart {
@@ -98,30 +124,30 @@
       border-radius: 4px;
       margin-top: 4px;
       background: #fcfcfc;
-      padding: 4px;
+      padding: 6px;
     }
 
     /* X / Twitter Card styling */
     .x-preview {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
     .x-header-banner {
-      height: 40px;
-      background: linear-gradient(135deg, #1da1f2 0%, #0c85d0 100%);
+      height: 48px;
+      background: linear-gradient(135deg, #16161a 0%, #35353d 100%);
       border: 2px solid black;
       border-radius: 4px;
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
     .x-avatar {
-      width: 32px;
-      height: 32px;
+      width: 38px;
+      height: 38px;
       border: 2px solid black;
       border-radius: 50%;
       position: absolute;
-      top: 20px;
+      top: 24px;
       left: 10px;
       background: white;
       object-fit: cover;
@@ -133,7 +159,7 @@
     }
     .x-name {
       font-weight: 700;
-      font-size: 13px;
+      font-size: 15px;
       display: flex;
       align-items: center;
       gap: 3px;
@@ -142,26 +168,26 @@
     .x-name::after {
       content: '✦';
       color: #e8a020;
-      font-size: 10px;
+      font-size: 11px;
     }
     .x-handle {
-      font-size: 10px;
+      font-size: 11px;
       color: #666;
     }
     .x-bio {
-      font-size: 10.5px;
-      color: #333;
-      margin-top: 3px;
-      line-height: 1.3;
+      font-size: 12px;
+      color: #222;
+      margin-top: 4px;
+      line-height: 1.4;
     }
     .x-stats {
       display: flex;
-      gap: 12px;
-      font-size: 9.5px;
+      gap: 14px;
+      font-size: 11px;
       color: #666;
-      margin-top: 6px;
+      margin-top: 8px;
       border-top: 1px solid #eee;
-      padding-top: 4px;
+      padding-top: 6px;
     }
     .x-stat strong {
       color: black;
@@ -172,16 +198,16 @@
     .linkedin-preview {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
     .linkedin-header {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
     .linkedin-avatar {
-      width: 32px;
-      height: 32px;
+      width: 38px;
+      height: 38px;
       border: 2px solid black;
       border-radius: 50%;
       object-fit: cover;
@@ -192,36 +218,37 @@
     }
     .linkedin-name {
       font-weight: 700;
-      font-size: 13px;
+      font-size: 15px;
       line-height: 1.2;
     }
     .linkedin-title {
-      font-size: 10.5px;
-      color: #333;
+      font-size: 12px;
+      color: #222;
       font-weight: 500;
-      margin-top: 1px;
+      margin-top: 2px;
     }
     .linkedin-school {
-      font-size: 9.5px;
+      font-size: 11px;
       color: #666;
+      margin-top: 2px;
     }
     .linkedin-stats {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 6px;
-      font-size: 9.5px;
+      margin-top: 8px;
+      font-size: 11px;
       color: #666;
       border-top: 1px solid #eee;
-      padding-top: 4px;
+      padding-top: 6px;
     }
     .linkedin-btn {
       background: #0077b5;
       color: white !important;
       border: 2px solid black;
       font-weight: 700;
-      font-size: 8.5px;
-      padding: 2px 6px;
+      font-size: 9.5px;
+      padding: 3px 8px;
       border-radius: 4px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -233,33 +260,33 @@
     .email-preview {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
     .email-title {
       font-weight: 700;
-      font-size: 12px;
+      font-size: 13px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
     .email-address {
       font-family: monospace;
-      font-size: 10px;
+      font-size: 11.5px;
       background: #f5f5f5;
       border: 1px solid #ddd;
-      padding: 4px 6px;
+      padding: 6px 8px;
       border-radius: 4px;
       color: #333;
       word-break: break-all;
     }
     .email-actions {
       display: flex;
-      gap: 6px;
-      margin-top: 2px;
+      gap: 8px;
+      margin-top: 4px;
     }
     .email-btn {
       flex: 1;
-      padding: 5px 3px;
-      font-size: 8.5px;
+      padding: 7px 4px;
+      font-size: 9.5px;
       font-weight: 700;
       text-align: center;
       border: 2px solid black;
@@ -300,7 +327,7 @@
   styleEl.textContent = css;
   document.head.appendChild(styleEl);
 
-  // 2. Templates generator for Previews HTML
+  // 2. Templates generator for Previews HTML (with enlarged elements)
   const getPreviewHTML = (type) => {
     switch (type) {
       case 'github':
@@ -326,7 +353,7 @@
             <div class="x-profile-info">
               <span class="x-name">Vidhan Mertiya</span>
               <span class="x-handle">@vidhanmertiya</span>
-              <span class="x-bio">builder, developer, and product explorer. obsessed with creating products that matter.</span>
+              <span class="x-bio">builder, developer, and product explorer. obsessed with creating products that matter. building <a href="https://talkbook.live" target="_blank" style="color:#1da1f2;text-decoration:none;font-weight:500;">@talkbook_live</a>.</span>
             </div>
             <div class="x-stats">
               <span class="x-stat"><strong>580</strong> Following</span>
@@ -391,7 +418,14 @@
       if (type) {
         // Create the card element
         const card = document.createElement('div');
-        card.className = 'social-preview-card';
+        
+        // Add right alignment styling classes dynamically to prevent viewport clipping
+        if (type === 'twitter' || type === 'email') {
+          card.className = 'social-preview-card social-preview-right';
+        } else {
+          card.className = 'social-preview-card';
+        }
+        
         card.innerHTML = getPreviewHTML(type);
 
         // Prevent default click actions (navigation) when elements inside the card are clicked
