@@ -340,7 +340,7 @@
                 <span class="github-handle">@vidhanm</span>
               </div>
             </div>
-            <img class="github-chart" src="https://ghchart.rshah.org/667eea/vidhanm" alt="Vidhan's GitHub Contributions chart">
+            <img class="github-chart" src="https://ghchart.rshah.org/40c463/vidhanm" alt="Vidhan's GitHub Contributions chart">
           </div>
         `;
 
@@ -424,7 +424,7 @@
         const card = document.createElement('div');
         
         // Add right alignment styling classes dynamically to prevent viewport clipping
-        if (type === 'twitter' || type === 'email') {
+        if (type === 'twitter' || type === 'email' || type === 'linkedin') {
           card.className = 'social-preview-card social-preview-right';
         } else {
           card.className = 'social-preview-card';
