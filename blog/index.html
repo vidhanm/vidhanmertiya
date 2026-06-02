@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function() {
+      const t = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog - Vidhan Mertiya</title>
   <meta name="description" content="Thoughts on web development, design, and building in public">
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/social-previews.js" defer></script>
+  <script src="/js/theme-toggle.js" defer></script>
   <style>
     /* Sticky top navbar */
     .navbar {

@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+  (function() {
+    const t = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>I spent a weekend studying Marc Lou & Jack Friks' landing pages. Here's what I found.</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <script src="/js/social-previews.js" defer></script>
 <script src="/js/blog-toc.js" defer></script>
+<script src="/js/theme-toggle.js" defer></script>
 <style>
 
 /* Sticky top navbar */
