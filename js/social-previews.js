@@ -31,7 +31,7 @@
       transform: translateX(-50%) translateY(-12px) scale(0.95) !important;
       opacity: 0 !important;
       visibility: hidden !important;
-      width: 320px !important; /* Made wider for better readability */
+      width: 350px !important; /* Made wider for better readability */
       background: rgba(255, 255, 255, 0.99) !important;
       border: 3px solid black !important;
       border-radius: 8px !important;
@@ -143,7 +143,7 @@
       border-radius: 4px;
       margin-top: 4px;
       background: #fcfcfc;
-      padding: 6px;
+      padding: 4px;
     }
 
     /* X / Twitter Card styling */
