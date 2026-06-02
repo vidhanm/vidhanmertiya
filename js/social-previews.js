@@ -1,4 +1,23 @@
 (function() {
+  let githubContributions = '642 contributions in 2026';
+
+  // Fetch dynamic GitHub contributions count on load
+  fetch('https://github-contributions-api.jogruber.de/v4/vidhanm')
+    .then(res => res.json())
+    .then(data => {
+      const currentYear = new Date().getFullYear().toString();
+      const count = data.total[currentYear] || data.total['2026'] || 642;
+      githubContributions = `${count.toLocaleString()} contributions in ${currentYear}`;
+      
+      const elements = document.querySelectorAll('.github-contributions-count');
+      elements.forEach(el => {
+        el.textContent = githubContributions;
+      });
+    })
+    .catch(err => {
+      console.error('Error fetching contributions:', err);
+    });
+
   // 1. Inject Stylesheets dynamically
   const css = `
     .navbar-social {
@@ -338,6 +357,7 @@
               <div class="github-info">
                 <span class="github-username">Vidhan Mertiya</span>
                 <span class="github-handle">@vidhanm</span>
+                <span class="github-contributions-count" style="font-size: 11px; color: #555; margin-top: 2px; font-weight: 500;">${githubContributions}</span>
               </div>
             </div>
             <img class="github-chart" src="https://ghchart.rshah.org/40c463/vidhanm" alt="Vidhan's GitHub Contributions chart">
