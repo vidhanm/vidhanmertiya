@@ -1,11 +1,11 @@
 [
   {
-    "slug": "marc-lou-landing-pages",
-    "title": "I spent a weekend studying Marc Lou & Jack Friks' landing pages. Here's what I found.",
-    "excerpt": "Two indie hackers. Four products. Nearly identical page structures. This is what I learned about how successful products actually sell themselves.",
-    "date": "May 28, 2026",
-    "readTime": "7 min read",
-    "tags": ["Landing Pages", "Copywriting", "Product Design", "Sales"]
+    "slug": "jhey-tweets",
+    "title": "Jhey posts CSS gold on Twitter every week. I built a database so none of it gets lost.",
+    "excerpt": "5,698 tweets. 1,701 curated tips. One question: why doesn't this exist already?",
+    "date": "June 2, 2026",
+    "readTime": "6 min read",
+    "tags": ["CSS", "Scraping", "Data Curation", "UI/UX"]
   },
   {
     "slug": "clipboard-images-over-ssh",
@@ -14,5 +14,13 @@
     "date": "May 31, 2026",
     "readTime": "12 min read",
     "tags": ["SSH", "WezTerm", "Terminal", "DevOps", "AI Agents"]
+  },
+  {
+    "slug": "marc-lou-landing-pages",
+    "title": "I spent a weekend studying Marc Lou & Jack Friks' landing pages. Here's what I found.",
+    "excerpt": "Two indie hackers. Four products. Nearly identical page structures. This is what I learned about how successful products actually sell themselves.",
+    "date": "May 28, 2026",
+    "readTime": "7 min read",
+    "tags": ["Landing Pages", "Copywriting", "Product Design", "Sales"]
   }
 ]
