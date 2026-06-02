@@ -135,7 +135,7 @@
     }
     .x-header-banner {
       height: 64px;
-      background: url('/public/x-banner.png') no-repeat center/cover !important;
+      background: url('/public/twitter-background.png') no-repeat center/cover !important;
       border: 2px solid black;
       border-radius: 4px;
       position: relative;
@@ -348,7 +348,7 @@
         return `
           <div class="x-preview">
             <div class="x-header-banner">
-              <img class="x-avatar" src="/public/profile.jpg" alt="Vidhan" onerror="this.src='https://vidhanmertiya.vercel.app/public/profile.jpg'">
+              <img class="x-avatar" src="/public/twitter-main-photo.jpg" alt="Vidhan" onerror="this.src='/public/profile.jpg'">
             </div>
             <div class="x-profile-info">
               <span class="x-name">Vidhan | Talkbook</span>
