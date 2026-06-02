@@ -1,0 +1,441 @@
+(function() {
+  // 1. Inject Stylesheets dynamically
+  const css = `
+    .navbar-social {
+      position: relative !important;
+    }
+
+    .social-preview-card {
+      position: absolute !important;
+      top: 100% !important;
+      left: 50% !important;
+      transform: translateX(-50%) translateY(-12px) scale(0.95) !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      width: 270px !important;
+      background: rgba(255, 255, 255, 0.98) !important;
+      border: 3px solid black !important;
+      border-radius: 8px !important;
+      box-shadow: 6px 6px 0px rgba(0,0,0,1) !important;
+      padding: 14px !important;
+      z-index: 99999 !important;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+      pointer-events: none !important;
+      text-align: left !important;
+      color: black !important;
+      font-family: 'DM Sans', system-ui, sans-serif !important;
+      line-height: 1.4 !important;
+      cursor: default !important;
+    }
+
+    /* Arrow indicators pointing UP to social buttons */
+    .social-preview-card::after {
+      content: '' !important;
+      position: absolute !important;
+      bottom: 100% !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      border-width: 8px !important;
+      border-style: solid !important;
+      border-color: transparent transparent black transparent !important;
+    }
+
+    .social-preview-card::before {
+      content: '' !important;
+      position: absolute !important;
+      bottom: 100% !important;
+      left: 50% !important;
+      transform: translateX(-50%) translateY(3px) !important;
+      border-width: 8px !important;
+      border-style: solid !important;
+      border-color: transparent transparent white transparent !important;
+      z-index: 1 !important;
+    }
+
+    /* Active state when parent is hovered */
+    .navbar-social:hover .social-preview-card {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateX(-50%) translateY(12px) scale(1) !important;
+      pointer-events: auto !important;
+    }
+
+    /* GitHub Specific styling */
+    .github-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .github-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .github-avatar {
+      width: 28px;
+      height: 28px;
+      border: 2px solid black;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .github-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .github-username {
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+    .github-handle {
+      font-size: 10px;
+      color: #666;
+    }
+    .github-chart {
+      width: 100%;
+      height: auto;
+      border: 2px solid black;
+      border-radius: 4px;
+      margin-top: 4px;
+      background: #fcfcfc;
+      padding: 4px;
+    }
+
+    /* X / Twitter Card styling */
+    .x-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .x-header-banner {
+      height: 40px;
+      background: linear-gradient(135deg, #1da1f2 0%, #0c85d0 100%);
+      border: 2px solid black;
+      border-radius: 4px;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .x-avatar {
+      width: 32px;
+      height: 32px;
+      border: 2px solid black;
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      left: 10px;
+      background: white;
+      object-fit: cover;
+    }
+    .x-profile-info {
+      display: flex;
+      flex-direction: column;
+      padding-left: 2px;
+    }
+    .x-name {
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      line-height: 1.2;
+    }
+    .x-name::after {
+      content: '✦';
+      color: #e8a020;
+      font-size: 10px;
+    }
+    .x-handle {
+      font-size: 10px;
+      color: #666;
+    }
+    .x-bio {
+      font-size: 10.5px;
+      color: #333;
+      margin-top: 3px;
+      line-height: 1.3;
+    }
+    .x-stats {
+      display: flex;
+      gap: 12px;
+      font-size: 9.5px;
+      color: #666;
+      margin-top: 6px;
+      border-top: 1px solid #eee;
+      padding-top: 4px;
+    }
+    .x-stat strong {
+      color: black;
+      font-weight: 700;
+    }
+
+    /* LinkedIn Card styling */
+    .linkedin-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .linkedin-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .linkedin-avatar {
+      width: 32px;
+      height: 32px;
+      border: 2px solid black;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .linkedin-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .linkedin-name {
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+    .linkedin-title {
+      font-size: 10.5px;
+      color: #333;
+      font-weight: 500;
+      margin-top: 1px;
+    }
+    .linkedin-school {
+      font-size: 9.5px;
+      color: #666;
+    }
+    .linkedin-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      font-size: 9.5px;
+      color: #666;
+      border-top: 1px solid #eee;
+      padding-top: 4px;
+    }
+    .linkedin-btn {
+      background: #0077b5;
+      color: white !important;
+      border: 2px solid black;
+      font-weight: 700;
+      font-size: 8.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 2px 2px 0 black;
+      text-decoration: none;
+    }
+
+    /* Email Card styling */
+    .email-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .email-title {
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .email-address {
+      font-family: monospace;
+      font-size: 10px;
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      padding: 4px 6px;
+      border-radius: 4px;
+      color: #333;
+      word-break: break-all;
+    }
+    .email-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .email-btn {
+      flex: 1;
+      padding: 5px 3px;
+      font-size: 8.5px;
+      font-weight: 700;
+      text-align: center;
+      border: 2px solid black;
+      border-radius: 4px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.15s;
+    }
+    .email-copy-btn {
+      background: #ffe66d;
+      color: black !important;
+      box-shadow: 2px 2px 0 black;
+    }
+    .email-copy-btn.copied {
+      background: #4ae380 !important;
+      box-shadow: none !important;
+      transform: translate(2px, 2px) !important;
+    }
+    .email-send-btn {
+      background: black;
+      color: white !important;
+      box-shadow: 2px 2px 0 #555;
+      text-decoration: none;
+    }
+    .email-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 black;
+    }
+    .email-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+  `;
+
+  // Inject CSS style element into Head
+  const styleEl = document.createElement('style');
+  styleEl.textContent = css;
+  document.head.appendChild(styleEl);
+
+  // 2. Templates generator for Previews HTML
+  const getPreviewHTML = (type) => {
+    switch (type) {
+      case 'github':
+        return `
+          <div class="github-preview">
+            <div class="github-header">
+              <img class="github-avatar" src="/public/profile.jpg" alt="Vidhan" onerror="this.src='https://vidhanmertiya.vercel.app/public/profile.jpg'">
+              <div class="github-info">
+                <span class="github-username">Vidhan Mertiya</span>
+                <span class="github-handle">@vidhanm</span>
+              </div>
+            </div>
+            <img class="github-chart" src="https://ghchart.rshah.org/667eea/vidhanm" alt="Vidhan's GitHub Contributions chart">
+          </div>
+        `;
+
+      case 'twitter':
+        return `
+          <div class="x-preview">
+            <div class="x-header-banner">
+              <img class="x-avatar" src="/public/profile.jpg" alt="Vidhan" onerror="this.src='https://vidhanmertiya.vercel.app/public/profile.jpg'">
+            </div>
+            <div class="x-profile-info">
+              <span class="x-name">Vidhan Mertiya</span>
+              <span class="x-handle">@vidhanmertiya</span>
+              <span class="x-bio">builder, developer, and product explorer. obsessed with creating products that matter.</span>
+            </div>
+            <div class="x-stats">
+              <span class="x-stat"><strong>580</strong> Following</span>
+              <span class="x-stat"><strong>1.1K</strong> Followers</span>
+            </div>
+          </div>
+        `;
+
+      case 'linkedin':
+        return `
+          <div class="linkedin-preview">
+            <div class="linkedin-header">
+              <img class="linkedin-avatar" src="/public/profile.jpg" alt="Vidhan" onerror="this.src='https://vidhanmertiya.vercel.app/public/profile.jpg'">
+              <div class="linkedin-info">
+                <span class="linkedin-name">Vidhan Mertiya</span>
+                <span class="linkedin-title">Full-Stack Builder & Developer</span>
+              </div>
+            </div>
+            <div class="linkedin-school">IIT Madras • Building TalkBook</div>
+            <div class="linkedin-stats">
+              <span>500+ connections</span>
+              <span class="linkedin-btn">Connect</span>
+            </div>
+          </div>
+        `;
+
+      case 'email':
+        return `
+          <div class="email-preview">
+            <div class="email-title">Drop a Message</div>
+            <div class="email-address">vidhanmertiya.vm@gmail.com</div>
+            <div class="email-actions">
+              <div class="email-btn email-copy-btn" id="email-copy-trigger">Copy Email</div>
+              <a href="mailto:vidhanmertiya.vm@gmail.com" class="email-btn email-send-btn">Send Email</a>
+            </div>
+          </div>
+        `;
+
+      default:
+        return '';
+    }
+  };
+
+  // 3. Initialize hover cards on DOM content load
+  function initPreviews() {
+    const socialLinks = document.querySelectorAll('.navbar-social');
+
+    socialLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      let type = '';
+
+      if (href.includes('github.com')) {
+        type = 'github';
+      } else if (href.includes('linkedin.com')) {
+        type = 'linkedin';
+      } else if (href.includes('x.com') || href.includes('twitter.com')) {
+        type = 'twitter';
+      } else if (href.startsWith('mailto:') || link.getAttribute('aria-label') === 'Email') {
+        type = 'email';
+      }
+
+      if (type) {
+        // Create the card element
+        const card = document.createElement('div');
+        card.className = 'social-preview-card';
+        card.innerHTML = getPreviewHTML(type);
+
+        // Prevent default click actions (navigation) when elements inside the card are clicked
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // If a standard button/link is clicked, allow it, otherwise block anchor navigation
+          if (!e.target.closest('a') && !e.target.closest('#email-copy-trigger')) {
+            e.preventDefault();
+          }
+        });
+
+        // Add Clipboard Copying logic for email
+        if (type === 'email') {
+          const copyBtn = card.querySelector('#email-copy-trigger');
+          if (copyBtn) {
+            copyBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              
+              navigator.clipboard.writeText('vidhanmertiya.vm@gmail.com').then(() => {
+                copyBtn.textContent = '✓ Copied!';
+                copyBtn.classList.add('copied');
+
+                setTimeout(() => {
+                  copyBtn.textContent = 'Copy Email';
+                  copyBtn.classList.remove('copied');
+                }, 2000);
+              }).catch(err => {
+                console.error('Could not copy email: ', err);
+              });
+            });
+          }
+        }
+
+        // Append to the navbar social icon parent
+        link.appendChild(card);
+      }
+    });
+  }
+
+  // Ensure DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPreviews);
+  } else {
+    initPreviews();
+  }
+})();
