@@ -134,20 +134,20 @@
       gap: 6px;
     }
     .x-header-banner {
-      height: 48px;
-      background: linear-gradient(135deg, #16161a 0%, #35353d 100%);
+      height: 64px;
+      background: url('/public/x-banner.png') no-repeat center/cover !important;
       border: 2px solid black;
       border-radius: 4px;
       position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
     .x-avatar {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
       border: 2px solid black;
       border-radius: 50%;
       position: absolute;
-      top: 24px;
+      top: 36px;
       left: 10px;
       background: white;
       object-fit: cover;
@@ -351,13 +351,17 @@
               <img class="x-avatar" src="/public/profile.jpg" alt="Vidhan" onerror="this.src='https://vidhanmertiya.vercel.app/public/profile.jpg'">
             </div>
             <div class="x-profile-info">
-              <span class="x-name">Vidhan Mertiya</span>
+              <span class="x-name">Vidhan | Talkbook</span>
               <span class="x-handle">@vidhanmertiya</span>
-              <span class="x-bio">builder, developer, and product explorer. obsessed with creating products that matter. building <a href="https://talkbook.live" target="_blank" style="color:#1da1f2;text-decoration:none;font-weight:500;">@talkbook_live</a>.</span>
+              <span class="x-bio">Building the future of reading Books.</span>
+              <div style="font-size: 9.5px; color: #555; margin-top: 4px; display: flex; flex-direction: column; gap: 2px;">
+                <span>📍 Distorted Reality &nbsp;·&nbsp; 🔗 <a href="https://talkbook.live" target="_blank" style="color:#1da1f2;text-decoration:none;">talkbook.live</a></span>
+                <span>📅 Joined May 2024</span>
+              </div>
             </div>
             <div class="x-stats">
-              <span class="x-stat"><strong>580</strong> Following</span>
-              <span class="x-stat"><strong>1.1K</strong> Followers</span>
+              <span class="x-stat"><strong>519</strong> Following</span>
+              <span class="x-stat"><strong>34</strong> Followers</span>
             </div>
           </div>
         `;
