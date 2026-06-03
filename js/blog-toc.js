@@ -368,22 +368,39 @@
         }
       });
 
-      // Position the lens overlay to cover visible lines
+      // Position the lens overlay to cover visible lines with a minimum height
+      const minLensHeight = 40; // Enforce a minimum lens height so it never fully collapses
       if (firstVisibleIdx !== -1 && lastVisibleIdx !== -1) {
         const firstLineTop = firstVisibleIdx * (lineHeight + gap);
         const lastLineBottom = lastVisibleIdx * (lineHeight + gap) + lineHeight;
         
-        lens.style.top = `${firstLineTop}px`;
-        lens.style.height = `${lastLineBottom - firstLineTop}px`;
+        let top = firstLineTop;
+        let height = lastLineBottom - firstLineTop;
+        
+        if (height < minLensHeight) {
+          // Center the lens around the active lines
+          const center = firstLineTop + height / 2;
+          top = center - minLensHeight / 2;
+          height = minLensHeight;
+          
+          // Clamp bounds to keep the lens within the minimap container
+          if (top < 0) {
+            top = 0;
+          } else if (top + height > minimapHeight) {
+            top = minimapHeight - height;
+          }
+        }
+        
+        lens.style.top = `${top}px`;
+        lens.style.height = `${height}px`;
       } else {
         // Fallback when scrolled completely outside the prose container
         if (window.scrollY < blockRects[0]?.top) {
           lens.style.top = '0px';
-          lens.style.height = `${lineHeight}px`;
+          lens.style.height = `${minLensHeight}px`;
         } else {
-          const lastLineTop = (totalBlocks - 1) * (lineHeight + gap);
-          lens.style.top = `${lastLineTop}px`;
-          lens.style.height = `${lineHeight}px`;
+          lens.style.top = `${minimapHeight - minLensHeight}px`;
+          lens.style.height = `${minLensHeight}px`;
         }
       }
 
