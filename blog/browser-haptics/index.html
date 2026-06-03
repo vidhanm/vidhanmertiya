@@ -730,42 +730,42 @@
 
       <!-- Haptic Timeline Visualization -->
       <div class="timeline-viz">
-        <div class="tl-label">F1 Video — Haptic Event Timeline (illustrative)</div>
+        <div class="tl-label">F1 Video: Haptic Event Timeline (illustrative)</div>
         <div class="tl-track">
           <!-- RPM baseline bar -->
           <div class="tl-bar" style="left:0; width:100%; height:6px; opacity:0.15;"></div>
 
           <!-- Engine start -->
           <div class="tl-event" style="left:3%; width:5%; height:22px; background:var(--accent); border-radius:3px; opacity:0.9;">
-            <div class="tl-tooltip">0.3s — Engine start</div>
+            <div class="tl-tooltip">0.3s: Engine start</div>
           </div>
           <!-- Acceleration 1 -->
           <div class="tl-event" style="left:12%; width:9%; height:32px; background:var(--accent); border-radius:3px; opacity:0.85;">
-            <div class="tl-tooltip">1.2s — Accel burst</div>
+            <div class="tl-tooltip">1.2s: Accel burst</div>
           </div>
           <!-- Brake -->
           <div class="tl-event" style="left:26%; width:4%; height:40px; background:var(--accent-2); border-radius:3px; opacity:0.9;">
-            <div class="tl-tooltip">2.6s — Hard brake</div>
+            <div class="tl-tooltip">2.6s: Hard brake</div>
           </div>
           <!-- Gear shift series -->
           <div class="tl-event" style="left:34%; width:2%; height:16px; background:var(--accent); border-radius:3px;"></div>
           <div class="tl-event" style="left:37%; width:2%; height:16px; background:var(--accent); border-radius:3px;"></div>
           <div class="tl-event" style="left:40%; width:2%; height:16px; background:var(--accent); border-radius:3px;">
-            <div class="tl-tooltip">3.4–4.0s — Gear shifts</div>
+            <div class="tl-tooltip">3.4-4.0s: Gear shifts</div>
           </div>
           <!-- Long acceleration -->
           <div class="tl-event" style="left:47%; width:14%; height:28px; background:var(--accent); border-radius:3px; opacity:0.8;">
-            <div class="tl-tooltip">4.7s — Straight burst</div>
+            <div class="tl-tooltip">4.7s: Straight burst</div>
           </div>
           <!-- Crash / impact -->
           <div class="tl-event" style="left:66%; width:7%; height:42px; background:var(--accent-2); border-radius:3px; opacity:0.95;">
-            <div class="tl-tooltip">6.6s — Impact</div>
+            <div class="tl-tooltip">6.6s: Impact</div>
           </div>
           <!-- Revving -->
           <div class="tl-event" style="left:78%; width:3%; height:20px; background:var(--accent); border-radius:3px;"></div>
           <div class="tl-event" style="left:83%; width:3%; height:20px; background:var(--accent); border-radius:3px;"></div>
           <div class="tl-event" style="left:88%; width:3%; height:20px; background:var(--accent); border-radius:3px;">
-            <div class="tl-tooltip">7.8–8.8s — Rev match</div>
+            <div class="tl-tooltip">7.8-8.8s: Rev match</div>
           </div>
         </div>
         <div class="tl-timestamps">
@@ -799,26 +799,26 @@
         </thead>
         <tbody>
           <tr>
-            <td><strong>Android — Chrome</strong></td>
+            <td><strong>Android (Chrome)</strong></td>
             <td><code>navigator.vibrate()</code></td>
             <td><span class="badge badge-green">Works</span></td>
             <td style="color:var(--ink-3); font-size:0.8rem;">Full sync, intensity scaling, background RPM pattern all functional</td>
           </tr>
           <tr>
-            <td><strong>iOS 18+ — Safari</strong></td>
+            <td><strong>iOS 18+ (Safari)</strong></td>
             <td><code>input[switch]</code> hack</td>
             <td><span class="badge badge-yellow">Limited</span></td>
             <td style="color:var(--ink-3); font-size:0.8rem;">System haptic tick on each event, no duration/intensity control</td>
           </tr>
           <tr>
             <td><strong>iOS &lt; 18</strong></td>
-            <td>—</td>
+            <td>N/A</td>
             <td><span class="badge badge-red">No haptic support</span></td>
             <td style="color:var(--ink-3); font-size:0.8rem;">No vibration API support; falls back to on-screen event flash</td>
           </tr>
           <tr>
             <td><strong>Desktop</strong></td>
-            <td>—</td>
+            <td>N/A</td>
             <td><span class="badge badge-red">No haptic support</span></td>
             <td style="color:var(--ink-3); font-size:0.8rem;">No vibration hardware; demo still runs, events show on screen</td>
           </tr>
@@ -841,9 +841,9 @@
 
       <!-- iOS Hack Code Explainer -->
       <div class="ios-hack">
-        <div class="ios-hack-title">The iOS 18 Haptic Trick — How It Works</div>
+        <div class="ios-hack-title">The iOS 18 Haptic Trick: How It Works</div>
         <div class="code-block">
-<span class="code-comment">// Hidden in the page — zero size, off-screen</span>
+<span class="code-comment">// Hidden in the page: zero size, off-screen</span>
 <span class="code-tag">&lt;input</span> <span class="code-attr">type</span>=<span class="code-string">"checkbox"</span> <span class="code-attr">switch</span> <span class="code-attr">id</span>=<span class="code-string">"ios-haptic"</span>
        <span class="code-attr">style</span>=<span class="code-string">"opacity:0; position:absolute; pointer-events:none;"</span> <span class="code-tag">/&gt;</span>
 
