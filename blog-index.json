@@ -1,5 +1,13 @@
 [
   {
+    "slug": "browser-haptics",
+    "title": "Apple made a movie trailer vibrate in sync with an F1 car. I tried to do the same thing in a browser.",
+    "excerpt": "The Web Vibration API exists. Most developers don't know about it. Here's what happens when you actually push it — and where it hits a wall called iPhone.",
+    "date": "June 3, 2026",
+    "readTime": "5 min read",
+    "tags": ["Haptics", "Web APIs", "Mobile Web", "Safari", "Interactive"]
+  },
+  {
     "slug": "jhey-tweets",
     "title": "Jhey posts CSS gold on Twitter every week. I built a database so none of it gets lost.",
     "excerpt": "5,698 tweets. 1,701 curated tips. One question: why doesn't this exist already?",

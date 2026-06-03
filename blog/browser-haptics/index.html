@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function() {
+      const t = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple made a movie trailer vibrate with an F1 car. I tried to do the same thing in a browser.</title>
+  <meta name="description" content="The Web Vibration API exists. Most developers don't know about it. Here's what happens when you actually push it.">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:ital,wght@0,400;0,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/social-previews.js" defer></script>
+  <script src="/js/blog-toc.js" defer></script>
+  <script src="/js/theme-toggle.js"></script>
+  <style>
+    /* Sticky top navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: white;
+      border-bottom: 4px solid black;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-shrink: 0;
+    }
+
+    .navbar-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 0.5rem;
+      border: 2px solid black;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: bold;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+
+    .navbar-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .navbar-brand {
+      font-size: 0.9rem;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
+    .navbar-center {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .navbar-nav {
+      display: flex;
+      border: 2px solid black;
+      background: white;
+    }
+
+    .navbar-nav a {
+      padding: 0.5rem 1rem;
+      border-right: 2px solid black;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+      color: black;
+      text-decoration: none;
+    }
+
+    .navbar-nav a:last-child {
+      border-right: none;
+    }
+
+    .navbar-nav a.active {
+      background: black;
+      color: white;
+    }
+
+    .navbar-nav a:hover:not(.active) {
+      background: #f5f5f5;
+    }
+
+    .navbar-right {
+      display: flex;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .navbar-social {
+      width: 40px;
+      height: 40px;
+      border: 2px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+      color: black;
+      text-decoration: none;
+    }
+
+    .navbar-social:hover {
+      background: black;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 1024px) {
+      .navbar {
+        flex-wrap: wrap;
+        padding: 1rem;
+      }
+
+      .navbar-center {
+        order: 3;
+        width: 100%;
+        margin-top: 0.75rem;
+      }
+
+      .navbar-brand {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .navbar {
+        padding: 0.75rem;
+      }
+
+      .navbar-nav a {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.65rem;
+      }
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── BLOG TOKENS ── */
+    :root {
+      --paper:    #ffffff;
+      --paper-2:  #f2ede3;
+      --paper-3:  #e4ddd0;
+      --ink:      #1a1816;
+      --ink-2:    #3d3830;
+      --ink-3:    #7a6f62;
+      --ink-4:    #a89f90;
+      --accent:   #c84b2f;
+      --accent-2: #d97706; /* light mode warning */
+      --serif:    'Lora', Georgia, serif;
+      --sans:     'DM Sans', system-ui, sans-serif;
+      --mono:     'DM Mono', monospace;
+    }
+
+    html[data-theme="dark"] {
+      --accent-2: #fbbf24; /* dark mode warning */
+    }
+
+    /* ── PAGE ── */
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.75;
+      padding: 0;
+    }
+
+    /* ── LAYOUT ── */
+    .blog-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    /* ── HEADER ── */
+    .blog-header { margin-bottom: 56px; }
+
+    .blog-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink-3);
+      text-decoration: none;
+      margin-bottom: 32px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .blog-back:hover {
+      color: var(--accent);
+      transform: translateX(-4px);
+    }
+
+    .blog-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-4);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .blog-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--paper-3); }
+
+    .blog-title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: 1.15;
+      color: var(--ink);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .blog-lede {
+      font-size: 18px;
+      color: var(--ink-2);
+      line-height: 1.7;
+      font-weight: 300;
+      border-left: 3px solid var(--paper-3);
+      padding-left: 20px;
+    }
+
+    /* ── PROSE ── */
+    .prose p {
+      margin-bottom: 22px;
+      color: var(--ink-2);
+      font-weight: 300;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--ink); font-weight: 500; }
+    .prose em { font-style: italic; }
+
+    .prose h2 {
+      font-family: var(--serif);
+      font-size: clamp(20px, 3vw, 26px);
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.25;
+      margin: 56px 0 20px;
+      padding-top: 4px;
+    }
+
+    .prose h3 {
+      font-family: var(--serif);
+      font-size: clamp(18px, 2vw, 22px);
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.25;
+      margin: 48px 0 16px;
+      padding-top: 4px;
+    }
+
+    .prose hr {
+      border: none;
+      border-top: 1px solid var(--paper-3);
+      margin: 48px 0;
+    }
+
+    .prose blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 2px 0 2px 20px;
+      margin: 28px 0;
+      color: var(--ink-2);
+      font-style: italic;
+      font-family: var(--serif);
+    }
+
+    .prose code {
+      font-family: var(--mono);
+      font-size: 14px;
+      background: var(--paper-2);
+      border: 1px solid var(--paper-3);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--accent);
+    }
+
+    .prose pre {
+      background: var(--paper-2);
+      border: 1px solid var(--paper-3);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 28px 0;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink-2);
+    }
+
+    .prose ul {
+      padding-left: 1.4rem;
+      margin-bottom: 1.3rem;
+    }
+    .prose li {
+      font-size: 0.97rem;
+      color: var(--ink-2);
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+
+    .prose a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(200, 75, 47, 0.3);
+      transition: border-color 0.2s;
+    }
+    .prose a:hover {
+      border-color: var(--accent);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--paper-3);
+      margin: 2.5rem 0;
+    }
+
+    /* ── INSIGHT BLOCK ── */
+    .insight-block {
+      background: var(--paper-2);
+      border-left: 3px solid var(--accent);
+      padding: 1.2rem 1.5rem;
+      margin: 2.5rem 0;
+      font-size: 0.95rem;
+      color: var(--ink-2);
+      font-family: var(--serif);
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    /* ── PLATFORM TABLE ── */
+    .platform-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid var(--ink) !important;
+      background-color: var(--paper);
+      margin: 2.5rem 0;
+      font-size: 0.83rem;
+      box-shadow: 6px 6px 0px var(--ink);
+    }
+    .platform-table th {
+      background: var(--paper-3);
+      text-align: left;
+      padding: 0.75rem 1rem;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      border-bottom: 2px solid var(--ink);
+    }
+    .platform-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--paper-3);
+      vertical-align: middle;
+      color: var(--ink-2);
+    }
+    .platform-table tr:last-child td { border-bottom: none; }
+    .platform-table tr:hover td { background: var(--paper-2); }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-green {
+      background: rgba(34,197,94,0.12);
+      color: #16803d;
+      border: 1.5px solid #16803d;
+    }
+    .badge-yellow {
+      background: rgba(245,158,11,0.12);
+      color: #b45309;
+      border: 1.5px solid #b45309;
+    }
+    .badge-red {
+      background: rgba(239,68,68,0.12);
+      color: #b91c1c;
+      border: 1.5px solid #b91c1c;
+    }
+    html[data-theme="dark"] .badge-green {
+      color: #4ade80;
+      border-color: #4ade80;
+    }
+    html[data-theme="dark"] .badge-yellow {
+      color: #fbbf24;
+      border-color: #fbbf24;
+    }
+    html[data-theme="dark"] .badge-red {
+      color: #f87171;
+      border-color: #f87171;
+    }
+
+    /* ── HAPTIC TIMELINE VIZ ── */
+    .timeline-viz {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      margin: 2.5rem 0;
+      padding: 1.5rem;
+      box-shadow: 4px 4px 0px var(--ink);
+    }
+    .tl-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-3);
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+    }
+    .tl-track {
+      position: relative;
+      height: 44px;
+      background: var(--paper-3);
+      border: 1.5px solid var(--ink);
+    }
+    .tl-bar {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--ink);
+      opacity: 0.15;
+    }
+    .tl-event {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 1.5px solid var(--ink);
+      cursor: help;
+    }
+    .tl-tooltip {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      padding: 4px 8px;
+      font-size: 0.65rem;
+      color: var(--ink);
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 2px 2px 0px var(--ink);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.15s ease;
+      z-index: 10;
+    }
+    .tl-event:hover .tl-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .tl-timestamps {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.65rem;
+      color: var(--ink-3);
+      font-family: var(--mono);
+    }
+
+    /* ── iOS HACK EXPLAINER ── */
+    .ios-hack {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      padding: 1.5rem;
+      margin: 2.5rem 0;
+      box-shadow: 4px 4px 0px var(--ink);
+    }
+    .ios-hack-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-3);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .code-block {
+      background: var(--paper-3);
+      border: 2px solid var(--ink);
+      padding: 1rem 1.2rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
+    .code-comment { color: var(--ink-3); font-style: italic; }
+    .code-keyword { color: var(--accent); font-weight: 700; }
+    .code-string { color: var(--accent-2); }
+    .code-fn { color: var(--accent); }
+    .code-attr { color: var(--ink); }
+    .code-tag { color: var(--accent); }
+    .hack-note {
+      font-size: 0.78rem;
+      color: var(--ink-2);
+      background: var(--paper-3);
+      border: 1.5px solid var(--ink);
+      padding: 0.7rem 1rem;
+    }
+
+    /* ── WAVEFORM ── */
+    .waveform-container {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      padding: 1.5rem;
+      margin: 2.5rem 0;
+      box-shadow: 4px 4px 0px var(--ink);
+    }
+    .waveform-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-3);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .waveform {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 60px;
+    }
+    .waveform-bar {
+      flex: 1;
+      background: var(--accent);
+      border-radius: 1px;
+      min-height: 4px;
+      opacity: 0.7;
+      animation: wave-anim 1.5s ease-in-out infinite alternate;
+    }
+    .waveform-bar:nth-child(odd) { animation-delay: 0.05s; }
+    .waveform-bar:nth-child(3n) { animation-delay: 0.12s; }
+    .waveform-bar:nth-child(5n) { animation-delay: 0.2s; }
+    @keyframes wave-anim {
+      0% { transform: scaleY(0.3); opacity: 0.4; }
+      100% { transform: scaleY(1); opacity: 0.9; }
+    }
+
+    /* ── TALKBOOK CTA ── */
+    .talkbook-cta {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      padding: 1.8rem;
+      margin: 3rem 0;
+      box-shadow: 6px 6px 0px var(--ink);
+    }
+    .talkbook-cta p {
+      font-size: 0.9rem;
+      color: var(--ink-2);
+      margin-bottom: 0.8rem;
+    }
+    .talkbook-cta a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #ffffff !important;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.5rem 1.1rem;
+      border: 2px solid var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 2px 2px 0px var(--ink);
+      transition: all 0.1s ease;
+      cursor: pointer;
+    }
+    .cta-link:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+    .cta-link:active {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+
+    /* ── FOOTER ── */
+    .blog-footer {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--paper-3);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .blog-footer-note {
+      font-size: 14px;
+      color: var(--ink-3);
+      font-style: italic;
+      font-family: var(--serif);
+    }
+    .blog-footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .blog-footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- STICKY TOP NAVBAR -->
+  <nav class="navbar">
+    <!-- Left: Avatar + Brand -->
+    <div class="navbar-left">
+      <div class="navbar-avatar overflow-hidden">
+        <img src="/public/profile.jpg" alt="Vidhan Mertiya" class="w-full h-full object-cover">
+      </div>
+      <div class="navbar-brand">Vidhan<br>Mertiya</div>
+    </div>
+
+    <!-- Center: Navigation Tabs -->
+    <div class="navbar-center">
+      <div class="navbar-nav">
+        <a href="/">Projects</a>
+        <a href="/blog" class="active">Blog</a>
+      </div>
+    </div>
+
+    <!-- Right: Social Icons -->
+    <div class="navbar-right">
+      <a href="https://github.com/vidhanm" target="_blank" rel="noopener noreferrer" class="navbar-social" aria-label="GitHub">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a href="https://linkedin.com/in/vidhanmertiya" target="_blank" rel="noopener noreferrer" class="navbar-social" aria-label="LinkedIn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.469v6.766z"/></svg>
+      </a>
+      <a href="https://x.com/vidhanmertiya" target="_blank" rel="noopener noreferrer" class="navbar-social" aria-label="X">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="mailto:vidhanmertiya.vm@gmail.com" class="navbar-social" aria-label="Email">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── MAIN WRAP ── -->
+  <main class="blog-wrap">
+
+    <a href="/blog" class="blog-back">← Blog</a>
+
+    <header class="blog-header">
+      <div class="blog-meta">
+        <span>Vidhan Mertiya</span>
+        <span class="blog-meta-dot"></span>
+        <span>June 3, 2026</span>
+        <span class="blog-meta-dot"></span>
+        <span>5 min read</span>
+      </div>
+      <h1 class="blog-title">Apple made a movie trailer vibrate in sync with an F1 car. I tried to do the same thing in a browser.</h1>
+      <p class="blog-lede">The Web Vibration API exists. Most developers don't know about it. Here's what happens when you actually push it, and where it hits a wall called iPhone.</p>
+    </header>
+
+    <article class="prose">
+
+      <p>I'm a movie person. I like F1 too: the sport, the sound, the whole thing. So when the trailer for Apple's <em>F1</em> film dropped, I watched it.</p>
+
+      <p>But I didn't watch it on a browser. I watched it in the Apple TV app on an iPhone. And while the car was accelerating, tires screaming, and gearbox slamming through shifts, my phone was vibrating. Not randomly. In sync. The haptic feedback matched the engine note, the braking, and the acceleration, beat for beat.</p>
+
+      <p>It felt like holding a tiny game controller tuned to a Formula 1 car.</p>
+
+      <p>I sat there for a second and thought: <em>can a browser do this?</em></p>
+
+      <hr class="divider" />
+
+      <h2>It turns out the web has an API for this. Nobody uses it.</h2>
+
+      <p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/Vibration_API" target="_blank">Web Vibration API</a> has existed since 2012. One function: <code>navigator.vibrate()</code>. You pass it a duration in milliseconds, or an array alternating between vibration and pause durations, and the device buzzes.</p>
+
+      <p>That's it. The whole API.</p>
+
+      <p>It's supported on Android in Chrome, Firefox, and most Chromium-based browsers. It works. You can call <code>navigator.vibrate([200, 100, 400])</code> and feel it.</p>
+
+      <p>The reason almost nobody builds with it is the same reason I found out about it the hard way: <strong>it doesn't work on iPhone.</strong> Apple has never implemented the Vibration API in Safari. Zero support. When you call <code>navigator.vibrate()</code> on an iPhone, nothing happens. Not an error, not a warning; just silence.</p>
+
+      <p>For most developers, that's a dead end. If it doesn't work on half the phones in the world, why build with it?</p>
+
+      <p>I built with it anyway.</p>
+
+      <hr class="divider" />
+
+      <h2>The build: syncing vibrations to a video timeline</h2>
+
+      <p>The core idea is simple: load a video, define a list of haptic events as timestamps, and as the video plays, fire the right vibration at the right moment.</p>
+
+      <p>Every haptic event is an object with three fields: the timestamp it fires at, how long it lasts, and how intense it should feel. The video's <code>timeupdate</code> event fires roughly every 250ms, so you get a check four times a second, which is good enough resolution for a motor racing haptic track.</p>
+
+      <!-- Haptic Timeline Visualization -->
+      <div class="timeline-viz">
+        <div class="tl-label">F1 Video — Haptic Event Timeline (illustrative)</div>
+        <div class="tl-track">
+          <!-- RPM baseline bar -->
+          <div class="tl-bar" style="left:0; width:100%; height:6px; opacity:0.15;"></div>
+
+          <!-- Engine start -->
+          <div class="tl-event" style="left:3%; width:5%; height:22px; background:var(--accent); border-radius:3px; opacity:0.9;">
+            <div class="tl-tooltip">0.3s — Engine start</div>
+          </div>
+          <!-- Acceleration 1 -->
+          <div class="tl-event" style="left:12%; width:9%; height:32px; background:var(--accent); border-radius:3px; opacity:0.85;">
+            <div class="tl-tooltip">1.2s — Accel burst</div>
+          </div>
+          <!-- Brake -->
+          <div class="tl-event" style="left:26%; width:4%; height:40px; background:var(--accent-2); border-radius:3px; opacity:0.9;">
+            <div class="tl-tooltip">2.6s — Hard brake</div>
+          </div>
+          <!-- Gear shift series -->
+          <div class="tl-event" style="left:34%; width:2%; height:16px; background:var(--accent); border-radius:3px;"></div>
+          <div class="tl-event" style="left:37%; width:2%; height:16px; background:var(--accent); border-radius:3px;"></div>
+          <div class="tl-event" style="left:40%; width:2%; height:16px; background:var(--accent); border-radius:3px;">
+            <div class="tl-tooltip">3.4–4.0s — Gear shifts</div>
+          </div>
+          <!-- Long acceleration -->
+          <div class="tl-event" style="left:47%; width:14%; height:28px; background:var(--accent); border-radius:3px; opacity:0.8;">
+            <div class="tl-tooltip">4.7s — Straight burst</div>
+          </div>
+          <!-- Crash / impact -->
+          <div class="tl-event" style="left:66%; width:7%; height:42px; background:var(--accent-2); border-radius:3px; opacity:0.95;">
+            <div class="tl-tooltip">6.6s — Impact</div>
+          </div>
+          <!-- Revving -->
+          <div class="tl-event" style="left:78%; width:3%; height:20px; background:var(--accent); border-radius:3px;"></div>
+          <div class="tl-event" style="left:83%; width:3%; height:20px; background:var(--accent); border-radius:3px;"></div>
+          <div class="tl-event" style="left:88%; width:3%; height:20px; background:var(--accent); border-radius:3px;">
+            <div class="tl-tooltip">7.8–8.8s — Rev match</div>
+          </div>
+        </div>
+        <div class="tl-timestamps">
+          <span>0:00</span><span>0:02</span><span>0:04</span><span>0:06</span><span>0:08</span><span>0:10</span>
+        </div>
+        <div style="margin-top:0.8rem; display:flex; gap:1.2rem; font-size:0.7rem; color:var(--ink-3);">
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;background:var(--accent);border-radius:2px;display:inline-block;"></span> Engine / Acceleration</span>
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;background:var(--accent-2);border-radius:2px;display:inline-block;"></span> Brake / Impact</span>
+        </div>
+      </div>
+
+      <p>Between the named events, there's a background RPM pattern: a low-intensity buzz that pulses like an engine idling. It's not glamorous but it fills the silence between events in a way that feels right. You stop noticing it consciously, but if you mute it, something feels missing.</p>
+
+      <p>The intensity slider scales all vibration durations proportionally. Turn it to 50% and everything buzzes for half as long. It's a simple proxy for 'intensity,' since the Vibration API gives you no control over the strength of the vibration, only its duration.</p>
+
+      <hr class="divider" />
+
+      <h2>The platform split</h2>
+
+      <p>Here's where the project gets honest about its limits.</p>
+
+      <!-- Platform compatibility table -->
+      <table class="platform-table">
+        <thead>
+          <tr>
+            <th>Platform</th>
+            <th>API Used</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Android — Chrome</strong></td>
+            <td><code>navigator.vibrate()</code></td>
+            <td><span class="badge badge-green">Works</span></td>
+            <td style="color:var(--ink-3); font-size:0.8rem;">Full sync, intensity scaling, background RPM pattern all functional</td>
+          </tr>
+          <tr>
+            <td><strong>iOS 18+ — Safari</strong></td>
+            <td><code>input[switch]</code> hack</td>
+            <td><span class="badge badge-yellow">Limited</span></td>
+            <td style="color:var(--ink-3); font-size:0.8rem;">System haptic tick on each event, no duration/intensity control</td>
+          </tr>
+          <tr>
+            <td><strong>iOS &lt; 18</strong></td>
+            <td>—</td>
+            <td><span class="badge badge-red">No haptic support</span></td>
+            <td style="color:var(--ink-3); font-size:0.8rem;">No vibration API support; falls back to on-screen event flash</td>
+          </tr>
+          <tr>
+            <td><strong>Desktop</strong></td>
+            <td>—</td>
+            <td><span class="badge badge-red">No haptic support</span></td>
+            <td style="color:var(--ink-3); font-size:0.8rem;">No vibration hardware; demo still runs, events show on screen</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Android is where this actually works as intended. The Vibration API does exactly what you'd hope: you fire an event, the phone buzzes with the right timing, and the sync is close enough to feel intentional.</p>
+
+      <p>iOS is the interesting story.</p>
+
+      <hr class="divider" />
+
+      <h2>The iOS 18 trick nobody talks about</h2>
+
+      <p>Apple has never shipped <code>navigator.vibrate()</code> in Safari. It's been in the spec for over a decade. They just… chose not to implement it. Their reasoning is presumably privacy and UX control. A webpage shouldn't be able to make your phone buzz without you knowing. But whatever the reason, the door has been closed for years.</p>
+
+      <p>Then in iOS 18, something interesting shipped quietly: a new HTML input type called <code>switch</code>. It renders a native iOS toggle control. When you programmatically toggle it, clicking it via JavaScript, WebKit fires a system haptic tick. The same tap feedback you feel when you flip a toggle in Settings.</p>
+
+      <p>It's not <em>designed</em> as a haptics API. It's a UI component that happens to have a side effect. But if you toggle it fast enough, at the right moments, you get something resembling rhythmic haptic feedback.</p>
+
+      <!-- iOS Hack Code Explainer -->
+      <div class="ios-hack">
+        <div class="ios-hack-title">The iOS 18 Haptic Trick — How It Works</div>
+        <div class="code-block">
+<span class="code-comment">// Hidden in the page — zero size, off-screen</span>
+<span class="code-tag">&lt;input</span> <span class="code-attr">type</span>=<span class="code-string">"checkbox"</span> <span class="code-attr">switch</span> <span class="code-attr">id</span>=<span class="code-string">"ios-haptic"</span>
+       <span class="code-attr">style</span>=<span class="code-string">"opacity:0; position:absolute; pointer-events:none;"</span> <span class="code-tag">/&gt;</span>
+
+<span class="code-comment">// When a haptic event fires:</span>
+<span class="code-keyword">function</span> <span class="code-fn">triggerIOSHaptic</span>() {
+  <span class="code-keyword">const</span> el = document.<span class="code-fn">getElementById</span>(<span class="code-string">'ios-haptic'</span>);
+  el.checked = !el.checked;  <span class="code-comment">// toggle = 1 haptic tick</span>
+
+  <span class="code-comment">// For a "long" vibration, chain multiple toggles</span>
+  <span class="code-keyword">setTimeout</span>(() => { el.checked = !el.checked; }, 80);
+  <span class="code-keyword">setTimeout</span>(() => { el.checked = !el.checked; }, 160);
+}</div>
+        <div class="hack-note">⚠️ This only works in Safari on iOS 18+. Other iOS browsers (Chrome, Firefox on iOS) are WebKit wrappers and may not expose the same haptic behavior. Duration and intensity are not controllable; you get one tick per toggle.</div>
+      </div>
+
+      <p>It's a hack. A beautiful, practical hack. The haptic you get is a single system tick, not a sustained buzz. You can chain multiple toggles to approximate a longer event, but you're stuck with iOS's default haptic strength: no intensity scaling.</p>
+
+      <p>It's a far cry from what Apple did with that F1 trailer. But it's something. On iOS 18+, opening this in Safari, you'll feel a tick on each engine event. The sync is there. The texture isn't.</p>
+
+      <hr class="divider" />
+
+      <h2>The audio analysis feature I didn't fully finish</h2>
+
+      <p>The site has a "Generate Vibrations" button. The idea: upload any video, analyze the audio waveform, and auto-generate the haptic timeline without manually defining every timestamp.</p>
+
+      <p>The approach uses the Web Audio API's <code>AnalyserNode</code>. We decode the audio, walk through it in 50ms windows, measure the average amplitude, and any window above a threshold becomes a haptic event. The duration of the vibration scales with how loud that moment is.</p>
+
+      <!-- Waveform Visualization -->
+      <div class="waveform-container">
+        <div class="waveform-label">Auto-detected haptic events from audio amplitude analysis</div>
+        <div class="waveform" id="waveform">
+          <!-- JS will generate bars -->
+        </div>
+        <div style="margin-top:0.8rem; font-size:0.7rem; color:var(--ink-3);">
+          Each bar = 50ms audio window. Bar height = amplitude. <span style="color:var(--accent);">Red bars</span> cross the haptic threshold and vibration fires.
+        </div>
+      </div>
+
+      <p>It works for clean, percussive audio: a car engine revving up has enough amplitude variation that the events are picked out accurately. For more complex audio it produces noise. You'd need frequency analysis and maybe onset detection to do it properly.</p>
+
+      <p>What I shipped is a working proof of concept that's genuinely useful for certain types of content. What it would need to be great is a proper signal processing pass, which is a different project.</p>
+
+      <hr class="divider" />
+
+      <h2>What Apple actually did, and what the gap looks like</h2>
+
+      <p>The F1 trailer haptics on iPhone weren't built with <code>navigator.vibrate()</code>. Apple controls the entire stack: the OS, the haptic engine, the media player, and the CoreHaptics API. They could design an AHAP (Apple Haptic and Audio Pattern) file alongside the video, sync it frame-perfectly with the Core Haptics engine, and ship it as part of the trailer experience.</p>
+
+      <p>Core Haptics gives you real waveform control: frequency, intensity, sharpness, attack, decay. You can actually simulate the texture of a tire on tarmac, not just a generic buzz.</p>
+
+      <div class="insight-block">
+        The web gives you a light switch. Apple gave that F1 trailer a mixing board. The interesting question isn't "why can't the web do this yet"; it's "what would a real browser haptics standard actually look like?"
+      </div>
+
+      <p>There's a W3C proposal called the <a href="https://github.com/WICG/gamepad-haptics" target="_blank">Gamepad Haptics API</a> that goes further, and gamepad haptics already have intensity and waveform control in Chrome. The same concepts could extend to mobile haptics. It just hasn't happened yet.</p>
+
+      <hr class="divider" />
+
+      <h2>Why I built it anyway</h2>
+
+      <p>The honest reason: I thought it would be fun, and I wanted to know how far the web could get.</p>
+
+      <p>The answer is: on Android, surprisingly far. On iPhone, further than zero but nowhere near enough. On desktop, it runs but you're just watching the events tick by on screen like a visualizer.</p>
+
+      <p>It's a project that works best if you open it on a mid-range Android phone, hit play, and just sit with it. The sync between the video and the buzz in your hand is real. It's not Apple's trailer. But it's not nothing either.</p>
+
+      <p>The code is a single index.html with no build step, no framework, and no dependencies. Open it in a browser. It works or it doesn't, depending on your phone.</p>
+
+      <p>That feels like the right format for an experiment about something the web can almost do.</p>
+
+      <!-- TalkBook CTA -->
+      <div class="talkbook-cta">
+        <p>I'm building <a href="https://talkbook.live" target="_blank">talkbook.live</a>: a platform for two-way voice conversations with books. You talk to a book, it talks back. Same instinct as this project: take something passive and make it physical.</p>
+        <a href="https://talkbook.live" target="_blank" class="cta-link">Try TalkBook →</a>
+      </div>
+
+      <div style="margin-top:1.5rem;">
+        <p>→ <a href="https://browser-haptics.pages.dev" target="_blank">browser-haptics.pages.dev</a>: live demo (best on Android)<br>
+        → <a href="https://github.com/vidhanm/browser-haptics" target="_blank">github.com/vidhanm/browser-haptics</a>: source code</p>
+      </div>
+
+    </article>
+
+    <!-- ── FOOTER ── -->
+    <footer class="blog-footer">
+      <div class="blog-footer-note">
+        If you're curious about talkbook: <a href="https://talkbook.live">talkbook.live</a>. It's live and you can try it for free.
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // Generate waveform bars with realistic F1-ish amplitude pattern
+    const waveform = document.getElementById('waveform');
+    const pattern = [
+      0.2, 0.25, 0.3, 0.28, 0.35, 0.4,
+      0.85, 0.9, 0.75, 0.6,          // acceleration burst
+      0.3, 0.25, 0.28, 0.3,
+      0.95, 1.0, 0.9,                 // hard brake
+      0.5, 0.55, 0.6, 0.58, 0.62,
+      0.4, 0.42, 0.45, 0.43,
+      0.7, 0.75, 0.72, 0.8, 0.78,    // gear shifts
+      0.4, 0.45,
+      0.85, 0.9, 0.88, 0.92, 0.87,   // straight
+      0.5, 0.48, 0.45, 0.5,
+      0.6, 0.65, 0.68, 0.7, 0.65,
+      1.0, 0.95, 0.85,                // impact
+      0.4, 0.45, 0.5,
+      0.72, 0.7, 0.75, 0.73,          // revving
+      0.55, 0.58, 0.6, 0.62,
+      0.3, 0.28, 0.25, 0.22, 0.2
+    ];
+    const threshold = 0.65;
+    pattern.forEach(val => {
+      const bar = document.createElement('div');
+      bar.className = 'waveform-bar';
+      const pct = Math.round(val * 100);
+      bar.style.height = `${Math.max(4, pct * 0.6)}%`;
+      if (val >= threshold) {
+        bar.style.background = 'var(--accent)';
+        bar.style.opacity = '1';
+      } else {
+        bar.style.background = 'var(--paper-3)';
+        bar.style.opacity = '0.5';
+        bar.style.animationName = 'none';
+      }
+      waveform.appendChild(bar);
+    });
+  </script>
+
+</body>
+</html>
