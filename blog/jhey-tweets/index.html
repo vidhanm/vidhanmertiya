@@ -652,37 +652,48 @@
 
     /* ── TALKBOOK CTA ── */
     .talkbook-cta {
-      background: var(--jhey-surface);
-      border: 1px solid var(--jhey-border);
-      border-radius: 8px;
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
       padding: 1.8rem;
       margin: 3rem 0;
+      box-shadow: 6px 6px 0px var(--ink);
     }
     .talkbook-cta p {
       font-size: 0.9rem;
-      color: var(--jhey-muted);
+      color: var(--ink-2);
       margin-bottom: 0.8rem;
     }
     .talkbook-cta a:not(.cta-link) {
-      color: var(--jhey-accent);
+      color: var(--accent);
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 700;
     }
     .cta-link {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--jhey-accent);
-      color: #0c0c0c;
+      background: var(--accent);
+      color: #ffffff !important;
       font-size: 0.82rem;
-      font-weight: 500;
+      font-weight: 700;
       padding: 0.5rem 1.1rem;
-      border-radius: 5px;
-      text-decoration: none;
+      border: 2px solid var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 2px 2px 0px var(--ink);
+      transition: all 0.1s ease;
+      cursor: pointer;
       margin-top: 0.5rem;
-      transition: opacity 0.2s;
+      text-decoration: none;
     }
-    .cta-link:hover { opacity: 0.88; }
+    .cta-link:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+    .cta-link:active {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
 
     /* ── FOOTER ── */
     .blog-footer {
@@ -1004,7 +1015,7 @@
 
     <!-- TalkBook CTA -->
     <div class="talkbook-cta">
-      <p>I'm also building <a href="https://talkbook.live" target="_blank">talkbook.live</a> — a platform where you have two-way voice conversations with books instead of passively reading them. Same underlying idea: great knowledge exists, the format it's locked in is just limiting.</p>
+      <p>I'm building <a href="https://talkbook.live" target="_blank">talkbook.live</a>: a platform for two-way voice conversations with books. You talk to a book, it talks back. Same instinct as this project: take something passive and make it physical.</p>
       <a href="https://talkbook.live" target="_blank" class="cta-link">Try TalkBook →</a>
     </div>
 
