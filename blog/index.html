@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/social-previews.js" defer></script>
   <script src="/js/theme-toggle.js"></script>
+  <script src="/js/blog-views.js" defer></script>
   <style>
     /* Sticky top navbar */
     .navbar {
@@ -361,6 +362,7 @@
                 <div class="blog-meta">
                   <span>${post.date}</span>
                   <span>${post.readTime}</span>
+                  <span class="blog-views" data-slug="${post.slug}" style="opacity: 0; transition: opacity 0.3s;"></span>
                 </div>
                 <a href="/blog/${post.slug}/" class="text-xs font-semibold uppercase tracking-[0.1em] text-black border-b-2 border-black pb-0.5 hover:border-none">Read More →</a>
               </div>
