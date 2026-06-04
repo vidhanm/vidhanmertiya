@@ -51,9 +51,9 @@
     .toc-columns-wrapper {
       display: flex !important;
       flex-direction: row !important;
-      gap: 20px !important;
+      gap: 16px !important;
       border-left: 1px solid var(--paper-3) !important;
-      padding-left: 20px !important;
+      padding-left: 32px !important;
       flex: 1 !important;
     }
 
