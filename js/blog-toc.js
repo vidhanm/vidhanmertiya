@@ -4,15 +4,57 @@
     .blog-toc-sidebar {
       position: fixed !important;
       top: 120px !important;
-      left: calc(50% + 410px) !important;
+      left: calc(50% + 240px) !important;
       width: 240px !important;
       max-height: calc(100vh - 180px) !important;
       display: flex !important;
-      gap: 20px !important;
+      flex-direction: column !important;
+      gap: 24px !important;
       font-family: 'DM Sans', system-ui, sans-serif !important;
       z-index: 30 !important;
       user-select: none !important;
       pointer-events: none !important;
+    }
+
+    .toc-progress-container {
+      display: flex !important;
+      flex-direction: column !important;
+      width: 100% !important;
+      pointer-events: auto !important;
+    }
+
+    .toc-progress-text {
+      font-family: var(--mono), monospace !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      color: var(--ink-3) !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.08em !important;
+      margin-bottom: 6px !important;
+    }
+
+    .toc-progress-bar-wrap {
+      width: 100% !important;
+      height: 4px !important;
+      background-color: var(--paper-3) !important;
+      border-radius: 2px !important;
+      overflow: hidden !important;
+    }
+
+    .toc-progress-bar-fill {
+      height: 100% !important;
+      background-color: var(--accent) !important;
+      width: 0% !important;
+      transition: width 0.1s ease-out !important;
+    }
+
+    .toc-columns-wrapper {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 20px !important;
+      border-left: 1px solid var(--paper-3) !important;
+      padding-left: 20px !important;
+      flex: 1 !important;
     }
 
     .minimap-column {
@@ -187,6 +229,13 @@
         display: none !important;
       }
     }
+
+    @media (min-width: 1340px) {
+      .blog-wrap {
+        margin-left: calc(50% - 480px) !important;
+        margin-right: auto !important;
+      }
+    }
   `;
 
   // Inject styles into document head
@@ -217,6 +266,27 @@
     const sidebar = document.createElement('aside');
     sidebar.className = 'blog-toc-sidebar';
 
+    // Progress Bar
+    const progressContainer = document.createElement('div');
+    progressContainer.className = 'toc-progress-container';
+
+    const progressText = document.createElement('div');
+    progressText.className = 'toc-progress-text';
+    progressText.textContent = '0% read';
+    progressContainer.appendChild(progressText);
+
+    const progressBarWrap = document.createElement('div');
+    progressBarWrap.className = 'toc-progress-bar-wrap';
+
+    const progressBarFill = document.createElement('div');
+    progressBarFill.className = 'toc-progress-bar-fill';
+    progressBarWrap.appendChild(progressBarFill);
+    progressContainer.appendChild(progressBarWrap);
+
+    // Columns Wrapper
+    const columnsWrapper = document.createElement('div');
+    columnsWrapper.className = 'toc-columns-wrapper';
+
     const minimapCol = document.createElement('div');
     minimapCol.className = 'minimap-column';
 
@@ -240,8 +310,11 @@
     tocList.className = 'toc-list';
     tocCol.appendChild(tocList);
 
-    sidebar.appendChild(minimapCol);
-    sidebar.appendChild(tocCol);
+    columnsWrapper.appendChild(minimapCol);
+    columnsWrapper.appendChild(tocCol);
+
+    sidebar.appendChild(progressContainer);
+    sidebar.appendChild(columnsWrapper);
     document.body.appendChild(sidebar);
 
     // 3. Render minimap lines
@@ -430,6 +503,16 @@
           h.tocElement.classList.remove('active');
         }
       });
+
+      // Update Scroll Progress Percentage and progress bar fill
+      const totalScrollable = document.documentElement.scrollHeight - window.innerHeight;
+      let percent = 0;
+      if (totalScrollable > 0) {
+        percent = Math.round((window.scrollY / totalScrollable) * 100);
+      }
+      percent = Math.max(0, Math.min(100, percent));
+      progressText.textContent = `${percent}% read`;
+      progressBarFill.style.width = `${percent}%`;
     }
 
     // Attach event listeners
