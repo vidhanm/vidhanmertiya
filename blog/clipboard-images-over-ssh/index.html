@@ -386,6 +386,278 @@
       font-weight: 500;
     }
     .blog-footer a:hover { text-decoration: underline; }
+
+    /* ── ARCHITECTURE DIAGRAM ── */
+    .arch-diagram {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 0px;
+      padding: 1.8rem;
+      margin: 2.5rem 0;
+      box-shadow: 6px 6px 0px var(--ink);
+      font-family: var(--sans);
+    }
+    .diagram-title {
+      font-family: var(--mono), monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-3);
+      margin-bottom: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+    }
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      align-items: center;
+      gap: 1rem;
+    }
+    .diagram-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .column-header {
+      font-family: var(--mono), monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-3);
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+    }
+    .diagram-card {
+      background: var(--paper);
+      border: 1.5px solid var(--ink);
+      border-radius: 0px;
+      padding: 1rem;
+      box-shadow: 4px 4px 0px var(--ink);
+      position: relative;
+    }
+    .diagram-card.highlight-card {
+      background: var(--paper-3);
+      border-color: var(--accent);
+      box-shadow: 4px 4px 0px var(--accent);
+    }
+    .card-step {
+      font-family: var(--mono), monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .diagram-card.highlight-card .card-step {
+      color: var(--accent);
+    }
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.2;
+    }
+    .card-desc {
+      font-size: 0.75rem;
+      color: var(--ink-2);
+      line-height: 1.4;
+    }
+    .diagram-card-arrow {
+      text-align: center;
+      color: var(--ink-3);
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .diagram-network-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--accent);
+      font-size: 1.5rem;
+      font-weight: bold;
+      position: relative;
+    }
+    .network-arrow {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    
+    @media (max-width: 768px) {
+      .diagram-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .diagram-network-line {
+        height: auto;
+        margin: 0.5rem 0;
+      }
+      .network-arrow {
+        transform: rotate(90deg);
+      }
+      .column-header {
+        margin-top: 1rem;
+      }
+    }
+
+    /* ── SHIM DECISION DIAGRAM ── */
+    .decision-flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .flow-card {
+      background: var(--paper);
+      border: 1.5px solid var(--ink);
+      border-radius: 0px;
+      padding: 1rem;
+      box-shadow: 4px 4px 0px var(--ink);
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+    }
+    .decision-card {
+      background: var(--paper-2);
+      border-color: var(--ink);
+    }
+    .flow-arrow-vertical {
+      color: var(--ink-3);
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin: 2px 0;
+    }
+    .flow-branches {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      width: 100%;
+      max-width: 600px;
+      margin-top: 0.5rem;
+    }
+    .flow-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .branch-label {
+      font-family: var(--mono), monospace;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 2px 8px;
+      border: 1.5px solid var(--ink);
+      background: var(--paper);
+      border-radius: 0px;
+      box-shadow: 2px 2px 0px var(--ink);
+    }
+    .branch-label.text-green {
+      border-color: #22c55e;
+      color: #22c55e;
+      box-shadow: 2px 2px 0px #22c55e;
+    }
+    .branch-label.text-red {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 2px 2px 0px var(--accent);
+    }
+    .green-highlight {
+      border-color: #22c55e !important;
+      box-shadow: 4px 4px 0px #22c55e !important;
+    }
+    .red-highlight {
+      border-color: var(--accent) !important;
+      box-shadow: 4px 4px 0px var(--accent) !important;
+    }
+    
+    @media (max-width: 640px) {
+      .flow-branches {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    /* ── RESULT BOX ── */
+    .result-box {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .result-card {
+      background: var(--paper-2);
+      border: 2px solid var(--ink);
+      border-radius: 0px;
+      padding: 1.5rem;
+      box-shadow: 4px 4px 0px var(--ink);
+      position: relative;
+    }
+    .result-card.before-card {
+      border-color: var(--accent);
+      box-shadow: 4px 4px 0px var(--accent);
+    }
+    .result-card.after-card {
+      border-color: #22c55e;
+      box-shadow: 4px 4px 0px #22c55e;
+    }
+    .result-badge {
+      position: absolute;
+      top: -12px;
+      left: 16px;
+      font-family: var(--mono), monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border: 1.5px solid var(--ink);
+      background: var(--paper);
+    }
+    .result-card.before-card .result-badge {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .result-card.after-card .result-badge {
+      border-color: #22c55e;
+      color: #22c55e;
+    }
+    .result-content strong {
+      font-size: 0.85rem;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    .result-content pre {
+      margin: 0 !important;
+      padding: 8px 12px !important;
+      font-size: 0.75rem !important;
+      background: var(--paper) !important;
+      border: 1px solid var(--paper-3) !important;
+      border-radius: 4px !important;
+      overflow-x: auto;
+    }
+    .result-arrow {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--ink-3);
+    }
+    
+    @media (max-width: 640px) {
+      .result-box {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .result-arrow {
+        transform: rotate(90deg);
+      }
+    }
   </style>
 </head>
 <body>
@@ -486,28 +758,64 @@ Error: Wayland display is not available</pre>
 
     <h3>Architecture</h3>
 
-    <pre> Local Machine (Windows)             Remote Server (Linux VM)
- ─────────────────────────           ──────────────────────────────
-  Ctrl+V pressed
-       │
-  WezTerm Lua callback
-       │
-  PowerShell reads clipboard
-  saves PNG to %TEMP%
-       │
-  scp uploads to myvm
-  (/tmp/clipboard-images/)  ──────►  /tmp/clipboard-images/clip_xxx.png
-       │
-  Remote path typed into PTY ──────►  Claude Code / OpenCode sees path
-       │
-  Local temp PNG deleted             ~/bin/xclip shim returns image
-                                     when Claude Code calls xclip</pre>
+    <div class="arch-diagram">
+      <div class="diagram-title">SSH Clipboard Image Bridge Architecture</div>
+      <div class="diagram-grid">
+        <!-- Local Column -->
+        <div class="diagram-column local-col">
+          <div class="column-header">Local (Windows)</div>
+          <div class="diagram-card">
+            <span class="card-step">Step 1</span>
+            <div class="card-title">Ctrl+V Pressed</div>
+            <p class="card-desc">WezTerm Lua callback intercepts keypress</p>
+          </div>
+          <div class="diagram-card-arrow">↓</div>
+          <div class="diagram-card">
+            <span class="card-step">Step 2</span>
+            <div class="card-title">PowerShell Extract</div>
+            <p class="card-desc">Extracts clipboard image data to temp PNG</p>
+          </div>
+          <div class="diagram-card-arrow">↓</div>
+          <div class="diagram-card highlight-card">
+            <span class="card-step">Step 3</span>
+            <div class="card-title">SCP Upload</div>
+            <p class="card-desc">Uploads PNG in background via SSH config alias</p>
+          </div>
+        </div>
+        
+        <!-- Network Connection Indicator -->
+        <div class="diagram-network-line">
+          <span class="network-arrow">→</span>
+        </div>
+        
+        <!-- Remote Column -->
+        <div class="diagram-column remote-col">
+          <div class="column-header">Remote (Linux VM)</div>
+          <div class="diagram-card highlight-card">
+            <span class="card-step">Step 4</span>
+            <div class="card-title">PNG Received</div>
+            <p class="card-desc">Saved under <code>/tmp/clipboard-images/</code></p>
+          </div>
+          <div class="diagram-card-arrow">↓</div>
+          <div class="diagram-card">
+            <span class="card-step">Step 5</span>
+            <div class="card-title">Path Typed</div>
+            <p class="card-desc">WezTerm types path into PTY for active process</p>
+          </div>
+          <div class="diagram-card-arrow">↓</div>
+          <div class="diagram-card">
+            <span class="card-step">Step 6</span>
+            <div class="card-title">XClip Shim</div>
+            <p class="card-desc">Claude reads image via <code>~/bin/xclip</code> shim</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <h3>WezTerm Lua (Local)</h3>
 
     <p>WezTerm exposes a full Lua scripting API including <code>wezterm.run_child_process</code> and <code>wezterm.action_callback</code>. We intercept <code>Ctrl+V</code> and fork the behaviour:</p>
 
-    <p>The key design decisions:</p>
 
     <ul style="margin-left: 1.5rem; margin-bottom: 22px;">
       <li><strong>PowerShell for clipboard access</strong>: <code>System.Windows.Forms.Clipboard</code> is the most reliable way to check for and extract image data on Windows</li>
@@ -521,6 +829,52 @@ Error: Wayland display is not available</pre>
     <p>Claude Code internally calls <code>xclip -selection clipboard -t image/png -o</code> to try to read an image from the clipboard. On a headless server this always fails.</p>
 
     <p>We install two shim scripts at <code>~/bin/xclip</code> and <code>~/bin/wl-paste</code> (with <code>~/bin</code> prepended to PATH in <code>.bashrc</code>) that intercept these calls and return the latest image from the upload directory instead.</p>
+
+    <div class="arch-diagram decision-flow-diagram">
+      <div class="diagram-title">XClip Shim Decision Flow (Remote VM)</div>
+      <div class="decision-flow">
+        <div class="flow-trigger">
+          <div class="flow-card">
+            <div class="card-title">Claude Code calls <code>xclip</code></div>
+            <p class="card-desc">Asks for clipboard selection via command line</p>
+          </div>
+        </div>
+        
+        <div class="flow-arrow-vertical">↓</div>
+        
+        <div class="flow-decision">
+          <div class="flow-card decision-card">
+            <span class="card-step">Condition Check</span>
+            <div class="card-title">Is it an Image Query?</div>
+            <p class="card-desc">Checks for <code>-t image/png</code> or <code>image/png</code> arguments</p>
+          </div>
+        </div>
+        
+        <div class="flow-branches">
+          <!-- Yes Branch -->
+          <div class="flow-branch yes-branch">
+            <div class="branch-label text-green">YES</div>
+            <div class="flow-arrow-vertical">↓</div>
+            <div class="flow-card highlight-card green-highlight">
+              <span class="card-step">Action</span>
+              <div class="card-title">Stream Remote PNG</div>
+              <p class="card-desc">Finds latest PNG in <code>/tmp/clipboard-images/</code> and streams raw bytes directly via <code>cat</code></p>
+            </div>
+          </div>
+          
+          <!-- No Branch -->
+          <div class="flow-branch no-branch">
+            <div class="branch-label text-red">NO</div>
+            <div class="flow-arrow-vertical">↓</div>
+            <div class="flow-card highlight-card red-highlight">
+              <span class="card-step">Action</span>
+              <div class="card-title">System Fallback</div>
+              <p class="card-desc">Delegates call to system binary <code>/usr/bin/xclip</code> for standard text clipboard behavior</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <hr />
 
@@ -549,8 +903,23 @@ Error: Wayland display is not available</pre>
 
     <h2>Result</h2>
 
-    <pre>Before:  Ctrl+V in Claude Code over SSH → "Error: Can't open display"
-After:   Ctrl+V in WezTerm over SSH → image appears at /tmp/clipboard-images/clip_20260530-221500.png</pre>
+    <div class="result-box">
+      <div class="result-card before-card">
+        <div class="result-badge">Before</div>
+        <div class="result-content">
+          <strong>Ctrl+V in Claude Code over SSH</strong>
+          <pre>Error: Can't open display</pre>
+        </div>
+      </div>
+      <div class="result-arrow">➔</div>
+      <div class="result-card after-card">
+        <div class="result-badge">After</div>
+        <div class="result-content">
+          <strong>Ctrl+V in WezTerm over SSH</strong>
+          <pre>Image saved & loaded at:<br>/tmp/clipboard-images/clip_xxx.png</pre>
+        </div>
+      </div>
+    </div>
 
     <p>One keypress. No extra windows, no extra tools, no configuration per-session. Works every time you SSH in because the setup is permanent on both ends.</p>
 
