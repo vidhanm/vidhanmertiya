@@ -389,9 +389,10 @@ body {
 .diagram-block {
   margin: 48px -12px;
   background: var(--dbg);
-  border: 1px solid var(--dborder);
-  border-radius: 14px;
+  border: 2px solid var(--ink) !important;
+  border-radius: 0px !important;
   overflow: hidden;
+  box-shadow: 6px 6px 0px var(--ink) !important;
 }
 .diagram-inner { padding: 28px; }
 
@@ -436,18 +437,18 @@ body {
 .skel-detail-title { font-family:var(--serif); font-size:15px; font-style:italic; color:var(--dtext); line-height:1.4; }
 .skel-detail-sub { font-size:12px; color:var(--dtext2); line-height:1.65; }
 .skel-tags { display:flex; flex-wrap:wrap; gap:6px; }
-.skel-tag { font-size:11px; background:var(--dsurf2); border:1px solid var(--dborder); padding:3px 8px; border-radius:4px; color:var(--dtext2); }
+.skel-tag { font-size:11px; background:var(--dsurf2); border:1px solid var(--dborder); padding:3px 8px; border-radius:0px !important; color:var(--dtext2); }
 
 /* ── D2: HEADLINE FORMULA ── */
 .formula-struct {
   display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:24px;
 }
-.ft { padding:8px 14px; border-radius:6px; font-family:var(--mono); font-size:12px; font-weight:500; }
+.ft { padding:8px 14px; border-radius:0px !important; font-family:var(--mono); font-size:12px; font-weight:500; }
 .ft-a { background:var(--dacc-dim); color:var(--dacc); border:1px solid rgba(212,98,42,.2); }
 .ft-t { background:var(--dgreen-d); color:var(--dgreen); border:1px solid rgba(74,140,92,.2); }
 .ft-n { color:var(--dtext3); font-size:11px; padding:8px 4px; }
 .ft-o { background:#1e1e1e; color:var(--dtext3); border:1px solid var(--dborder); text-decoration:line-through; }
-.formula-examples { border:1px solid var(--dborder); border-radius:8px; overflow:hidden; }
+.formula-examples { border:1px solid var(--dborder); border-radius:0px !important; overflow:hidden; }
 .fe-row { display:grid; grid-template-columns:90px 1fr; border-bottom:1px solid var(--dborder); }
 .fe-row:last-child { border-bottom:none; }
 .fe-row.alt { background:var(--dsurf2); }
@@ -461,7 +462,7 @@ body {
 .hl-o { color:var(--dtext3); text-decoration:line-through; }
 .formula-note {
   margin-top:16px; padding:12px 16px;
-  background:var(--dsurf2); border-radius:6px;
+  background:var(--dsurf2); border-radius:0px !important;
   font-size:12px; color:var(--dtext2); line-height:1.6;
   border-left:2px solid var(--dacc);
 }
@@ -469,7 +470,7 @@ body {
 /* ── D3: SOCIAL PROOF ── */
 .proof-layers { display:flex; flex-direction:column; gap:2px; }
 .proof-layer {
-  background:var(--dsurf); border:1px solid var(--dborder); border-radius:10px;
+  background:var(--dsurf); border:1px solid var(--dborder); border-radius:0px !important;
   padding:18px 20px; display:grid; grid-template-columns:110px 1fr auto;
   gap:16px; align-items:start;
 }
@@ -498,7 +499,7 @@ body {
 .arc-body { padding:14px 0 22px 18px; }
 .arc-title { font-family:var(--serif); font-size:14px; font-weight:600; color:var(--dtext); margin-bottom:4px; line-height:1.3; }
 .arc-desc { font-size:12px; color:var(--dtext2); line-height:1.6; }
-.arc-eg { display:inline-block; margin-top:6px; font-size:11px; color:var(--dtext3); font-style:italic; font-family:var(--serif); background:var(--dsurf); border:1px solid var(--dborder); padding:3px 9px; border-radius:4px; }
+.arc-eg { display:inline-block; margin-top:6px; font-size:11px; color:var(--dtext3); font-style:italic; font-family:var(--serif); background:var(--dsurf); border:1px solid var(--dborder); padding:3px 9px; border-radius:0px !important; }
 
 /* arc step colors */
 .s-hook .arc-tag{color:#7a8fa8} .s-hook .arc-dot{background:#7a8fa8} .s-hook .arc-seg{background:linear-gradient(#7a8fa8,#c47a3a)}
@@ -515,7 +516,7 @@ body {
 .hc-in { color:var(--dgreen); } .hc-out { color:var(--dacc); }
 .hero-item { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid var(--dborder); }
 .hero-item:last-child { border-bottom:none; }
-.hi-icon { width:18px; height:18px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px; }
+.hi-icon { width:18px; height:18px; border-radius:0px !important; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:2px; }
 .hi-icon.in { background:var(--dgreen-d); color:var(--dgreen); }
 .hi-icon.out { background:var(--dacc-dim); color:var(--dacc); }
 .hi-title { font-size:12px; font-weight:500; color:var(--dtext); margin-bottom:2px; }
