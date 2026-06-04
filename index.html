@@ -430,6 +430,11 @@
     const grid = document.getElementById('projects-grid');
     projects.forEach(project => {
       const colors = tagColors[project.tag] || {bg: "bg-black", border: "border-black"};
+      const targetLink = project.links.find(l => l.label === 'Live')?.href || 
+                         project.links.find(l => l.label === 'Repo')?.href || 
+                         project.links.find(l => l.label === 'Video')?.href || 
+                         project.href;
+
       const previewHtml = project.previewType === "iframe" 
         ? `<iframe src="${project.href}" title="${project.name}" class="absolute inset-0 h-full w-full border-0 bg-white" loading="lazy"></iframe>`
         : project.previewType === "video"
@@ -447,7 +452,7 @@
             <div class="flip-card-front flex flex-col bg-white">
               <div class="flex items-center justify-between border-b-[3px] border-black bg-white px-4 py-3">
                 <div class="flex items-center gap-2">
-                  <p class="text-sm font-semibold tracking-tight text-black">${project.name}</p>
+                  <a href="${targetLink}" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold tracking-tight text-black hover:underline decoration-2">${project.name}</a>
                 </div>
                 <div class="flex items-center gap-2">
                   <button type="button" class="flip-info-btn" aria-label="Show project info" title="Show info">i</button>
@@ -456,11 +461,13 @@
               </div>
               <div class="relative flex-1 overflow-hidden border-b-[3px] border-black bg-black">
                 ${previewHtml}
+                <!-- Click overlay to capture clicks and show pointer cursor, bypassing iframe cross-origin block -->
+                <a href="${targetLink}" target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-10 cursor-pointer block" aria-label="Open ${project.name}"></a>
               </div>
             </div>
             <div class="flip-card-back flex flex-col bg-white">
               <div class="flex items-center justify-between border-b-[3px] border-black bg-white px-4 py-3">
-                <p class="text-sm font-semibold tracking-tight text-black">${project.name}</p>
+                <a href="${targetLink}" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold tracking-tight text-black hover:underline decoration-2">${project.name}</a>
                 <div class="flex items-center gap-2">
                   <button type="button" class="flip-info-btn active" aria-label="Close project info" title="Close">×</button>
                   <span class="${colors.border} ${colors.bg} border-[2px] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">${project.tag}</span>
