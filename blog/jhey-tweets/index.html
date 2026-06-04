@@ -395,12 +395,13 @@
     .stats-bar {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--jhey-border);
-      border: 1px solid var(--jhey-border);
-      border-radius: 8px;
+      gap: 2px;
+      background: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: 0px;
       overflow: hidden;
       margin: 2.5rem 0;
+      box-shadow: 6px 6px 0px var(--ink);
     }
     .stat-cell {
       background: var(--jhey-surface);
@@ -422,14 +423,21 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
+    @media (max-width: 600px) {
+      .stats-bar {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+    }
 
     /* ── PIPELINE DIAGRAM ── */
     .pipeline {
       background: var(--jhey-surface);
-      border: 1px solid var(--jhey-border);
-      border-radius: 8px;
+      border: 2px solid var(--ink);
+      border-radius: 0px;
       padding: 1.8rem;
       margin: 2.5rem 0;
+      box-shadow: 6px 6px 0px var(--ink);
     }
     .pipeline-title {
       font-size: 0.7rem;
@@ -437,21 +445,24 @@
       letter-spacing: 0.1em;
       color: var(--jhey-muted);
       margin-bottom: 1.5rem;
+      font-weight: 700;
     }
     .pipeline-steps {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
       flex-wrap: wrap;
     }
     .pipeline-step {
-      flex: 1;
-      min-width: 120px;
+      flex: 1 1 120px;
+      max-width: 180px;
       background: var(--jhey-surface-2);
-      border: 1px solid var(--jhey-border);
-      border-radius: 6px;
+      border: 1.5px solid var(--ink);
+      border-radius: 0px;
       padding: 1rem;
       text-align: center;
+      box-shadow: 3px 3px 0px var(--ink);
     }
     .pipeline-step .step-num {
       font-size: 1.1rem;
@@ -466,11 +477,24 @@
     }
     .pipeline-arrow {
       color: var(--jhey-muted);
-      font-size: 1rem;
+      font-size: 1.25rem;
       flex-shrink: 0;
+      display: inline-block;
+      transition: transform 0.2s ease;
     }
-    @media (max-width: 500px) {
-      .pipeline-arrow { display: none; }
+    @media (max-width: 768px) {
+      .pipeline-steps {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .pipeline-arrow {
+        transform: rotate(90deg);
+        margin: 0.25rem 0;
+      }
+      .pipeline-step {
+        width: 100%;
+        max-width: 100%;
+      }
     }
 
     /* ── CATEGORY CHIPS ── */
