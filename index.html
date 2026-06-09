@@ -192,6 +192,44 @@
       max-width: 600px;
     }
 
+    .bio-list {
+      margin-top: 1.2rem;
+      padding-left: 1.2rem;
+      list-style-type: square;
+      max-width: 600px;
+    }
+    .bio-list li {
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #333;
+    }
+    html[data-theme="dark"] .bio-list li {
+      color: #cbd5e1 !important;
+    }
+    .bio-list a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1.5px dashed var(--accent);
+      transition: border-bottom-style 0.2s;
+    }
+    .bio-list a:hover {
+      border-bottom-style: solid;
+    }
+    html[data-theme="dark"] .bio-list a {
+      color: var(--accent) !important;
+      border-bottom-color: var(--accent) !important;
+    }
+    .bio-list a.letterboxd-link {
+      color: #2563eb;
+      border-bottom-color: #2563eb;
+    }
+    html[data-theme="dark"] .bio-list a.letterboxd-link {
+      color: #60a5fa !important;
+      border-bottom-color: #60a5fa !important;
+    }
+
     .bio-highlights {
       display: flex;
       flex-wrap: wrap;
@@ -339,9 +377,13 @@
     <section class="bio-section">
       <div class="bio-content">
         <h2 class="bio-title">About Me</h2>
-        <p class="bio-text">
-          I'm a builder obsessed with creating products that matter. I love watching movies for storytelling insights, building things from scratch, and learning how great products tick. Currently figuring out my first big online sale - the kind that validates an idea.
-        </p>
+        <ul class="bio-list">
+          <li>I am a fast learner and a jack of all master of none.</li>
+          <li>I am a cost-efficient guy who loves to do the work in less spend.</li>
+          <li>Loves watching movies (<a href="https://letterboxd.com/witcher23/" target="_blank" rel="noopener noreferrer" class="letterboxd-link">Letterboxd</a>).</li>
+          <li>I'm a big fan of Steve Jobs.</li>
+          <li>Ethics-first will never compromise for any amount of money(can negotiate for $10B :D).</li>
+        </ul>
         <div class="bio-highlights">
           <div class="bio-highlight">🚀 Building new things</div>
           <div class="bio-highlight">💰 Learning product-market fit</div>
